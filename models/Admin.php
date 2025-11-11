@@ -9,34 +9,32 @@ class Admin
         $this->conn = $db;
     }
 
-    public function all()
+    // Lấy thông tin admin duy nhất
+    public function getAdmin()
     {
-        $stmt = $this->conn->query("SELECT * FROM {$this->table} ORDER BY fullname");
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    public function find($id)
-    {
-        $stmt = $this->conn->prepare("SELECT * FROM {$this->table} WHERE id=?");
-        $stmt->execute([$id]);
+        $stmt = $this->conn->query("SELECT * FROM {$this->table} LIMIT 1");
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function create($username, $password, $fullname, $role = 'admin')
+    // Đăng nhập admin
+    public function login($username, $password)
     {
-        $stmt = $this->conn->prepare("INSERT INTO {$this->table} (username, password, fullname, role) VALUES (?, ?, ?, ?)");
-        return $stmt->execute([$username, $password, $fullname, $role]);
+        $stmt = $this->conn->prepare("SELECT * FROM {$this->table} WHERE username=? AND password=? LIMIT 1");
+        $stmt->execute([$username, $password]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function update($id, $fullname, $role)
+    // Cập nhật thông tin admin
+    public function updateProfile($fullname)
     {
-        $stmt = $this->conn->prepare("UPDATE {$this->table} SET fullname=?, role=? WHERE id=?");
-        return $stmt->execute([$fullname, $role, $id]);
+        $stmt = $this->conn->prepare("UPDATE {$this->table} SET fullname=? WHERE id=1");
+        return $stmt->execute([$fullname]);
     }
 
-    public function delete($id)
+    // Cập nhật mật khẩu
+    public function updatePassword($newPassword)
     {
-        $stmt = $this->conn->prepare("DELETE FROM {$this->table} WHERE id=?");
-        return $stmt->execute([$id]);
+        $stmt = $this->conn->prepare("UPDATE {$this->table} SET password=? WHERE id=1");
+        return $stmt->execute([$newPassword]);
     }
 }
