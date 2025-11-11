@@ -9,7 +9,7 @@ class Post
         $this->conn = $db;
     }
 
-    // Lấy danh sách bài viết
+    // Lấy tất cả bài viết
     public function all()
     {
         $stmt = $this->conn->query("
@@ -21,7 +21,7 @@ class Post
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Lấy 1 bài viết cụ thể
+    // Tìm 1 bài viết theo id
     public function find($id)
     {
         $stmt = $this->conn->prepare("
@@ -34,7 +34,7 @@ class Post
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    // Tạo bài viết mới
+    // Thêm bài viết (admin)
     public function create($title, $content, $author, $image, $status, $category_id)
     {
         $stmt = $this->conn->prepare("
