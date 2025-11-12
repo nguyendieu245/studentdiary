@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS admins (
 CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(50) NOT NULL UNIQUE COMMENT 'Tên đăng nhập (có thể là email)',
-    password VARCHAR(255) NOT NULL COMMENT 'Mật khẩu đã hash',
+    password VARCHAR(255) NOT NULL,
     fullname VARCHAR(100),
     email VARCHAR(100) NOT NULL UNIQUE,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
