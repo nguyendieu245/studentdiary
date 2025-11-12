@@ -16,7 +16,8 @@ class AdminController {
             $admin = $this->admin->login($username, $password);
             if ($admin) {
                 $_SESSION['admin'] = $admin;
-                header('Location: index.php?action=dashboard');
+                header('Location: index.php?action=admin_dashboard');
+
                 exit;
             } else {
                 $error = "Sai tên đăng nhập hoặc mật khẩu!";
