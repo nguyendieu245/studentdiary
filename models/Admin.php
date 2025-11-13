@@ -9,17 +9,17 @@ class Admin
         $this->conn = $db;
     }
 
-    // Lấy thông tin admin duy nhất
+   
     public function getAdmin()
     {
-        $stmt = $this->conn->query("SELECT * FROM {$this->table} LIMIT 1");
+        $stmt = $this->conn->query("SELECT * FROM {$this->table} ");
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     // Đăng nhập admin
     public function login($username, $password)
     {
-        $stmt = $this->conn->prepare("SELECT * FROM {$this->table} WHERE username=? AND password=? LIMIT 1");
+        $stmt = $this->conn->prepare("SELECT * FROM {$this->table} WHERE username=? AND password=? ");
         $stmt->execute([$username, $password]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
