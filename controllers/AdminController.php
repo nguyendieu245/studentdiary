@@ -5,47 +5,49 @@ class AdminController {
     private $admin;
 
     public function __construct($db) {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
         $this->admin = new Admin($db);
     }
 
+    // ======== LOGIN ============
     public function login() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
             $username = $_POST['username'] ?? '';
             $password = $_POST['password'] ?? '';
 
             $admin = $this->admin->login($username, $password);
+
             if ($admin) {
                 $_SESSION['admin'] = $admin;
-                header('Location: index.php?action=admin_dashboard');
 
+                // CHUYỂN SANG DASHBOARD
+                header("Location: /Studentdiary/public/index.php?action=admin_dashboard");
                 exit;
             } else {
                 $error = "Sai tên đăng nhập hoặc mật khẩu!";
             }
         }
+
         include __DIR__ . '/../views/admin/login.php';
     }
 
-    public function profile() {
-        $admin = $this->admin->getAdmin();
-        include __DIR__ . '/../views/admin/profile.php';
-    }
-
-    public function updateProfile() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $fullname = $_POST['fullname'] ?? '';
-            $this->admin->updateProfile($fullname);
-            header('Location: index.php?action=admin_profile');
+    // ======== DASHBOARD ============
+    public function dashboard() {
+        if (empty($_SESSION['admin'])) {
+            header("Location: /Studentdiary/public/index.php?action=admin_login");
             exit;
         }
+
+        include __DIR__ . '/../views/admin/dashboard.php';
     }
 
-    public function changePassword() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $newPassword = $_POST['new_password'] ?? '';
-            $this->admin->updatePassword($newPassword);
-            header('Location: index.php?action=admin_profile');
-            exit;
-        }
+    // ======== LOGOUT ============
+    public function logout() {
+        session_destroy();
+        header("Location: /Studentdiary/public/index.php?action=admin_login");
+        exit;
     }
 }
