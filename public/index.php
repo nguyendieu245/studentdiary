@@ -6,7 +6,9 @@ require_once __DIR__ . '/../controllers/CategoryController.php';
 require_once __DIR__ . '/../controllers/CommentController.php';
 require_once __DIR__ . '/../controllers/AdminController.php';
 
-$db = (new Database())->connect();
+
+$db = (new Database())->getConnection();
+
 
 $userCtrl     = new UserController($db);
 $postCtrl     = new PostController($db);
