@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 18, 2025 lúc 04:16 PM
+-- Thời gian đã tạo: Th10 18, 2025 lúc 04:51 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.0.30
 
@@ -103,7 +103,7 @@ INSERT INTO `comments` (`id`, `post_id`, `user_id`, `parent_id`, `name`, `email`
 (69, 38, 7, 0, 'Nguyễn Ngọc Mai Hy', 'hope@gmail.com', NULL, 'AD chia sẻ đúng lúc quá', '2025-11-14 00:19:27', '2025-11-14 00:19:27', 1, 0),
 (70, 38, NULL, 69, 'Student Diary', 'admin@example.com', NULL, 'Cảm ơn bạn nhé', '2025-11-14 00:19:27', '2025-11-14 00:19:27', 1, 1),
 (71, 37, 7, 0, 'Nguyễn Ngọc Mai Hy', 'hope@gmail.com', NULL, 'Cảm ơn vì chia sẻ của ad', '2025-11-14 00:19:27', '2025-11-14 00:19:27', 1, 0),
-(72, 39, 1, 0, 'Người dùng thử', 'testuser@example.com', NULL, 'hi', '2025-11-14 00:19:27', '2025-11-14 00:19:27', 1, 0);
+(72, 39, NULL, 0, 'Người dùng thử', 'testuser@example.com', NULL, 'hi', '2025-11-14 00:19:27', '2025-11-14 00:19:27', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -147,8 +147,6 @@ CREATE TABLE `users` (
   `password` varchar(255) NOT NULL COMMENT 'Mật khẩu đã hash',
   `fullname` varchar(100) DEFAULT NULL,
   `email` varchar(100) NOT NULL,
-  `status` varchar(20) NOT NULL DEFAULT 'active',
-  `role` varchar(50) NOT NULL DEFAULT 'member',
   `created_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -156,16 +154,16 @@ CREATE TABLE `users` (
 -- Đang đổ dữ liệu cho bảng `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `password`, `fullname`, `email`, `status`, `role`, `created_at`) VALUES
-(2, 'annn', '123456', 'Phạm Mai Anh', 'mai@gmail.com', 'active', 'member', '2025-06-17 15:11:16'),
-(4, 'huy', '123456', 'Vũ Đức Huy', 'duchuy@gmail.com', 'active', 'member', '2025-06-17 16:31:52'),
-(5, 'an', '123456', 'Ngọc an', 'anh@gmail.com', 'active', 'member', '2025-06-17 17:46:14'),
-(6, 'anna', '123456', 'linh an', 'linhan@gmail.com', 'active', 'member', '2025-06-18 07:33:38'),
-(7, 'maihy', '123456', 'Nguyễn Ngọc Mai Hy', 'hope@gmail.com', 'active', 'member', '2025-06-18 10:57:13'),
-(8, 'hân', '123456', 'Nguyễn Mai Hân', 'hannguyen@gmail.com', 'active', 'member', '2025-10-06 14:54:07'),
-(9, 'Lannan', '123456', 'Phương Hoàng Lan', 'lanane@gmail.com', 'active', 'member', '2025-10-27 15:34:14'),
-(10, 'Namnam', '123456', 'Nam', 'nam2005@gmail.com', 'active', 'member', '2025-11-13 23:52:37'),
-(12, 'Hanhan', 'Han1234', 'Nguyễn Gia Hân', 'hanhan@gmail.com', 'active', 'member', '2025-11-14 00:14:28');
+INSERT INTO `users` (`id`, `username`, `password`, `fullname`, `email`, `created_at`) VALUES
+(2, 'annn', '123456', 'Phạm Mai Anh', 'mai@gmail.com', '2025-06-17 15:11:16'),
+(4, 'huy', '123456', 'Vũ Đức Huy', 'duchuy@gmail.com', '2025-06-17 16:31:52'),
+(5, 'an', '123456', 'Ngọc an', 'anh@gmail.com', '2025-06-17 17:46:14'),
+(6, 'anna', '123456', 'linh an', 'linhan@gmail.com', '2025-06-18 07:33:38'),
+(7, 'maihy', '123456', 'Nguyễn Ngọc Mai Hy', 'hope@gmail.com', '2025-06-18 10:57:13'),
+(8, 'hân', '123456', 'Nguyễn Mai Hân', 'hannguyen@gmail.com', '2025-10-06 14:54:07'),
+(9, 'Lannan', '123456', 'Phương Hoàng Lan', 'lanane@gmail.com', '2025-10-27 15:34:14'),
+(10, 'Namnam', '123456', 'Nam', 'nam2005@gmail.com', '2025-11-13 23:52:37'),
+(12, 'Hanhan', 'Han1234', 'Nguyễn Gia Hân', 'hanhan@gmail.com', '2025-11-14 00:14:28');
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -191,7 +189,8 @@ ALTER TABLE `categories`
 --
 ALTER TABLE `comments`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `post_id` (`post_id`);
+  ADD KEY `post_id` (`post_id`),
+  ADD KEY `fk_comment_user_id` (`user_id`);
 
 --
 -- Chỉ mục cho bảng `posts`
@@ -250,7 +249,8 @@ ALTER TABLE `users`
 -- Các ràng buộc cho bảng `comments`
 --
 ALTER TABLE `comments`
-  ADD CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_comment_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
 --
 -- Các ràng buộc cho bảng `posts`
