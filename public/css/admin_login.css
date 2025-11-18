@@ -1,0 +1,82 @@
+/* Tệp này nên được đặt trong thư mục public/css/ */
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #fbe9e7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+.login-container {
+    background: #fff;
+    padding: 35px 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(141, 110, 99, 0.15);
+    width: 100%;
+    max-width: 400px;
+    box-sizing: border-box;
+    border: 1px solid #a1887f;
+}
+.login-container h2 {
+    margin-bottom: 25px;
+    color: #6d4c41;
+    text-align: center;
+}
+.form-group {
+    margin-bottom: 18px;
+}
+label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 6px;
+    color: #6d4c41;
+}
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 15px;
+    border: 1px solid #a1887f;
+    border-radius: 6px;
+    box-sizing: border-box;
+    background: #fbe9e7;
+    color: #6d4c41;
+}
+input[type="text"]:focus,
+input[type="password"]:focus {
+    border-color: #8d6e63;
+    outline: none;
+    background: #fff3e0;
+}
+button {
+    width: 100%;
+    padding: 12px;
+    background-color: #8d6e63;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+button:hover {
+    background-color: #6d4c41;
+}
+.error {
+    background-color: #ffebee;
+    color: #b71c1c;
+    padding: 10px 12px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    border-left: 5px solid #b71c1c;
+    font-size: 14px;
+}
+.footer {
+    text-align: center;
+    font-size: 12px;
+    color: #a1887f;
+    margin-top: 20px;
+}
