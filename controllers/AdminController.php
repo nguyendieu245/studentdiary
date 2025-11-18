@@ -24,7 +24,7 @@ class AdminController {
                 $_SESSION['admin'] = $admin;
 
                 // CHUYỂN SANG DASHBOARD
-                header("Location: /Studentdiary/public/index.php?action=admin_dashboard");
+                header("Location: /studentdiary/public/index.php?action=admin_dashboard");
                 exit;
             } else {
                 $error = "Sai tên đăng nhập hoặc mật khẩu!";
@@ -37,7 +37,7 @@ class AdminController {
     // ======== DASHBOARD ============
     public function dashboard() {
         if (empty($_SESSION['admin'])) {
-            header("Location: /Studentdiary/public/index.php?action=admin_login");
+            header("Location: /studentdiary/public/index.php?action=admin_login");
             exit;
         }
 
@@ -47,7 +47,7 @@ class AdminController {
     // ======== LOGOUT ============
     public function logout() {
         session_destroy();
-        header("Location: /Studentdiary/public/index.php?action=admin_login");
+        header("Location: /studentdiary/public/index.php?action=admin_login");
         exit;
     }
 }
