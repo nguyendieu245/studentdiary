@@ -28,7 +28,7 @@
             </div>
             <button type="submit">Đăng nhập</button>
         </form>
-        <p>Chưa có tài khoản? <a href="register.php">Đăng ký ngay</a></p>
+        <p>Chưa có tài khoản? <a href="/studentdiary/views/frontend/register.php">Đăng ký ngay</a></p>
     </div>
 </body>
 </html>
