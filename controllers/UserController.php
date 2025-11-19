@@ -5,17 +5,93 @@ class UserController {
     private $user;
 
     public function __construct($db) {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
         $this->user = new User($db);
     }
 
-    public function index() {
-        $users = $this->user->all();
-        include __DIR__ . '/../views/user/list.php';
+    // ======== LOGIN ============ 
+    public function login() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $username = $_POST['username'] ?? '';
+            $password = $_POST['password'] ?? '';
+
+            $user = $this->user->login($username, $password);
+
+            if ($user) {
+                $_SESSION['user'] = $user;
+                // Chuyển sang trang home
+                header("Location: /studentdiary/public/index.php?action=home");
+                exit;
+            } else {
+                $error = "Sai tên đăng nhập hoặc mật khẩu!";
+            }
+        }
+
+        include __DIR__ . '/../views/frontend/user_login.php';
     }
 
-    public function delete($id) {
-        $this->user->delete($id);
-        header('Location: index.php?action=users');
+    // ======== REGISTER ============
+   public function register() {
+    $message = '';
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $username = $_POST['username'] ?? '';
+        $email = $_POST['email'] ?? '';
+        $password = $_POST['password'] ?? '';
+        $fullname = $_POST['fullname'] ?? '';
+
+        if ($this->user->existsUsername($username)) {
+            $message = 'Tên đăng nhập đã tồn tại!';
+        } elseif ($this->user->existsEmail($email)) {
+            $message = 'Email đã được sử dụng!';
+        } else {
+            $success = $this->user->register($username, $password, $fullname, $email);
+            if ($success) {
+                header("Location: /studentdiary/public/index.php?action=user_login");
+                exit(); 
+            } else {
+                $message = 'Đăng ký thất bại!';
+            }
+        }
+    }
+
+    // Luôn include form (GET hoặc POST thất bại)
+    include __DIR__ . '/../views/frontend/register.php';
+}
+
+
+    // ======== LOGOUT ============
+    public function logout() {
+        session_destroy();
+        header("Location: /studentdiary/public/index.php?action=user_login");
         exit;
+    }
+
+    
+    public function home() {
+        if (empty($_SESSION['user'])) {
+            header("Location: /studentdiary/public/index.php?action=user_login");
+            exit;
+        }
+        include __DIR__ . '/../views/frontend/home.php';
+    }
+
+    // ======== LIST USERS (ADMIN) ============
+    public function listUsers() {
+        if (empty($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
+            header("Location: /studentdiary/public/index.php?action=user_login");
+            exit;
+        }
+
+        // Xử lý thay đổi trạng thái
+        if (isset($_GET['action'], $_GET['id'])) {
+            $id = intval($_GET['id']);
+            $status = $_GET['action'] === 'deactivate' ? 0 : 1;
+            $this->user->changeStatus($id, $status);
+        }
+
+        $users = $this->user->getAll();
+        include __DIR__ . '/../views/admin/user_list.php';
     }
 }
