@@ -33,7 +33,7 @@ class UserAuthController
             }
         }
 
-        include __DIR__ . '/../views/frontend/login.php';
+        include __DIR__ . '/../views/frontend/user_login.php';
     }
 
     // Đăng ký User
