@@ -31,6 +31,6 @@
         </div>
     </form>
 
-    <p>Chưa có tài khoản? <a href=<p>Đã có tài khoản? <a href="/studentdiary/public/index.php?action=user_login">Đăng nhập ngay</a></p>
+    <p>Chưa có tài khoản? <a href="register.php">Đăng ký</a></p>
 </div>
 
