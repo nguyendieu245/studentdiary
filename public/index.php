@@ -62,10 +62,10 @@ switch ($action) {
     case 'register':
         $userCtrl->register();
         break;
-    case 'login':
+    case 'user_login':
         $userCtrl->login();
         break;
-    case 'logout':
+    case 'user_logout':
         $userCtrl->logout();
         break;
 
