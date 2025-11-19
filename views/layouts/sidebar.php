@@ -3,15 +3,15 @@
 
     <div class="menu-item <?php echo isActive('kynang', $currentPage); ?>" onclick="navigateTo('index.php?page=kynang')">
         <div class="menu-icon"><i class="fas fa-lightbulb"></i></div>
-        <div>Quản lý bài viết Kỹ năng</div>
+        <div>Tổng quan</div>
     </div>
     <div class="menu-item <?php echo isActive('hoctap', $currentPage); ?>" onclick="navigateTo('index.php?page=hoctap')">
         <div class="menu-icon"><i class="fas fa-book"></i></div>
-        <div>Quản lý bài viết Học tập</div>
+        <div>Quản lý bài viết</div>
     </div>
     <div class="menu-item <?php echo isActive('doisong', $currentPage); ?>" onclick="navigateTo('index.php?page=doisong')">
         <div class="menu-icon"><i class="fas fa-heartbeat"></i></div>
-        <div>Quản lý bài viết Đời sống</div>
+        <div>Quản lý danh mục</div>
     </div>
     
     <div class="menu-item <?php echo isActive('users', $currentPage); ?>" onclick="navigateTo('index.php?page=users')">

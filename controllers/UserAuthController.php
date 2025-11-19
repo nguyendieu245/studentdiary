@@ -43,7 +43,7 @@ class UserAuthController
         }
         
         // Include View file. Biến $error (có thể rỗng hoặc chứa lỗi) sẽ được truyền sang View.
-        include __DIR__ . '/../views/user/user_login.php';
+        include __DIR__ . '/../views/frontend/user_login.php';
     }
 
     // Đăng ký User
@@ -65,7 +65,7 @@ class UserAuthController
         }
 
         // Hiển thị form đăng ký
-        include __DIR__ . '/../views/user/register.php';
+        include __DIR__ . '/../views/frontend/register.php';
     }
 
     // Đăng xuất User
