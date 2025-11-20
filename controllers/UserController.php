@@ -92,6 +92,6 @@ class UserController {
         }
 
         $users = $this->user->getAll();
-        include __DIR__ . '/../views/admin/user_list.php';
+        include __DIR__ . '/../views/admin/manage_user/user_list.php';
     }
 }

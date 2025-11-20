@@ -1,5 +1,6 @@
 
 <?php
+
 require_once __DIR__ . '/../config/db.php';
 require_once __DIR__ . '/../controllers/UserController.php';
 require_once __DIR__ . '/../controllers/PostController.php';
@@ -100,6 +101,10 @@ switch ($action) {
     case 'user_logout':
         $userCtrl->logout();
         break;
+    case 'user_list':
+        $userCtrl->listUsers();
+        break;
+    
 
     case 'admin_login':
         $adminCtrl->login();
@@ -115,3 +120,5 @@ switch ($action) {
         $postCtrl->index();
         break;
 }
+
+
