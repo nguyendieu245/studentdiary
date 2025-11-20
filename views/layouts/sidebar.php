@@ -1,5 +1,4 @@
- <?php
-// Kiểm tra biến $currentPage để làm active menu
+=<?php
 if (!isset($currentPage)) {
     $currentPage = '';
 }
@@ -10,22 +9,9 @@ function isActive($page, $currentPage) {
 ?>
 
 <link rel="stylesheet" href="/studentdiary/public/css/sidebar.css">
-
 <div class="sidebar">
     <div class="logo-text">STUDENT DIARY ADMIN</div>
-<?php
 
-?>
-
-<<<<<<< HEAD
-=======
-    <div class="menu-item <?php echo isActive('kynang', $currentPage); ?>" 
-         onclick="navigateTo('/studentdiary/public/index.php?action=kynang')">
-        <div class="menu-icon"><i class="fas fa-lightbulb"></i></div>
-        <div>Tổng quan</div>
-    </div>
-
->>>>>>> 63ed7ffc95d5f4a43d0507d2e4f5d3d44f22377d
     <div class="menu-item <?php echo isActive('hoctap', $currentPage); ?>" 
          onclick="navigateTo('/studentdiary/public/index.php?action=hoctap')">
         <div class="menu-icon"><i class="fas fa-book"></i></div>
@@ -33,18 +19,13 @@ function isActive($page, $currentPage) {
     </div>
 
     <div class="menu-item <?php echo isActive('doisong', $currentPage); ?>" 
-         onclick="navigateTo('/studentdiary/public/index.php??action=doisong')">
+         onclick="navigateTo('/studentdiary/public/index.php?action=doisong')">
         <div class="menu-icon"><i class="fas fa-heartbeat"></i></div>
         <div>Quản lý danh mục</div>
     </div>
 
-<<<<<<< HEAD
     <div class="menu-item <?php echo isActive('user_list', $currentPage); ?>" 
          onclick="navigateTo('/studentdiary/public/index.php?action=user_list')">
-=======
-    <div class="menu-item <?php echo isActive('users', $currentPage); ?>" 
-         onclick="navigateTo('/studentdiary/public/index.php?action=users')">
->>>>>>> 63ed7ffc95d5f4a43d0507d2e4f5d3d44f22377d
         <div class="menu-icon"><i class="fas fa-users"></i></div>
         <div>Quản lý người dùng</div>
     </div>
@@ -56,16 +37,18 @@ function isActive($page, $currentPage) {
     </div>
 
     <div class="menu-item" onclick="handleLogout()">
-        
         <div class="menu-icon"><i class="fas fa-sign-out-alt"></i></div>
         <div>Đăng xuất</div>
     </div>
 </div>
 
-</div> 
-
-<script> 
-function navigateTo(url) { window.location.href = url; } 
-function handleLogout() { if (confirm('Bạn có chắc chắn muốn đăng xuất không?'))
-     { window.location.href = "/studentdiary/views/admin/logout.php"; } }
- </script>
+<script>
+function navigateTo(url) {
+    window.location.href = url;
+}
+function handleLogout() {
+    if (confirm('Bạn có chắc chắn muốn đăng xuất không?')) {
+        window.location.href = "/studentdiary/views/admin/logout.php";
+    }
+}
+</script>

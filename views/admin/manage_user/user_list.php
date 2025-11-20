@@ -18,7 +18,7 @@ if (session_status() === PHP_SESSION_NONE) {
     <?php include __DIR__ . '/../../layouts/sidebar.php'; ?>
 
     <div class="main-content">
-        <a href="index.php?action=home" class="back-btn">
+        <a href="index.php?action=dashboard" class="back-btn">
             <i class="fas fa-arrow-left"></i> Quay lại trang chính
         </a>
 
