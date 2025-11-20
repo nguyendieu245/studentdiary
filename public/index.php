@@ -1,3 +1,4 @@
+
 <?php
 
 require_once __DIR__ . '/../config/db.php';
@@ -19,7 +20,7 @@ $adminCtrl    = new AdminController($db);
 
 $action = $_GET['action'] ?? 'index';
 $id     = $_GET['id'] ?? null;
-
+ 
 switch ($action) {
     case 'hoctap':
         $postCtrl->index(); 
