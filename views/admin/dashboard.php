@@ -29,7 +29,7 @@ $admin = $_SESSION['admin'];
     <p class="dashboard-subtitle">Chào mừng bạn đến với trang quản trị Student Diary.</p>
 
     <div class="dashboard-center">
-        <img src="/studentdiary/public/anhdep/hinh-nen-bau-troi-thump.jpg" 
+        <img src="/studentdiary/public/images/hinh-nen-bau-troi-thump.jpg" 
              alt="Welcome" 
              class="dashboard-image">
 

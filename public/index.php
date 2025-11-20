@@ -146,6 +146,9 @@ switch ($action) {
     case 'admin_logout':
         $adminCtrl->logout();
         break;
+    case 'dashboard':
+        $adminCtrl->dashboard();
+        break;
 
     default:
         $postCtrl->index();

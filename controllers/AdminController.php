@@ -14,7 +14,6 @@ class AdminController {
     // ======== LOGIN ============
     public function login() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
             $username = $_POST['username'] ?? '';
             $password = $_POST['password'] ?? '';
 
@@ -22,33 +21,55 @@ class AdminController {
 
             if ($admin) {
                 $_SESSION['admin'] = $admin;
-
-                // CHUYỂN SANG DASHBOARD
-                header("Location: /studentdiary/public/index.php?action=admin_dashboard");
+                header("Location: /studentdiary/public/index.php?action=dashboard");
                 exit;
             } else {
                 $error = "Sai tên đăng nhập hoặc mật khẩu!";
             }
         }
 
+        $currentPage = 'login'; // cho login page
         include __DIR__ . '/../views/admin/login.php';
     }
 
     // ======== DASHBOARD ============
     public function dashboard() {
         if (empty($_SESSION['admin'])) {
-            header("Location: /studentdiary/public/index.php?action=admin_login");
+            header("Location: /studentdiary/public/index.php?action=login");
             exit;
         }
 
+        $currentPage = 'dashboard';
         include __DIR__ . '/../views/admin/dashboard.php';
+    }
+
+    // ======== HOCTAP ============
+    public function hoctap() {
+        if (empty($_SESSION['admin'])) {
+            header("Location: /studentdiary/public/index.php?action=login");
+            exit;
+        }
+
+        $currentPage = 'hoctap';
+        include __DIR__ . '/../views/admin/hoctap.php';
+    }
+
+    // ======== DOISONG ============
+    public function doisong() {
+        if (empty($_SESSION['admin'])) {
+            header("Location: /studentdiary/public/index.php?action=login");
+            exit;
+        }
+
+        $currentPage = 'doisong';
+        include __DIR__ . '/../views/admin/doisong.php';
     }
 
     // ======== LOGOUT ============
     public function logout() {
+        $_SESSION = [];
         session_destroy();
-        header("Location: /studentdiary/public/index.php?action=admin_login");
+        header("Location: /studentdiary/public/index.php?action=login");
         exit;
-    
-}
+    }
 }

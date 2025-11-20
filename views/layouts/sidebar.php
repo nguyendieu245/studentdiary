@@ -13,7 +13,6 @@ if (!function_exists('isActive')) {
 ?>
 
 <link rel="stylesheet" href="/studentdiary/public/css/sidebar.css">
-
 <div class="sidebar">
     <div class="logo-text">STUDENT DIARY ADMIN</div>
 
@@ -35,8 +34,8 @@ if (!function_exists('isActive')) {
         <div>Quản lý danh mục</div>
     </div>
 
-    <div class="menu-item <?php echo isActive('users', $currentPage); ?>" 
-         onclick="navigateTo('/studentdiary/public/index.php?action=users')">
+    <div class="menu-item <?php echo isActive('user_list', $currentPage); ?>" 
+         onclick="navigateTo('/studentdiary/public/index.php?action=user_list')">
         <div class="menu-icon"><i class="fas fa-users"></i></div>
         <div>Quản lý người dùng</div>
     </div>
