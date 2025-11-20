@@ -2,62 +2,45 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+// Định nghĩa BASE_URL để dễ quản lý các liên kết Controller
+$BASE_URL_ACTION = "/studentdiary/public/index.php?action=";
 ?>
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <title>Student Diary</title>
-    <link rel="stylesheet" href="public/css/style.css">
+    <link rel="stylesheet" href="/studentdiary/public/css/style.css">
+  
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-
 <body>
+    <div class="header-banner"></div>
 
-<header class="main-header">
-
-    <!-- Banner -->
-    <div class="header-banner">
-        <h1>Student Diary</h1>
-        <p>Chia sẻ kiến thức & kỹ năng dành cho sinh viên</p>
-    </div>
-
-    <!-- MENU NAVIGATION -->
-    <nav class="header-nav">
-        <ul class="nav-left">
-            <li><a href="index.php?action=home">Trang chủ</a></li>
-
-            <!-- Danh mục bài viết -->
-            <li><a href="index.php?action=category&id=1">Kỹ năng</a></li>
-            <li><a href="index.php?action=category&id=2">Đời sống</a></li>
-            <li><a href="index.php?action=category&id=3">Học tập</a></li>
-        </ul>
-
-        <!-- SEARCH BAR -->
-        <form class="search-form" method="GET" action="index.php">
-            <input type="hidden" name="action" value="search">
-            <input type="text" name="q" placeholder="Tìm kiếm bài viết...">
-            <button type="submit"><i class="fas fa-search"></i></button>
-        </form>
-
-        <!-- USER AUTH SECTION -->
-        <ul class="nav-right">
-
-            <?php if (!empty($_SESSION['user'])): ?>
-                <li class="welcome-msg">
-                    Xin chào, <strong><?= htmlspecialchars($_SESSION['user']['fullname']) ?></strong>
-                </li>
-                <li><a href="/studentdiary/public/index.php?action=user_logout">Đăng xuất</a></li>
+    <div class="header-menu-bar">
+      
+        <div class="header-menu-links">
+        <a href="/studentdiary/views/frontend/home.php">Trang chủ</a>
+        <a href="/studentdiary/views/frontend/post_frontend/skill.php">Kỹ năng</a>
+        <a href="/studentdiary/views/frontend/post_frontend/social.php">Đời sống</a>
+        <a href="/studentdiary/views/frontend/post_frontend/study.php">Học tập</a>
+        <a href=>Danh mục khác</>
+        </div>
+        <div class="header-auth-links">
+            <?php 
+            // SỬA LỖI LẤY SESSION: Controller đặt session là $_SESSION['user']
+            if (!empty($_SESSION['user'])): 
+                // Lấy tên người dùng (ưu tiên fullname, sau đó username)
+                $display_name = $_SESSION['user']['fullname'] ?? $_SESSION['user']['username'] ?? 'Bạn';
+            ?>
+                <span class="welcome-message">Xin chào, <strong><?php echo htmlspecialchars($display_name); ?></strong>!</span>
+                <a href="<?php echo $BASE_URL_ACTION; ?>user_logout" class="auth-link logout-btn">Đăng xuất</a>
+                
             <?php else: ?>
-                <li><a href="/studentdiary/public/index.php?action=user_login">Đăng nhập</a></li>
-                <li><a href="/studentdiary/public/index.php?action=register">Đăng ký</a></li>
+                <a href="<?php echo $BASE_URL_ACTION; ?>user_login" class="auth-link login-btn">Đăng nhập</a>
+                <a href="<?php echo $BASE_URL_ACTION; ?>register" class="auth-link register-btn">Đăng ký</a>
             <?php endif; ?>
-
-        </ul>
-    </nav>
-
-</header>
-
-<!-- MAIN CONTENT AREA -->
-<main class="content">
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,310 @@
+/* Đảm bảo html và body chiếm toàn bộ chiều cao của viewport */
+        html, body {
+            height: 100%; /* Rất quan trọng để sticky footer hoạt động */
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f8f9fa; /* Màu nền cho body */
+            color: #4b2e05; /* nâu đậm */
+            
+            /* Bật Flexbox trên body để quản lý bố cục theo cột */
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Đảm bảo body ít nhất cao bằng chiều cao của màn hình */
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            background: #fff;
+            padding: 25px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            box-sizing: border-box;
+        }
+        .share-box {
+            /* Loại bỏ text-align: center; ở đây nếu muốn căn giữa bằng flexbox */
+            display: flex; /* Bật flexbox cho share-box */
+            flex-direction: column; /* Xếp các phần tử con theo cột */
+            align-items: center; /* Căn giữa theo chiều ngang (cross-axis) */
+            margin: 30px auto 0;
+            max-width: 900px; /* Giữ nguyên hoặc điều chỉnh theo ý muốn */
+        }
+        .share-label { 
+            color: #7b4f24; /* Màu nâu đậm, giữ nguyên cho tiêu đề */
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 12px; /* Tăng khoảng cách dưới một chút cho chữ và icon */
+            /* text-align: center;  Không cần thiết nếu parent là flex column với align-items: center */
+        }
+        .share-icons {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 10px;
+            justify-content: center; /* Đảm bảo các icon luôn nằm giữa */
+        }
+        .share-circle {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px; /* Tăng kích thước chút cho dễ nhìn */
+            height: 44px; /* Tăng kích thước chút cho dễ nhìn */
+            border-radius: 50%;
+            background: #e7d7c3; /* Màu nền kem nhạt hơn */
+            color: #7b4f24; /* Màu icon nâu đậm */
+            font-size: 1.4rem; /* Tăng kích thước icon */
+            box-shadow: 0 2px 8px rgba(123,79,36,0.1); /* Tăng độ nổi */
+            transition: background 0.2s, transform 0.2s; /* Thêm transition cho hiệu ứng hover */
+            text-decoration: none;
+        }
+        .share-circle:hover {
+            background: #d4c1a7; /* Màu nền đậm hơn khi hover */
+            transform: translateY(-2px); /* Nhấc nhẹ lên khi hover */
+        }
+
+        /* Thêm một số màu đặc trưng cho từng icon (tùy chọn) */
+        .share-circle.facebook-share { background: #3b5998; color: white; }
+        .share-circle.facebook-share:hover { background: #2d4373; }
+
+        .share-circle.twitter-share { background: #1da1f2; color: white; }
+        .share-circle.twitter-share:hover { background: #0c85d0; }
+
+        .share-circle.email-share { background: #c7b299; color: #4b2e05; } /* Màu đất, phù hợp template */
+        .share-circle.email-share:hover { background: #bfa77a; }
+
+        .share-circle.telegram-share { background: #0088cc; color: white; }
+        .share-circle.telegram-share:hover { background: #006699; }
+        .comment-form {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 12px rgba(123,79,36,0.07);
+            padding: 28px 28px 18px 28px;
+            margin-bottom: 24px;
+            text-align: left; 
+        }
+        .comment-form textarea {
+            width: 100%;
+            min-height: 120px;
+            font-size: 1.08rem;
+            border-radius: 8px;
+            border: 1.5px solid #c7b299;
+            background: #f9f6f2;
+            padding: 14px 16px;
+            margin-bottom: 16px;
+            resize: vertical;
+            color: #4b2e05;
+        }
+        .comment-form input[type="text"],
+        .comment-form input[type="email"] {
+            width: 100%;
+            font-size: 1.05rem;
+            border-radius: 8px;
+            border: 1.5px solid #c7b299;
+            background: #f9f6f2;
+            padding: 12px 16px;
+            margin-bottom: 14px;
+            color: #4b2e05;
+        }
+        .comment-form button {
+            font-size: 1.08rem;
+            padding: 10px 28px;
+            background: #7b4f24;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+        .comment-form button:hover {
+            background: #a05a1c;
+        }
+        .comments-list {
+            margin-top: 24px;
+            text-align: left; 
+        }
+        .comment-block {
+            background: #f9f6f2;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(123,79,36,0.07);
+            padding: 20px 24px;
+            margin-bottom: 22px;
+            border-left: 5px solid #a05a1c;
+            text-align: left; 
+        }
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .comment-author {
+            font-weight: 700;
+            color: #7b4f24;
+            font-size: 1.08rem;
+        }
+        .comment-time {
+            color: #bfa77a;
+            font-size: 0.97rem;
+        }
+        .comment-content {
+            margin: 10px 0 0 0;
+            font-size: 1.08rem;
+            color: #4b2e05;
+        }
+        .reply-btn {
+            background: #a05a1c;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            transition: background-color 0.2s;
+        }
+        .reply-btn:hover {
+            background: #7b4f24;
+        }
+        .reply-form {
+            display: none; 
+            margin-top: 15px;
+            padding: 15px;
+            background: #f2ede6;
+            border-radius: 8px;
+            border: 1px solid #c7b299;
+        }
+        .reply-form textarea,
+        .reply-form input[type="text"],
+        .reply-form input[type="email"] { /* Giữ style nhưng trường này sẽ bị ẩn nếu user logged in */
+            width: calc(100% - 20px); 
+            padding: 8px 10px;
+            margin-bottom: 10px;
+            border: 1px solid #bfa77a;
+            border-radius: 5px;
+            background: #fff;
+            font-size: 0.95rem;
+        }
+        .reply-form button {
+            background: #7b4f24;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+        .reply-block {
+            background: #fff;
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin: 10px 0 0 32px;
+            border-left: 3px solid #7b4f24;
+        }
+        .reply-author {
+            font-weight: 600;
+            color: #7b4f24;
+        }
+        .reply-time {
+            color: #bfa77a;
+            font-size: 0.95rem;
+        }
+        .reply-content {
+            margin-top: 6px;
+            color: #4b2e05;
+        }
+        /* New styles for like/dislike buttons and edit/delete */
+        .comment-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .like-dislike-buttons button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            color: #7b4f24;
+            padding: 5px 8px;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+        .like-dislike-buttons button:hover {
+            background: #e7d7c3;
+        }
+        .like-dislike-buttons button.active {
+            color: #a05a1c;
+            font-weight: bold;
+        }
+        .like-dislike-buttons span {
+            font-size: 0.95rem;
+            color: #5a3e1b;
+            margin-left: 5px;
+        }
+        .edit-delete-buttons button {
+            background: #f2ede6;
+            border: 1px solid #c7b299;
+            color: #7b4f24;
+            padding: 6px 12px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            transition: background 0.2s;
+        }
+        .edit-delete-buttons button:hover {
+            background: #e7d7c3;
+        }
+        .post-detail-header {
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        .post-detail-header h1 {
+            color: #4b2e05;
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+        .post-meta {
+            color: #7b4f24;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+        }
+        .post-meta span {
+            display: flex;
+            align-items: center;
+        }
+        .post-meta i {
+            margin-right: 5px;
+            color: #a05a1c;
+        }
+        .post-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .post-content-body {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: #5a3e1b;
+            text-align: justify;
+        }
+        .post-content-body p {
+            margin-bottom: 1em;
+        }
+        .post-content-body img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 20px auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }

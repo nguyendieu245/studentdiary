@@ -1,11 +1,10 @@
  <?php
 // Kiểm tra biến $currentPage để làm active menu
-if (!isset($currentPage)) {
-    $currentPage = '';
-}
-
-function isActive($page, $currentPage) {
-    return $page === $currentPage ? 'active' : '';
+// ...
+if (!function_exists('isActive')) {
+    function isActive($page, $currentPage) {
+        return $page === $currentPage ? 'active' : '';
+    }
 }
 ?>
 
