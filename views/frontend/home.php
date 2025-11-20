@@ -6,10 +6,10 @@ if (session_status() === PHP_SESSION_NONE) {
 
 // Nếu chưa đăng nhập thì chuyển về trang login
 if (!isset($_SESSION['user'])) {
-    header("Location: /Studentdiary/public/index.php?action=user_login");
+    header("Location: /studentdiary/public/index.php?action=user_login");
     exit;
 }
- include __DIR__ . '/layouts/header.php'; 
+ include __DIR__ . '/../layouts/header.php'; 
  
 // Lấy tên người dùng
 $username = $_SESSION['user']['username'] ?? 'Người dùng';

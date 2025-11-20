@@ -49,5 +49,6 @@ class AdminController {
         session_destroy();
         header("Location: /studentdiary/public/index.php?action=admin_login");
         exit;
-    }
+    
+}
 }

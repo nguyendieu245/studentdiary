@@ -1,0 +1,53 @@
+.dashboard-wrapper {
+    padding: 20px 25px;
+    font-family: Poppins, sans-serif;
+    margin-left: 300px; /* Dành chỗ cho sidebar */
+}
+
+/* Tiêu đề chính */
+.dashboard-title {
+    text-align: center;
+    margin-top: 0.1px;
+    font-size: 2.0rem;
+    color: #4e342e;
+    text-shadow: 1px 2px 5px #e0cfc2;
+    letter-spacing: 1px;
+    font-weight: 700;
+}
+
+/* Tiêu đề phụ */
+.dashboard-subtitle {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #6d4c41;
+    margin-top: 10px;
+    font-style: italic;
+    text-shadow: 1px 1px 3px #e0cfc2;
+}
+
+/* Khối trung tâm */
+.dashboard-center {
+    text-align: center;
+    margin-top: 30px;
+}
+
+/* Ảnh chính */
+.dashboard-image {
+    max-width: 800px;
+    width: auto;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    display: inline-block;
+}
+
+/* Nội dung mô tả */
+.dashboard-description {
+    margin: 15px auto 40px auto;
+    font-size: 1rem;
+    color: #444;
+    max-width: 700px;
+    text-align: center;
+    line-height: 1.6;
+}
+
