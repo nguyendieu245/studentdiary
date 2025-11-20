@@ -56,7 +56,7 @@ class UserController {
         }
     }
 
-    // Luôn include form (GET hoặc POST thất bại)
+    // Luôn include form 
     include __DIR__ . '/../views/frontend/register.php';
 }
 

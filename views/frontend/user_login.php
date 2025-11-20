@@ -32,6 +32,7 @@
         </div>
     </form>
 
-    <p>Chưa có tài khoản? <a href="register.php">Đăng ký</a></p>
+    <a href="/studentdiary/public/index.php?action=register">Đăng ký</a>
+
 </div>
 
