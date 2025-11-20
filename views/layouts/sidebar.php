@@ -1,11 +1,14 @@
- <?php
+<?php
 // Kiểm tra biến $currentPage để làm active menu
 if (!isset($currentPage)) {
     $currentPage = '';
 }
 
-function isActive($page, $currentPage) {
-    return $page === $currentPage ? 'active' : '';
+// Ngăn lỗi khai báo lại khi file bị include nhiều lần
+if (!function_exists('isActive')) {
+    function isActive($page, $currentPage) {
+        return $page === $currentPage ? 'active' : '';
+    }
 }
 ?>
 
@@ -13,9 +16,6 @@ function isActive($page, $currentPage) {
 
 <div class="sidebar">
     <div class="logo-text">STUDENT DIARY ADMIN</div>
-<?php
-
-?>
 
     <div class="menu-item <?php echo isActive('kynang', $currentPage); ?>" 
          onclick="navigateTo('/studentdiary/public/index.php?action=kynang')">
@@ -30,7 +30,7 @@ function isActive($page, $currentPage) {
     </div>
 
     <div class="menu-item <?php echo isActive('doisong', $currentPage); ?>" 
-         onclick="navigateTo('/studentdiary/public/index.php??action=doisong')">
+         onclick="navigateTo('/studentdiary/public/index.php?action=doisong')">
         <div class="menu-icon"><i class="fas fa-heartbeat"></i></div>
         <div>Quản lý danh mục</div>
     </div>
@@ -48,16 +48,19 @@ function isActive($page, $currentPage) {
     </div>
 
     <div class="menu-item" onclick="handleLogout()">
-        
         <div class="menu-icon"><i class="fas fa-sign-out-alt"></i></div>
         <div>Đăng xuất</div>
     </div>
 </div>
 
-</div> 
+<script>
+function navigateTo(url) { 
+    window.location.href = url; 
+}
 
-<script> 
-function navigateTo(url) { window.location.href = url; } 
-function handleLogout() { if (confirm('Bạn có chắc chắn muốn đăng xuất không?'))
-     { window.location.href = "/studentdiary/views/admin/logout.php"; } }
- </script>
+function handleLogout() { 
+    if (confirm('Bạn có chắc chắn muốn đăng xuất không?')) {
+        window.location.href = "/studentdiary/views/admin/logout.php";
+    }
+}
+</script>

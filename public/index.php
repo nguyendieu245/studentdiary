@@ -82,12 +82,43 @@ switch ($action) {
         $categoryCtrl->delete($id);
         break;
 
+        // COMMENT ROUTES (Admin)
     case 'comments':
         $commentCtrl->index();
         break;
-    case 'delete_comment':
-        $commentCtrl->delete($id);
+
+    case 'show_comment':
+        if ($id) {
+            $commentCtrl->show($id);
+        } else {
+            header('Location: index.php?action=comments');
+        }
         break;
+
+    case 'toggle_comment':
+        if ($id) {
+            $commentCtrl->toggleStatus($id);
+        } else {
+            header('Location: index.php?action=comments');
+        }
+        break;
+
+    case 'delete_comment':
+        if ($id) {
+            $commentCtrl->delete($id);
+        } else {
+            header('Location: index.php?action=comments');
+        }
+        break;
+
+    case 'reply_comment':
+        if ($id) {
+            $commentCtrl->reply($id);
+        } else {
+            header('Location: index.php?action=comments');
+        }
+        break;
+
 
     case 'users':
         $userCtrl->index();
