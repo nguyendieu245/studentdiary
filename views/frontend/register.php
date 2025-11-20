@@ -17,7 +17,7 @@
             <div class="message success"><?= $registrationSuccess; ?></div>
         <?php endif; ?>
 
-        <form action="register_user.php" method="POST">
+         <form method="POST" action="/studentdiary/public/index.php?action=register">
             <div class="form-group">
                 <label for="username">Tên đăng nhập:</label>
                 <input type="text" name="username" required value="<?= htmlspecialchars($username ?? ''); ?>">
@@ -47,7 +47,7 @@
         </form>
 
         <div class="login-link">
-            Đã có tài khoản? <a href="user_login.php">Đăng nhập ngay</a>
+            Đã có tài khoản? <a href="/studentdiary/public/index.php?action=user_login">Đăng nhập ngay</a>
         </div>
     </div>
 </body>
