@@ -31,8 +31,8 @@
             <button type="submit" class="btn-submit">Đăng nhập</button>
         </div>
     </form>
-
-    <a href="/studentdiary/public/index.php?action=register">Đăng ký</a>
-
-</div>
+<div class="login-link">
+        <span>Bạn chưa có tài khoản? </span>
+        <a href="/studentdiary/public/index.php?action=register">Đăng ký ngay</a>
+    </div>
 

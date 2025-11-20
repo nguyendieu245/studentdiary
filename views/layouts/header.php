@@ -1,116 +1,63 @@
 <?php
-// Bắt đầu session nếu chưa có
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-// Đổi tên biến $currentAction thành $currentPage để khớp với logic sidebar
-$currentPage = $_GET['page'] ?? 'admin_dashboard'; 
-
-// Hàm isActive phải được định nghĩa TRƯỚC khi include sidebar.php
-// Đảm bảo hàm này được định nghĩa chỉ một lần
-if (!function_exists('isActive')) {
-    function isActive($pageName, $currentPage) {
-        return ($currentPage === $pageName) ? 'active' : '';
-    }
-}
 ?>
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard | Student Diary</title>
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    
-    <style>
-       * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-:root {
-    --primary-color: #5f4a41;
-    --secondary-color: #b88769;
-    --accent-color: #ceb6ad;
-    --light-color: #fbe9e7;
-    --text-color: #4e342e;
-    --border-color: #a1887f;
-    --success-color: #388e3c;
-    --warning-color: #ffa726;
-    --danger-color: #d84315;
-    --info-color: #8d6e63;
-}
-
-body {
-    background-color: var(--light-color);
-    color: var(--text-color);
-    font-weight: 500;
-}
-
-        .main-content-wrapper {
-            margin-left: 260px; 
-            padding: 30px; 
-            min-height: 100vh;
-            background-color: #fff; /* Giữ nền trắng cho nội dung để nổi bật */
-            box-shadow: -2px 0 5px rgba(0,0,0,0.05); 
-        }
-
-        /* SIDEBAR - Cập nhật màu */
-.sidebar {
-    width: 260px;
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    left: 0;
-    background-color: var(--secondary-color); 
-    color: var(--text-color-sidebar);
-    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-    font-family: Poppins, sans-serif;
-}
-
-        .logo-text {
-    font-size: 18px;
-    font-weight: bold;
-    padding: 24px 20px 18px 20px;
-    background: var(--primary-color);
-    color: #fff;
-    letter-spacing: 1px;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-}
-        
-        .menu-item {
-    display: flex;
-    align-items: center;
-    padding: 15px 22px;
-    cursor: pointer;
-    transition: all 0.2s;
-    border-left: 3px solid transparent;
-    color: #fff;
-    font-size: 15px;
-}
-
-.menu-item:hover,
-.menu-item.active {
-    background-color: #fff3e0;
-    color: var(--primary-color);
-    border-left: 3px solid var(--accent-color);
-}
-
-.menu-icon {
-    margin-right: 12px;
-    width: 22px;
-    text-align: center;
-    font-size: 18px;
-}
-
-    </style>
+    <title>Student Diary</title>
+    <link rel="stylesheet" href="public/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+
 <body>
-    
-    <?php include __DIR__ . '/sidebar.php'; ?> 
-    
-    <div class="main-content-wrapper"> 
-    
+
+<header class="main-header">
+
+    <!-- Banner -->
+    <div class="header-banner">
+        <h1>Student Diary</h1>
+        <p>Chia sẻ kiến thức & kỹ năng dành cho sinh viên</p>
+    </div>
+
+    <!-- MENU NAVIGATION -->
+    <nav class="header-nav">
+        <ul class="nav-left">
+            <li><a href="index.php?action=home">Trang chủ</a></li>
+
+            <!-- Danh mục bài viết -->
+            <li><a href="index.php?action=category&id=1">Kỹ năng</a></li>
+            <li><a href="index.php?action=category&id=2">Đời sống</a></li>
+            <li><a href="index.php?action=category&id=3">Học tập</a></li>
+        </ul>
+
+        <!-- SEARCH BAR -->
+        <form class="search-form" method="GET" action="index.php">
+            <input type="hidden" name="action" value="search">
+            <input type="text" name="q" placeholder="Tìm kiếm bài viết...">
+            <button type="submit"><i class="fas fa-search"></i></button>
+        </form>
+
+        <!-- USER AUTH SECTION -->
+        <ul class="nav-right">
+
+            <?php if (!empty($_SESSION['user'])): ?>
+                <li class="welcome-msg">
+                    Xin chào, <strong><?= htmlspecialchars($_SESSION['user']['fullname']) ?></strong>
+                </li>
+                <li><a href="/studentdiary/public/index.php?action=user_logout">Đăng xuất</a></li>
+            <?php else: ?>
+                <li><a href="/studentdiary/public/index.php?action=user_login">Đăng nhập</a></li>
+                <li><a href="/studentdiary/public/index.php?action=register">Đăng ký</a></li>
+            <?php endif; ?>
+
+        </ul>
+    </nav>
+
+</header>
+
+<!-- MAIN CONTENT AREA -->
+<main class="content">

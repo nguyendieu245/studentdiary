@@ -1,91 +1,96 @@
-/* Tùy chỉnh CSS cho form đăng nhập này nếu bạn muốn tách biệt */
+/* Nền tổng thể */
 body {
-    /* Giữ nguyên các thuộc tính này để có nền và căn giữa form */
-    background-color: #f0f2f5; /* Màu nâu nhạt */
+    background-color: #f6f1eb;        /* Nâu be nhẹ */
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     margin: 0;
-    /* Xóa flex-direction: column; nếu bạn không muốn có khoảng trống phía trên */
-    /* flex-direction: column; */ 
+    font-family: "Poppins", sans-serif;
 }
+
+/* Khung login */
 .login-container {
-    background-color: white;
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    padding: 35px 40px;
+    border-radius: 12px;
     width: 100%;
-    max-width: 400px;
+    max-width: 380px;
     text-align: center;
-    /* Xóa hoặc điều chỉnh margin-top/bottom nếu bạn không còn header/footer */
-    margin-top: 0; 
-    margin-bottom: 0;
+
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.12);
+    animation: fadeIn 0.4s ease-in-out;
 }
-/* Giữ các CSS khác cho form */
+
+/* Tiêu đề */
 .login-container h2 {
-    margin-bottom: 30px;
-    color: #333;
-    font-size: 28px;
+    margin-bottom: 25px;
+    color: #4e342e;
+    font-size: 26px;
+    font-weight: 700;
 }
+
+/* Form group */
 .form-group {
-    margin-bottom: 20px;
+    margin-bottom: 18px;
     text-align: left;
 }
+
 .form-group label {
     display: block;
-    margin-bottom: 8px;
-    color: #555;
-    font-weight: bold;
+    margin-bottom: 7px;
+    color: #5a4a42;
+    font-weight: 600;
 }
+
+/* Ô input */
 .form-group input[type="text"],
 .form-group input[type="password"] {
     width: 100%;
-    padding: 12px 15px;
-    border: 1px solid #ddd;
+    padding: 12px 14px;
+    border: 1px solid #d5c8b8;
     border-radius: 8px;
-    font-size: 16px;
+    font-size: 15px;
     box-sizing: border-box;
+    transition: all 0.2s ease;
+    background-color: #faf8f6;
 }
-.form-group input[type="text"]:focus,
-.form-group input[type="password"]:focus {
+
+.form-group input:focus {
     border-color: #8B4513;
+    box-shadow: 0 0 0 3px rgba(139, 69, 19, 0.18);
     outline: none;
-    box-shadow: 0 0 0 3px rgba(139, 69, 19, 0.2);
 }
+
+/* Nút đăng nhập */
 button[type="submit"] {
     background-color: #8B4513;
     color: white;
-    padding: 14px 25px;
+    padding: 14px 20px;
     border: none;
     border-radius: 8px;
-    font-size: 18px;
+    font-size: 17px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
     width: 100%;
+    font-weight: 600;
+    transition: 0.25s ease;
 }
+
 button[type="submit"]:hover {
-    background-color: #a0522d;
+    background-color: #a65a2e;
 }
-.error {
-    background-color: #ffebee;
+
+/* Thông báo lỗi */
+.error-message {
+    background-color: #ffe9e9;
     color: #b71c1c;
-    padding: 12px 15px;
-    border-radius: 8px;
-    margin-bottom: 25px;
-    border-left: 5px solid #b71c1c;
+    padding: 12px;
+    border-left: 4px solid #b71c1c;
+    border-radius: 6px;
+    margin-bottom: 20px;
     font-size: 15px;
 }
-.login-container p {
-    margin-top: 20px;
-    font-size: 15px;
-    color: #666;
-}
-.login-container p a {
-    color: #8B4513;
-    text-decoration: none;
-    font-weight: bold;
-}
-.login-container p a:hover {
-    text-decoration: underline;
-}
+
+.login-link { margin-top: 15px; font-size: 14px; text-align: center; }
+.login-link a { color: #8B4513 !important; text-decoration: none; font-weight: bold;}
+.login-link a:hover { text-decoration: underline; }
