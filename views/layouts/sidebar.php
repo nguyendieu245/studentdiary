@@ -1,4 +1,4 @@
-<?php
+ <?php
 // Kiểm tra biến $currentPage để làm active menu
 if (!isset($currentPage)) {
     $currentPage = '';
@@ -48,19 +48,16 @@ function isActive($page, $currentPage) {
     </div>
 
     <div class="menu-item" onclick="handleLogout()">
+        
         <div class="menu-icon"><i class="fas fa-sign-out-alt"></i></div>
         <div>Đăng xuất</div>
     </div>
 </div>
 
-<script>
-function navigateTo(url) {
-    window.location.href = url;
-}
+</div> 
 
-function handleLogout() {
-    if (confirm('Bạn có chắc chắn muốn đăng xuất không?')) {
-        window.location.href = "/studentdiary/views/admin/logout.php";
-    }
-}
-</script>
+<script> 
+function navigateTo(url) { window.location.href = url; } 
+function handleLogout() { if (confirm('Bạn có chắc chắn muốn đăng xuất không?'))
+     { window.location.href = "/studentdiary/views/admin/logout.php"; } }
+ </script>
