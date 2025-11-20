@@ -51,6 +51,4 @@ $admin = $_SESSION['admin'] ?? ['fullname' => 'Quản trị viên'];
             Bạn có thể duyệt bài, quản lý bình luận và hỗ trợ tương tác nhanh chóng.
         </p>
     </div>
-
-</div> <?php include __DIR__ . '/../layouts/footer.php'; ?>
 </div>
