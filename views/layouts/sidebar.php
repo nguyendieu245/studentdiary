@@ -1,5 +1,8 @@
 <div class="sidebar">
     <div class="logo-text">STUDENT DIARY ADMIN</div>
+<?php
+
+?>
 
     <div class="menu-item <?php echo isActive('kynang', $currentPage); ?>" onclick="navigateTo('index.php?page=kynang')">
         <div class="menu-icon"><i class="fas fa-lightbulb"></i></div>

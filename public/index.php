@@ -20,17 +20,48 @@ $action = $_GET['action'] ?? 'index';
 $id     = $_GET['id'] ?? null;
 
 switch ($action) {
+    case 'hoctap':
+        $postCtrl->index(); 
+        break;
+    
     case 'create_post':
         $postCtrl->create();
         break;
+    case 'store':
+        $postCtrl->store();
+        break;
     case 'edit_post':
-        $postCtrl->edit($id);
+        if($id) {
+            $postCtrl->edit($id);
+        } else {
+            header('Location: index.php?action=hoctap&error=no_id');
+            exit();
+        }
         break;
+    case 'update':
+        if($id) {
+            $postCtrl->update($id);
+        } else {
+            header('Location: index.php?action=hoctap&error=no_id');
+            exit();
+        }
+        break;
+    
     case 'delete_post':
-        $postCtrl->delete($id);
+        if($id) {
+            $postCtrl->delete($id);
+        } else {
+            header('Location: index.php?action=hoctap&error=no_id');
+            exit();
+        }
         break;
-    case 'show_post':
-        $postCtrl->show($id);
+     case 'show_post':
+        if($id) {
+            $postCtrl->show($id);
+        } else {
+            header('Location: index.php?action=hoctap&error=no_id');
+            exit();
+        }
         break;
     case 'posts':
         $postCtrl->index();
