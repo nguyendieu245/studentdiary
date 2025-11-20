@@ -1,9 +1,4 @@
-<?php
-// views/admin/posts/view.php
-function isActive($page, $currentPage) {
-    return $page === $currentPage ? 'active' : '';
-}
-?>
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
