@@ -58,4 +58,11 @@ class User {
         $stmt = $this->conn->prepare("UPDATE $this->table SET status=? WHERE id=?");
         return $stmt->execute([$status, $id]);
     }
+
+    // Admin toggle trạng thái user (0 → 1, 1 → 0)
+    public function toggleStatus($id) {
+        $stmt = $this->conn->prepare("UPDATE $this->table SET status = 1 - status WHERE id = ?");
+        return $stmt->execute([$id]);
+    }
 }
+?>
