@@ -1,9 +1,4 @@
-<?php
-// views/admin/posts/skill_posts_list.php
-function isActive($page, $currentPage) {
-    return $page === $currentPage ? 'active' : '';
-}
-?>
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -12,6 +7,7 @@ function isActive($page, $currentPage) {
     <title>Quản lý bài viết Kĩ năng - Student Diary Admin</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/studentdiary/public/css/sidebar.css">
     <?php include __DIR__ . '/../../layouts/header.php'; ?>
     <style>
         * {
@@ -23,13 +19,14 @@ function isActive($page, $currentPage) {
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f5f5f0;
-            display: flex;
+            margin: 0;
+            padding: 0;
         }
 
         .main-content {
-            margin-left: -30px;
-            flex: 1;
+            margin-left: 0px;
             padding: 20px 30px;
+            min-height: 100vh;
         }
 
         .header-section {
@@ -275,7 +272,7 @@ function isActive($page, $currentPage) {
         <?php endif; ?>
 
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
-            <h1 class="page-title">Quản lý bài viết </h1>
+            <h1 class="page-title">Quản lý bài viết</h1>
             <a href="index.php?action=create_post" class="add-btn">
                 <i class="fas fa-plus"></i> Thêm bài viết
             </a>
@@ -287,18 +284,16 @@ function isActive($page, $currentPage) {
                     <tr>
                         <th>Ảnh</th>
                         <th>Tiêu đề</th>
+                        <th>Danh mục</th>
                         <th>Ngày đăng</th>
                         <th>Trạng thái</th>
                         <th>Hành động</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php 
-                    $posts_data = $posts->fetchAll(PDO::FETCH_ASSOC);
-                    if(empty($posts_data)): 
-                    ?>
+                    <?php if(empty($posts_data)): ?>
                         <tr>
-                            <td colspan="5">
+                            <td colspan="6">
                                 <div class="empty-state">
                                     <i class="fas fa-folder-open"></i>
                                     <p>Chưa có bài viết nào</p>
@@ -310,7 +305,7 @@ function isActive($page, $currentPage) {
                         <tr>
                             <td>
                                 <?php if($post['image']): ?>
-                                    <img src="../public/uploads/<?= htmlspecialchars($post['image']) ?>" 
+                                    <img src="/studentdiary/public/uploads/<?= htmlspecialchars($post['image']) ?>" 
                                          alt="<?= htmlspecialchars($post['title']) ?>" 
                                          class="post-image">
                                 <?php else: ?>
@@ -323,6 +318,11 @@ function isActive($page, $currentPage) {
                                 <div class="post-title">
                                     <?= htmlspecialchars($post['title']) ?>
                                 </div>
+                            </td>
+                            <td>
+                                <span style="color: #8B7355; font-weight: 500;">
+                                    <?= htmlspecialchars($post['category_name'] ?? 'Chưa phân loại') ?>
+                                </span>
                             </td>
                             <td>
                                 <?= date('d/m/Y H:i:s', strtotime($post['created_at'])) ?>
@@ -366,8 +366,6 @@ function isActive($page, $currentPage) {
             }
         }
     </script>
+    <?php include __DIR__ . '/../../layouts/footer.php'; ?>
 </body>
 </html>
-
-
-    

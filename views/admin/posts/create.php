@@ -1,9 +1,4 @@
-<?php
-// views/admin/posts/create.php
-function isActive($page, $currentPage) {
-    return $page === $currentPage ? 'active' : '';
-}
-?>
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -30,9 +25,9 @@ function isActive($page, $currentPage) {
         }
 
         .main-content {
-            margin-left: -30px;
+            margin-left: 0px;
             flex: 1;
-            padding: 20px 30px;
+            padding: 30px 400px;
             min-height: 100vh;
         }
 
@@ -188,6 +183,15 @@ function isActive($page, $currentPage) {
                     <textarea id="content" name="content" required placeholder="Nhập nội dung bài viết..."></textarea>
                 </div>
 
+                <div class="form-group">
+                    <label for="category_id">Danh mục <span style="color: red;">*</span></label>
+                    <select id="category_id" name="category_id" required>
+                        <option value="">-- Chọn danh mục --</option>
+                        <?php foreach($categories as $cat): ?>
+                            <option value="<?= $cat['id'] ?>"><?= htmlspecialchars($cat['name']) ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
                 <div class="form-group">
                     <label for="image">Ảnh đại diện</label>
                     <input type="file" id="image" name="image" accept="image/*" onchange="previewImage(event)">

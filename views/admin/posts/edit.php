@@ -1,9 +1,4 @@
-<?php
-// views/admin/posts/edit.php
-function isActive($page, $currentPage) {
-    return $page === $currentPage ? 'active' : '';
-}
-?>
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -28,7 +23,7 @@ function isActive($page, $currentPage) {
         }
 
         .main-content {
-            margin-left: -30px;
+            margin-left: 30000px;
             flex: 1;
             padding: 20px 30px;
         }
@@ -195,7 +190,17 @@ function isActive($page, $currentPage) {
                     <label for="content">Nội dung <span style="color: red;">*</span></label>
                     <textarea id="content" name="content" required><?= $post['content'] ?></textarea>
                 </div>
-
+                <div class="form-group">
+                    <label for="category_id">Danh mục <span style="color: red;">*</span></label>
+                    <select id="category_id" name="category_id" required>
+                        <option value="">-- Chọn danh mục --</option>
+                        <?php foreach($categories as $cat): ?>
+                            <option value="<?= $cat['id'] ?>" <?= $post['category_id'] == $cat['id'] ? 'selected' : '' ?>>
+                                <?= htmlspecialchars($cat['name']) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
                 <div class="form-group">
                     <label for="image">Ảnh đại diện</label>
                     

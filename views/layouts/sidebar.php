@@ -18,31 +18,31 @@ function isActive($page, $currentPage) {
 ?>
 
     <div class="menu-item <?php echo isActive('kynang', $currentPage); ?>" 
-         onclick="navigateTo('/studentdiary/views/admin/index.php?page=kynang')">
+         onclick="navigateTo('/studentdiary/public/index.php?page=kynang')">
         <div class="menu-icon"><i class="fas fa-lightbulb"></i></div>
         <div>Tổng quan</div>
     </div>
 
     <div class="menu-item <?php echo isActive('hoctap', $currentPage); ?>" 
-         onclick="navigateTo('/studentdiary/views/admin/index.php?page=hoctap')">
+         onclick="navigateTo('/studentdiary/public/index.php?page=hoctap')">
         <div class="menu-icon"><i class="fas fa-book"></i></div>
         <div>Quản lý bài viết</div>
     </div>
 
     <div class="menu-item <?php echo isActive('doisong', $currentPage); ?>" 
-         onclick="navigateTo('/studentdiary/views/admin/index.php?page=doisong')">
+         onclick="navigateTo('/studentdiary/public/index.php??page=doisong')">
         <div class="menu-icon"><i class="fas fa-heartbeat"></i></div>
         <div>Quản lý danh mục</div>
     </div>
 
     <div class="menu-item <?php echo isActive('users', $currentPage); ?>" 
-         onclick="navigateTo('/studentdiary/views/admin/index.php?page=users')">
+         onclick="navigateTo('/studentdiary/public/index.php?page=users')">
         <div class="menu-icon"><i class="fas fa-users"></i></div>
         <div>Quản lý người dùng</div>
     </div>
 
     <div class="menu-item <?php echo isActive('comments', $currentPage); ?>" 
-         onclick="navigateTo('/studentdiary/views/admin/index.php?page=comments')">
+         onclick="navigateTo('/studentdiary/public/index.php?page=comments')">
         <div class="menu-icon"><i class="fas fa-comments"></i></div>
         <div>Quản lý bình luận</div>
     </div>
