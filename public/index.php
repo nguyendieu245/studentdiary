@@ -26,11 +26,7 @@ $id     = $_GET['id'] ?? null;
 switch ($action) {
 
     // ================== FRONTEND POSTS ==================
-<<<<<<< HEAD
     case 'home_front':
-=======
-    case 'home':
->>>>>>> e199a5b571c3449f2cf12efb241fe8fa49bb4ad1
         $postCtrl->showHomeFeed();
         break;
     case 'skill':

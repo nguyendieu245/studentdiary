@@ -30,11 +30,7 @@ include __DIR__ . '/../../layouts/header.php';
 <script>
     const postsList = document.getElementById("postsList");
 
-<<<<<<< HEAD
     fetch("index.php?action=social_list") // <-- sửa url fetch cho đúng router frontend
-=======
-    fetch("index.php?action=skill_list") // <-- sửa url fetch cho đúng router frontend
->>>>>>> e199a5b571c3449f2cf12efb241fe8fa49bb4ad1
         .then(res => {
             if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
             return res.json();
@@ -70,8 +66,4 @@ include __DIR__ . '/../../layouts/header.php';
 <?php 
 // Include footer đúng đường dẫn
 include __DIR__ . '/../../layouts/footer.php'; 
-<<<<<<< HEAD
 ?>
-=======
-?>
->>>>>>> e199a5b571c3449f2cf12efb241fe8fa49bb4ad1

@@ -27,8 +27,8 @@ body {
 
 /* Header Menu Bar */
 .header-menu-bar {
-    background-color: #2c1d17; /* Màu nâu rất đậm */
-    color: white;
+    background-color: #5b463e; /* Màu nâu rất đậm */
+    color: rgb(255, 255, 255);
     display: flex;
     justify-content: space-between; /* Đẩy các nhóm menu ra hai đầu */
     align-items: center;
@@ -197,7 +197,7 @@ body {
     color: #393d23;
     margin-top: 32px;
     margin-bottom: 12px;
-    border-left: 5px solid #8d8d45;
+    border-left: 5px solid #8d7a5c;
     padding-left: 12px;
 }
 
@@ -238,7 +238,7 @@ body {
 
 /* Footer */
 footer {
-    background: #2c1d17; /* Màu nâu đậm, nhất quán với header */
+    background: #5b463e ; /* Màu nâu đậm, nhất quán với header */
     color: white; /* Màu chữ trắng để tương phản */
     text-align: center;
     font-size: 15px;

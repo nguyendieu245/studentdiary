@@ -28,7 +28,6 @@ class PostController {
     }
 
     public function showSkillFeed() {
-<<<<<<< HEAD
         $posts = $this->post->getAllSkillPosts();
         $categories = $this->category->getAllCategories();
         
@@ -141,106 +140,6 @@ class PostController {
     public function adminUpdate($id) {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') return;
 
-=======
-        $posts = $this->post->getAllSkillPosts();
-        $categories = $this->category->getAllCategories();
-        
-        $currentPage = 'skill';
-        $isAdminPage = false;
-        require_once __DIR__ . '/../views/frontend/post_frontend/skill.php';
-    }
-
-    public function showStudyFeed() {
-        $posts = $this->post->getAllStudyPosts();
-        $categories = $this->category->getAllCategories();
-        
-        $currentPage = 'study';
-        $isAdminPage = false;
-        require_once __DIR__ . '/../views/frontend/post_frontend/study.php';
-    }
-
-    public function showSocialFeed() {
-        $posts = $this->post->getAllLifePosts();
-        $categories = $this->category->getAllCategories();
-        
-        $currentPage = 'social';
-        $isAdminPage = false;
-        require_once __DIR__ . '/../views/frontend/post_frontend/social.php';
-    }
-
-    public function showPostDetail($id) {
-        $post = $this->post->getById($id);
-        if (!$post) {
-            header('Location: index.php?action=home&error=notfound');
-            exit();
-        }
-        $currentPage = 'post_detail';
-        $isAdminPage = false;
-        require_once __DIR__ . '/../views/frontend/post_detail.php';
-    }
-
-    /* ===== ADMIN ===== */
-
-    public function adminIndex() {
-        $posts = $this->post->getAllSkillPosts();
-        $currentPage = 'hoctap';
-        $isAdminPage = true;
-        require_once __DIR__ . '/../views/admin/posts/skill_posts_list.php';
-    }
-
-    public function adminCreate() {
-        $currentPage = 'hoctap';
-        $isAdminPage = true;
-        require_once __DIR__ . '/../views/admin/posts/create.php';
-    }
-
-    public function adminStore() {
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST') return;
-
-        $this->post->title = htmlspecialchars($_POST['title']);
-        $this->post->content = $_POST['content'];
-        $this->post->author = 'Admin';
-        $this->post->status = $_POST['status'] ?? 'published';
-        $this->post->category_id = 1;
-        $this->post->category = 'Kỹ năng';
-
-        // Upload ảnh
-        $upload_dir = __DIR__ . '/../public/uploads/';
-        if (!file_exists($upload_dir)) mkdir($upload_dir, 0777, true);
-
-        if (isset($_FILES['image']) && $_FILES['image']['error'] === 0) {
-            $file_extension = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
-            $new_filename = uniqid() . '.' . $file_extension;
-            if (move_uploaded_file($_FILES['image']['tmp_name'], $upload_dir . $new_filename)) {
-                $this->post->image = $new_filename;
-            }
-        }
-
-        $this->post->image = $this->post->image ?? '';
-
-        if ($this->post->create()) {
-            header('Location: index.php?action=hoctap&success=1');
-            exit();
-        }
-        header('Location: index.php?action=hoctap&error=1');
-        exit();
-    }
-
-    public function adminEdit($id) {
-        $post = $this->post->getById($id);
-        if (!$post) {
-            header('Location: index.php?action=hoctap&error=notfound');
-            exit();
-        }
-        $currentPage = 'hoctap';
-        $isAdminPage = true;
-        require_once __DIR__ . '/../views/admin/posts/edit.php';
-    }
-
-    public function adminUpdate($id) {
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST') return;
-
->>>>>>> e199a5b571c3449f2cf12efb241fe8fa49bb4ad1
         $this->post->id = $id;
         $this->post->title = htmlspecialchars($_POST['title']);
         $this->post->content = $_POST['content'];

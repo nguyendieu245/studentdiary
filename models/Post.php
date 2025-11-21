@@ -86,12 +86,12 @@ class Post
 
     public function getAllStudyPosts()
     {
-        return $this->getByCategory(2);
+        return $this->getByCategory(3);
     }
 
     public function getAllSocialPosts()
     {
-        return $this->getByCategory(3);
+        return $this->getByCategory(2);
     }
 
     /* ============================================================
