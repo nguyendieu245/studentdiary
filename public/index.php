@@ -69,18 +69,43 @@ switch ($action) {
         $postCtrl->index();
         break;
 
-    case 'categories':
+        // ========== CATEGORY ROUTES ==========
+    case 'doisong':
         $categoryCtrl->index();
         break;
+
     case 'create_category':
         $categoryCtrl->create();
         break;
+
+    case 'store_category':
+        $categoryCtrl->store();
+        break;
+
     case 'edit_category':
-        $categoryCtrl->edit($id);
+        if ($id) {
+            $categoryCtrl->edit($id);
+        } else {
+            header('Location: index.php?action=categories&error=no_id');
+        }
         break;
+
+    case 'update_category':
+        if ($id) {
+            $categoryCtrl->update($id);
+        } else {
+            header('Location: index.php?action=categories&error=no_id');
+        }
+        break;
+
     case 'delete_category':
-        $categoryCtrl->delete($id);
+        if ($id) {
+            $categoryCtrl->delete($id);
+        } else {
+            header('Location: index.php?action=categories&error=no_id');
+        }
         break;
+
 
         // COMMENT ROUTES (Admin)
     case 'comments':
