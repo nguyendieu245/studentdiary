@@ -1,4 +1,13 @@
 
+<?php
+
+
+if (empty($_SESSION['admin'])) {
+    header("Location: /studentdiary/public/index.php?action=admin_login");
+    exit;
+}
+
+$admin = $_SESSION['admin'];
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -8,7 +17,6 @@
     <title>Quản lý danh mục - Student Diary Admin</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="/studentdiary/public/css/sidebar.css">
     <?php include __DIR__ . '/../../layouts/sidebar.php'; ?>
     <style>
         * {

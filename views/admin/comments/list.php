@@ -1,5 +1,14 @@
 
 <?php
+
+
+if (empty($_SESSION['admin'])) {
+    header("Location: /studentdiary/public/index.php?action=admin_login");
+    exit;
+}
+
+$admin = $_SESSION['admin'];
+?><?php
 // Tạo mảng comment cha và con
 $parents = [];
 $children = [];

@@ -1,4 +1,13 @@
+<?php
 
+
+if (empty($_SESSION['admin'])) {
+    header("Location: /studentdiary/public/index.php?action=admin_login");
+    exit;
+}
+
+$admin = $_SESSION['admin'];
+?>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -11,8 +20,6 @@
 </head>
 <body>
     <?php include __DIR__ . '/../../layouts/sidebar.php'; ?>
-
-    
         <div class="main-content">
     <div><a href="/studentdiary/public/index.php?action=hoctap" class="back-btn">
         <i class="fas fa-arrow-left"></i> Quay lại 
