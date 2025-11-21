@@ -1,40 +1,54 @@
 <?php
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+// views/frontend/header.php
+session_start(); // Nếu chưa start session ở nơi khác
 ?>
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <title>Student Diary</title>
-    <link rel="stylesheet" href="/studentdiary/public/css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="public/css/style.css"> <!-- file CSS tùy chỉnh -->
 </head>
 <body>
-    <div class="header-banner"></div>
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+    <div class="container">
+        <a class="navbar-brand" href="index.php?action=index">Student Diary</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                <li class="nav-item">
+                    <a class="nav-link <?= ($action=='posts_skill')?'active':'' ?>" href="index.php?action=posts_skill">Kỹ năng</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <?= ($action=='posts_life')?'active':'' ?>" href="index.php?action=posts_life">Đời sống</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <?= ($action=='posts_study')?'active':'' ?>" href="index.php?action=posts_study">Học tập</a>
+            </ul>
 
-    <div class="header-menu-bar">
-        <div class="header-menu-links">
-            <a href="/studentdiary/public/index.php?action=home">Trang chủ</a>
-            <a href="/studentdiary/public/index.php?action=posts&page=kynang">Kỹ năng</a>
-            <a href="/studentdiary/public/index.php?action=posts&page=doisong">Đời sống</a>
-            <a href="/studentdiary/public/index.php?action=posts&page=hoctap">Học tập</a>
-            <a href="/studentdiary/public/index.php?action=categories">Danh mục khác</a>
-        </div>
-
-        <div class="header-auth-links">
-            <?php 
-            if (!empty($_SESSION['user'])): 
-                $display_name = $_SESSION['user']['fullname'] ?? $_SESSION['user']['username'] ?? 'Bạn';
-            ?>
-                <span class="welcome-message">Xin chào, <strong><?= htmlspecialchars($display_name) ?></strong>!</span>
-                <a href="/studentdiary/public/index.php?action=user_logout" class="auth-link logout-btn">Đăng xuất</a>
-            <?php else: ?>
-                <a href="/studentdiary/public/index.php?action=user_login" class="auth-link login-btn">Đăng nhập</a>
-                <a href="/studentdiary/public/index.php?action=register" class="auth-link register-btn">Đăng ký</a>
-            <?php endif; ?>
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <?php if(isset($_SESSION['user_id'])): ?>
+                    <li class="nav-item">
+                        <span class="nav-link">Xin chào, <?= htmlspecialchars($_SESSION['username']) ?></span>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.php?action=user_logout">Đăng xuất</a>
+                    </li>
+                <?php else: ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.php?action=user_login">Đăng nhập</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.php?action=register">Đăng ký</a>
+                    </li>
+                <?php endif; ?>
+            </ul>
         </div>
     </div>
-</body>
-</html>
+</nav>

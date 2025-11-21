@@ -7,171 +7,171 @@ require_once __DIR__ . '/../models/Category.php';
 class PostController {
     private $db;
     private $post;
-    private $category; // Thêm model Category
+    private $category;
 
     public function __construct() {
         $database = new Database();
         $this->db = $database->getConnection();
         $this->post = new Post($this->db);
-        $this->category = new Category($this->db); // Khởi tạo Category
+        $this->category = new Category($this->db);
     }
 
+    // ========== FRONTEND METHODS ==========
 
+    // Trang chủ hiển thị feed với nhiều danh mục
     public function showHomeFeed() {
-        // Lấy danh sách bài viết (ví dụ: tất cả bài viết đã publish)
-        $posts = $this->post->getAllPublishedPosts(); 
-        
-        // Lấy danh sách danh mục (cho menu frontend)
-        $categories = $this->category->getAllCategories(); 
-        
-        // Thiết lập biến để làm active menu 
+        $skillPosts = $this->post->getByCategory(1);   // Kỹ năng
+        $studyPosts = $this->post->getByCategory(2);   // Học tập
+        $lifePosts  = $this->post->getByCategory(3);   // Đời sống
+        $categories = $this->category->getAllCategories();
         $currentPage = 'home';
-        
-        require_once __DIR__ . '/../views/frontend/home.php'; 
+        require __DIR__ . '/../views/frontend/home.php';
     }
 
-    // Hiển thị danh sách bài viết kĩ năng (ADMIN)
+    // Lấy bài viết theo danh mục (frontend)
+    public function getByCategory($categoryId) {
+        return $this->post->getByCategory($categoryId);
+    }
+
+    // Xem chi tiết bài viết frontend
+    public function showCategoryPost($id, $commentCtrl) {
+        $post = $this->post->find($id);
+        if (!$post) {
+            header('Location: index.php?action=home');
+            exit();
+        }
+
+       
+
+        // Lấy bình luận
+        $comments = $commentCtrl->getCommentsByPost($id);
+
+        // Thiết lập currentPage dựa trên category
+        switch ($post['category_id']) {
+            case 1: $currentPage = 'skill'; break;
+            case 2: $currentPage = 'study'; break;
+            case 3: $currentPage = 'social'; break;
+            default: $currentPage = 'home';
+        }
+
+        require __DIR__ . '/../views/frontend/category_detail.php';
+    }
+
+    // ========== ADMIN METHODS ==========
+
     public function index() {
-        $posts = $this->post->getAllSkillPosts();
-        $currentPage = 'hoctap';
-        // Load View Admin
-        require_once __DIR__ . '/../views/admin/posts/skill_posts_list.php';
+        $posts = $this->post->all();
+        $currentPage = 'baiviet';
+        require __DIR__ . '/../views/admin/posts/index.php';
     }
 
-    // Hiển thị form thêm bài viết (ADMIN)
     public function create() {
-        $currentPage = 'hoctap';
-        require_once __DIR__ . '/../views/admin/posts/create.php';
+        $currentPage = 'baiviet';
+        require __DIR__ . '/../views/admin/posts/create.php';
     }
 
-    // Xử lý thêm bài viết (ADMIN)
     public function store() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $this->post->title = htmlspecialchars($_POST['title']);
-            $this->post->content = $_POST['content'];
-            $this->post->author = 'Admin';
-            $this->post->status = $_POST['status'] ?? 'published';
-            $this->post->category_id = 1; // Kĩ năng
-            $this->post->category = 'Kỹ năng';
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') return;
 
-            // Upload ảnh
-            if (isset($_FILES['image']) && $_FILES['image']['error'] === 0) {
-                $upload_dir = __DIR__ . '/../public/uploads/';
-                if (!file_exists($upload_dir)) mkdir($upload_dir, 0777, true);
+        $this->post->title       = htmlspecialchars($_POST['title']);
+        $this->post->content     = $_POST['content'];
+        $this->post->author      = 'Admin';
+        $this->post->status      = $_POST['status'] ?? 'published';
+        $this->post->category_id = $_POST['category_id'] ?? 1;
 
-                $file_extension = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
-                $new_filename = uniqid() . '.' . $file_extension;
-                if (move_uploaded_file($_FILES['image']['tmp_name'], $upload_dir . $new_filename)) {
-                    $this->post->image = $new_filename;
-                } else {
-                    $this->post->image = '';
-                }
+        // Upload ảnh nếu có
+        if (isset($_FILES['image']) && $_FILES['image']['error'] === 0) {
+            $upload_dir = __DIR__ . '/../public/uploads/';
+            if (!file_exists($upload_dir)) mkdir($upload_dir, 0777, true);
+            $file_ext = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
+            $new_file = uniqid() . '.' . $file_ext;
+            if (move_uploaded_file($_FILES['image']['tmp_name'], $upload_dir . $new_file)) {
+                $this->post->image = $new_file;
             } else {
                 $this->post->image = '';
             }
+        } else {
+            $this->post->image = '';
+        }
 
-            if ($this->post->create()) {
-                header('Location: index.php?action=hoctap&success=1');
-                exit();
-            } else {
-                header('Location: index.php?action=hoctap&error=1');
-                exit();
-            }
+        if ($this->post->create()) {
+            header('Location: index.php?action=baiviet&success=1');
+            exit();
+        } else {
+            header('Location: index.php?action=baiviet&error=1');
+            exit();
         }
     }
 
-    // Hiển thị form sửa bài viết (ADMIN)
     public function edit($id) {
-        $post = $this->post->getById($id);
-        if ($post) {
-            $currentPage = 'hoctap';
-            require_once __DIR__ . '/../views/admin/posts/edit.php';
-        } else {
-            header('Location: index.php?action=hoctap&error=notfound');
+        $post = $this->post->find($id);
+        if (!$post) {
+            header('Location: index.php?action=baiviet&error=notfound');
             exit();
         }
+        $currentPage = 'baiviet';
+        require __DIR__ . '/../views/admin/posts/edit.php';
     }
-    
-    // Xem chi tiết bài viết (ADMIN/USER - Cần phân biệt view)
-    public function show($id) {
-        $post = $this->post->getById($id);
-        if ($post) {
-            // GIẢ ĐỊNH: Nếu không phải Admin, chuyển sang View Frontend
-            if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin') {
-                $currentPage = 'hoctap';
-                require_once __DIR__ . '/../views/admin/posts/detail_posts.php';
-            } else {
-                // View Frontend cho bài viết chi tiết
-                $currentPage = 'post_detail';
-                require_once __DIR__ . '/../views/frontend/post_detail.php'; 
-            }
-        } else {
-            // Chuyển hướng về trang chủ Frontend nếu không tìm thấy
-            header('Location: index.php?action=home&error=notfound');
-            exit();
-        }
-    }
-    
-    // Xử lý cập nhật bài viết (ADMIN)
+
     public function update($id) {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $this->post->id = $id;
-            $this->post->title = htmlspecialchars($_POST['title']);
-            $this->post->content = $_POST['content'];
-            $this->post->status = $_POST['status'] ?? 'published';
-            $this->post->category_id = 1; // Giữ nguyên category Kĩ năng
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') return;
 
-            $upload_dir = $_SERVER['DOCUMENT_ROOT'] . '/studentdiary/public/uploads/';
+        $this->post->id          = $id;
+        $this->post->title       = htmlspecialchars($_POST['title']);
+        $this->post->content     = $_POST['content'];
+        $this->post->status      = $_POST['status'] ?? 'published';
+        $this->post->category_id = $_POST['category_id'] ?? 1;
 
-            // Upload ảnh mới nếu có
-            if (isset($_FILES['image']) && $_FILES['image']['error'] === 0) {
-                $file_extension = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
-                $new_filename = uniqid() . '.' . $file_extension;
-                if (move_uploaded_file($_FILES['image']['tmp_name'], $upload_dir . $new_filename)) {
-                    // Xóa ảnh cũ
-                    $old_post = $this->post->getById($id);
-                    if ($old_post['image'] && file_exists($upload_dir . $old_post['image'])) {
-                        unlink($upload_dir . $old_post['image']);
-                    }
-                    $this->post->image = $new_filename;
-                } else {
-                    $old_post = $this->post->getById($id);
-                    $this->post->image = $old_post['image'];
+        $upload_dir = __DIR__ . '/../public/uploads/';
+
+        // Upload ảnh mới nếu có
+        if (isset($_FILES['image']) && $_FILES['image']['error'] === 0) {
+            $file_ext = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
+            $new_file = uniqid() . '.' . $file_ext;
+            if (move_uploaded_file($_FILES['image']['tmp_name'], $upload_dir . $new_file)) {
+                // Xóa ảnh cũ
+                $old_post = $this->post->find($id);
+                if ($old_post['image'] && file_exists($upload_dir . $old_post['image'])) {
+                    unlink($upload_dir . $old_post['image']);
                 }
+                $this->post->image = $new_file;
             } else {
-                $old_post = $this->post->getById($id);
+                $old_post = $this->post->find($id);
                 $this->post->image = $old_post['image'];
             }
+        } else {
+            $old_post = $this->post->find($id);
+            $this->post->image = $old_post['image'];
+        }
 
-            if ($this->post->update()) {
-                header('Location: index.php?action=hoctap&success=updated');
-                exit();
-            } else {
-                header('Location: index.php?action=hoctap&error=update_failed');
-                exit();
-            }
+        if ($this->post->update()) {
+            header('Location: index.php?action=baiviet&success=updated');
+            exit();
+        } else {
+            header('Location: index.php?action=baiviet&error=update_failed');
+            exit();
         }
     }
 
-    // Xóa bài viết (ADMIN)
     public function delete($id) {
-        $post_data = $this->post->getById($id);
-        if ($post_data) {
-            // Xóa ảnh nếu có
-            if ($post_data['image']) {
-                $upload_dir = __DIR__ . '/../public/uploads/';
-                if (file_exists($upload_dir . $post_data['image'])) {
-                    unlink($upload_dir . $post_data['image']);
-                }
-            }
-
-            $this->post->id = $id;
-            if ($this->post->delete()) {
-                header('Location: index.php?action=hoctap&success=deleted');
-                exit();
-            }
+        $post_data = $this->post->find($id);
+        if ($post_data && $this->post->deleteById($id)) {
+            header('Location: index.php?action=baiviet&success=deleted');
+            exit();
         }
-        header('Location: index.php?action=hoctap&error=delete_failed');
+        header('Location: index.php?action=baiviet&error=delete_failed');
         exit();
     }
+
+    // Xem chi tiết bài viết admin
+    public function show($id) {
+        $post = $this->post->find($id);
+        if (!$post) {
+            header('Location: index.php?action=baiviet&error=notfound');
+            exit();
+        }
+        $currentPage = 'baiviet';
+        require __DIR__ . '/../views/admin/posts/detail_posts.php';
+    }
 }
+?>
