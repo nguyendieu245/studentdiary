@@ -3,12 +3,6 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-
-// Nếu chưa đăng nhập thì chuyển về trang login
-if (!isset($_SESSION['user'])) {
-    header("Location: /studentdiary/public/index.php?action=user_login");
-    exit;
-}
  include __DIR__ . '/../layouts/header.php'; 
  
 // Lấy tên người dùng

@@ -14,8 +14,8 @@
 
     
         <div class="main-content">
-    <div><a href="/studentdiary/public/index.php?action=dashboard" class="back-btn">
-        <i class="fas fa-arrow-left"></i> Quay lại trang chính
+    <div><a href="/studentdiary/public/index.php?action=hoctap" class="back-btn">
+        <i class="fas fa-arrow-left"></i> Quay lại 
     </a>
     </div>
         <div class="post-container">

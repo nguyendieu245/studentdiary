@@ -1,7 +1,4 @@
-    </main>
-    <footer>
-        <hr>
-        <p>© <?= date('Y') ?> Student Diary — Nơi chia sẻ kiến thức & kỹ năng sinh viên 💡</p>
-    </footer>
-</body>
-</html>
+
+<footer>
+    &copy; 2025 Student Diary. All rights reserved.
+</footer>

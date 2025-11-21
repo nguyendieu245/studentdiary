@@ -16,11 +16,7 @@ if (!function_exists('isActive')) {
 <div class="sidebar">
     <div class="logo-text">STUDENT DIARY ADMIN</div>
 
-    <div class="menu-item <?php echo isActive('kynang', $currentPage); ?>" 
-         onclick="navigateTo('/studentdiary/public/index.php?action=kynang')">
-        <div class="menu-icon"><i class="fas fa-lightbulb"></i></div>
-        <div>Tổng quan</div>
-    </div>
+    
 
     <div class="menu-item <?php echo isActive('hoctap', $currentPage); ?>" 
          onclick="navigateTo('/studentdiary/public/index.php?action=hoctap')">

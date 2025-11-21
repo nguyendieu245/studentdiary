@@ -1,8 +1,3 @@
-<?php
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-?>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -10,22 +5,22 @@ if (session_status() === PHP_SESSION_NONE) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="/studentdiary/public/css/styleadmin.css">
-    
-    
+    <link rel="stylesheet" href="/studentdiary/public/css/styleadmin.css"> 
+    <title>Danh sách người dùng - Student Diary Admin</title>
 </head>
 <body>
+
     <?php include __DIR__ . '/../../layouts/sidebar.php'; ?>
 
     <div class="main-content">
-        <a href="index.php?action=dashboard" class="back-btn">
+        <a href="/studentdiary/public/index.php?action=dashboard" class="back-btn">
             <i class="fas fa-arrow-left"></i> Quay lại trang chính
         </a>
 
         <div class="user-table-container">
             <h2>Danh sách người dùng</h2>
 
-            <?php if(!empty($users)): ?>
+            <?php if (!empty($users)): ?>
                 <table>
                     <thead>
                         <tr>
@@ -37,8 +32,9 @@ if (session_status() === PHP_SESSION_NONE) {
                             <th>Hành động</th>
                         </tr>
                     </thead>
+
                     <tbody>
-                        <?php foreach($users as $u): ?>
+                        <?php foreach ($users as $u): ?>
                             <tr>
                                 <td><?= htmlspecialchars($u['id']) ?></td>
                                 <td><?= htmlspecialchars($u['username']) ?></td>
@@ -52,7 +48,8 @@ if (session_status() === PHP_SESSION_NONE) {
                                     <?php endif; ?>
                                 </td>
                                 <td>
-                                    <a class="btn btn-toggle" href="index.php?action=user_list&toggle_id=<?= $u['id'] ?>" 
+                                    <a class="btn btn-toggle"
+                                       href="index.php?action=user_list&toggle_id=<?= $u['id'] ?>"
                                        onclick="return confirm('Bạn có chắc chắn muốn thay đổi trạng thái user này?');">
                                         <?= $u['status'] == 1 ? 'Vô hiệu hóa' : 'Kích hoạt' ?>
                                     </a>
@@ -61,12 +58,13 @@ if (session_status() === PHP_SESSION_NONE) {
                         <?php endforeach; ?>
                     </tbody>
                 </table>
+
             <?php else: ?>
                 <p>Chưa có người dùng nào.</p>
             <?php endif; ?>
+
         </div>
     </div>
 
-   
 </body>
 </html>

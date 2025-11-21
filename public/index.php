@@ -179,5 +179,3 @@ switch ($action) {
         $postCtrl->index();
         break;
 }
-
-
