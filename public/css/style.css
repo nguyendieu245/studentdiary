@@ -19,7 +19,7 @@ body {
 .header-banner {
     width: 100vw;
     height: 450px;
-    background-image: url('../assets/images/banner/Study%20Diary.jpg'); /* Đảm bảo đường dẫn này đúng */
+    background-image: url('../images/Study Diary.jpg'); /* Đảm bảo đường dẫn này đúng */
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
