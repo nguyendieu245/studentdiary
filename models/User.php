@@ -1,13 +1,22 @@
 <?php
+// models/User.php
 require_once __DIR__ . '/../config/db.php';
 
 class User {
     private $conn;
     private $table = "users";
 
-    public function __construct() {
-        $db = new Database();
-        $this->conn = $db->getConnection();
+    public $id;
+    public $username;
+    // LƯU Ý QUAN TRỌNG: Mật khẩu được lưu trữ dưới dạng plaintext (không được khuyến nghị về bảo mật).
+    public $password; 
+    public $full_name; 
+    public $email;
+    public $created_at;
+
+    // Sửa constructor để chấp nhận kết nối DB (Dependency Injection)
+    public function __construct($db) {
+        $this->conn = $db;
     }
 
     // Kiểm tra username đã tồn tại chưa
@@ -24,20 +33,45 @@ class User {
         return $stmt->fetchColumn() > 0;
     }
 
-    // Đăng ký user mới
+    // Đăng ký user mới (SỬA: KHÔNG HASH MẬT KHẨU, loại bỏ cột 'status', 'role')
     public function register($username, $password, $fullname, $email) {
-        $sql = "INSERT INTO $this->table (username, password, fullname, email, status)
-                VALUES (?, ?, ?, ?, ?)";
+        
+        // **LƯU Ý:** $password được sử dụng trực tiếp, KHÔNG HASH.
+        
+        // Sửa truy vấn: Chỉ giữ lại các trường cơ bản và created_at
+        // Giả định các cột 'username', 'password', 'fullname', 'email', 'created_at' là bắt buộc.
+        $sql = "INSERT INTO $this->table (username, password, fullname, email, created_at)
+                VALUES (?, ?, ?, ?, NOW())";
+        
         $stmt = $this->conn->prepare($sql);
-        $status = 1; // mặc định active
-        return $stmt->execute([$username, $password, $fullname, $email, $status]);
+        
+        // Truyền mật khẩu plaintext vào thực thi
+        return $stmt->execute([$username, $password, $fullname, $email]); 
     }
 
-    // Đăng nhập
-    public function login($username, $password) {
-        $stmt = $this->conn->prepare("SELECT * FROM $this->table WHERE username=? AND password=?");
-        $stmt->execute([$username, $password]);
+    // Tìm người dùng theo tên đăng nhập (Dùng cho login)
+    public function findUserByUsername($username) {
+        $stmt = $this->conn->prepare("SELECT * FROM $this->table WHERE username=?");
+        $stmt->execute([$username]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+    
+    // Đăng nhập (SỬA: KHÔNG DÙNG password_verify, khớp mật khẩu plaintext)
+    public function login($username, $password) {
+        // 1. Lấy thông tin người dùng từ DB 
+        $user = $this->findUserByUsername($username);
+        
+        // 2. Kiểm tra người dùng tồn tại và khớp mật khẩu plaintext
+        // CẢNH BÁO BẢO MẬT: So sánh mật khẩu plaintext (==) là RẤT NGUY HIỂM.
+        if ($user && $password === $user['password']) {
+             // Giả định nếu cột 'status' không tồn tại, thì người dùng luôn active (1)
+            if (!isset($user['status']) || $user['status'] == 1) { 
+                return $user;
+            } else {
+                return false; 
+            }
+        }
+        return false;
     }
 
     // Lấy thông tin user theo ID
@@ -54,15 +88,10 @@ class User {
     }
 
     // Admin thay đổi trạng thái user (0 = inactive, 1 = active)
+    // PHƯƠNG THỨC NÀY CHỈ HOẠT ĐỘNG NẾU CÓ CỘT 'status' TRONG DB.
     public function changeStatus($id, $status) {
+        // Lưu ý: Nếu cột 'status' không tồn tại, hàm này sẽ gây lỗi SQL. 
         $stmt = $this->conn->prepare("UPDATE $this->table SET status=? WHERE id=?");
         return $stmt->execute([$status, $id]);
     }
-
-    // Admin toggle trạng thái user (0 → 1, 1 → 0)
-    public function toggleStatus($id) {
-        $stmt = $this->conn->prepare("UPDATE $this->table SET status = 1 - status WHERE id = ?");
-        return $stmt->execute([$id]);
-    }
 }
-?>
