@@ -243,12 +243,11 @@ $admin = $_SESSION['admin'];
 <body>
     <?php include __DIR__ . '/../../layouts/sidebar.php'; ?>
 
-    <div class="main-content">
-        <div class="header-section">
-            <a href="index.php" class="back-btn">
-                <i class="fas fa-arrow-left"></i> Quay lại
-            </a>
-        </div>
+    
+        <div class="main-content">
+        <a href="/studentdiary/public/index.php?action=dashboard" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Quay lại trang chính
+        </a>
 
         <?php if(isset($_GET['success'])): ?>
             <div class="alert alert-success">

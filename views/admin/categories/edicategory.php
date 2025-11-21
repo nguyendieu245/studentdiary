@@ -150,8 +150,8 @@ $admin = $_SESSION['admin'];
     <?php include __DIR__ . '/../../layouts/sidebar.php'; ?>
 
     <div class="main-content">
-        <a href="index.php?action=doisong" class="back-btn">
-            <i class="fas fa-arrow-left"></i> Quay lại danh sách
+        <a href="/studentdiary/public/index.php?action=dashboard" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Quay lại trang chính
         </a>
 
         <div class="form-container">
@@ -178,7 +178,7 @@ $admin = $_SESSION['admin'];
                     <button type="submit" class="btn btn-primary">
                         <i class="fas fa-save"></i> Cập nhật danh mục
                     </button>
-                    <a href="index.php?action=doisong" class="btn btn-secondary">
+                    <a href="index.php?action=danhmuc" class="btn btn-secondary">
                         <i class="fas fa-times"></i> Hủy
                     </a>
                 </div>

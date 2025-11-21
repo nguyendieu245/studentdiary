@@ -1,10 +1,8 @@
 <?php
-// Kiểm tra biến $currentPage để làm active menu
 if (!isset($currentPage)) {
     $currentPage = '';
 }
 
-// Ngăn lỗi khai báo lại khi file bị include nhiều lần
 if (!function_exists('isActive')) {
     function isActive($page, $currentPage) {
         return $page === $currentPage ? 'active' : '';
@@ -18,14 +16,14 @@ if (!function_exists('isActive')) {
 
     
 
-    <div class="menu-item <?php echo isActive('hoctap', $currentPage); ?>" 
-         onclick="navigateTo('/studentdiary/public/index.php?action=hoctap')">
+    <div class="menu-item <?php echo isActive('baiviet', $currentPage); ?>" 
+         onclick="navigateTo('/studentdiary/public/index.php?action=baiviet')">
         <div class="menu-icon"><i class="fas fa-book"></i></div>
         <div>Quản lý bài viết</div>
     </div>
 
-    <div class="menu-item <?php echo isActive('doisong', $currentPage); ?>" 
-         onclick="navigateTo('/studentdiary/public/index.php?action=doisong')">
+    <div class="menu-item <?php echo isActive('danhmuc', $currentPage); ?>" 
+         onclick="navigateTo('/studentdiary/public/index.php?action=danhmuc')">
         <div class="menu-icon"><i class="fas fa-heartbeat"></i></div>
         <div>Quản lý danh mục</div>
     </div>

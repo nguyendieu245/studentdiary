@@ -45,7 +45,6 @@
 
             <button type="submit">Đăng ký</button>
         </form>
-
         <div class="login-link">
             Đã có tài khoản? <a href="/studentdiary/public/index.php?action=user_login">Đăng nhập ngay</a>
         </div>

@@ -12,7 +12,6 @@
     <h2> Đăng nhập </h2>
 
     <?php
-        // Hiển thị thông báo lỗi nếu biến $error được Controller truyền vào
         if (!empty($error)):
     ?>
         <div class="error-message"><?php echo htmlspecialchars($error); ?></div>

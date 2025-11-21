@@ -70,7 +70,7 @@ switch ($action) {
         break;
 
         // ========== CATEGORY ROUTES ==========
-    case 'doisong':
+    case 'danhmuc':
         $categoryCtrl->index();
         break;
 
