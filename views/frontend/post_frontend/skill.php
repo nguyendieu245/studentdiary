@@ -67,4 +67,8 @@ include __DIR__ . '/../../layouts/header.php';
 <?php 
 // Include footer đúng đường dẫn
 include __DIR__ . '/../../layouts/footer.php'; 
+<<<<<<< HEAD
 ?>
+=======
+?>
+>>>>>>> e199a5b571c3449f2cf12efb241fe8fa49bb4ad1
