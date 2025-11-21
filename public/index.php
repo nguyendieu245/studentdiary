@@ -27,13 +27,6 @@ $id     = $_GET['id'] ?? null;
 // Kiểm tra trạng thái đăng nhập Admin (Giả định user_role được lưu trong session)
 $isAdmin = isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin';
 
-
-// =================================================================
-// 2. LOGIC ROUTER CHÍNH (PHÂN BIỆT FRONTEND VÀ BACKEND)
-// =================================================================
-
-// 2A. XỬ LÝ CÁC ACTION DÀNH CHO TẤT CẢ NGƯỜI DÙNG (FRONTEND & CHUNG)
-
 switch ($action) {
     // HOME & TRANG CHỦ FRONTEND
     case 'index':
@@ -80,18 +73,12 @@ switch ($action) {
 }
 
 
-// =================================================================
-// 2B. KHỐI LOGIC DÀNH RIÊNG CHO ADMIN (ĐƯỢC BẢO VỆ)
-// =================================================================
 
-// Nếu không phải là Admin, chuyển hướng về trang chủ và dừng chương trình
-if (!$isAdmin) {
-    // Nếu cố gắng truy cập bất kỳ action nào không phải frontend/login mà không có quyền
     if ($action !== 'home' && $action !== 'index' && $action !== 'show_post') {
         header('Location: index.php?action=home&auth_error=1');
         exit();
     }
-} else {
+ else {
     // CHỈ CHẠY LOGIC ADMIN KHI ĐÃ ĐĂNG NHẬP ADMIN
     switch ($action) {
         
