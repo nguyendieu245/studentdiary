@@ -1,6 +1,15 @@
 <?php 
 // views/frontend/post_frontend/detail_view.php
 // View không có logic CSDL, chỉ hiển thị dữ liệu từ Controller
+
+// Fallback để tránh lỗi undefined variable
+if (!isset($post)) $post = null;
+if (!isset($fullDisplayImageUrl)) $fullDisplayImageUrl = '';
+if (!isset($current_url)) $current_url = '';
+if (!isset($logged_in_user_id)) $logged_in_user_id = null;
+if (!isset($comments)) $comments = [];
+if (!isset($replies)) $replies = [];
+if (!isset($base_url)) $base_url = ''; // nếu có dùng trong link đăng nhập
 ?>
 
 <!DOCTYPE html>
@@ -9,11 +18,10 @@
     <meta charset="UTF-8" />
     <title><?php echo $post ? safe_html($post['title']) : 'Chi tiết bài viết'; ?></title>
     
-      <link rel="stylesheet" href="/studentdiary/public/css/style.css">
-
+    <link rel="stylesheet" href="/studentdiary/public/css/style.css">
     <link rel="stylesheet" href="/studentdiary/public/css/detail.css">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
     <?php if ($post): ?>
         <meta property="og:title" content="<?php echo safe_html($post['title']); ?>">
         <meta property="og:description" content="<?php echo safe_html(mb_substr(strip_tags($post['content']), 0, 200, 'UTF-8') . '...'); ?>">
@@ -27,13 +35,9 @@
         <meta name="twitter:description" content="<?php echo safe_html(mb_substr(strip_tags($post['content']), 0, 200, 'UTF-8') . '...'); ?>">
         <meta name="twitter:image" content="<?php echo safe_html($fullDisplayImageUrl); ?>">
     <?php endif; ?>
-
 </head>
 <body>
-<?php 
-// Đường dẫn include header.php cần được điều chỉnh tùy theo vị trí thực của View
-include __DIR__ . '/../../layouts/header.php'; 
-?>
+<?php include __DIR__ . '/../../layouts/header.php'; ?>
 
 <div class="container">
     <?php if ($post): ?>
@@ -42,7 +46,7 @@ include __DIR__ . '/../../layouts/header.php';
             <div class="post-meta">
                 <span><i class="far fa-user"></i> <?php echo safe_html($post['author']); ?></span>
                 <span><i class="far fa-calendar-alt"></i> <?php echo date('d/m/Y', strtotime($post['created_at'])); ?></span>
-                </div>
+            </div>
         </div>
         
         <?php if (!empty($fullDisplayImageUrl)): ?>
@@ -74,14 +78,16 @@ include __DIR__ . '/../../layouts/header.php';
         <p style="text-align: center; color: #888; margin-top: 50px;">Bài viết không tồn tại hoặc đã bị xóa.</p>
     <?php endif; ?>
 
-    <div class="comment-section" id="comments"> <h2>Bình luận</h2>
+    <div class="comment-section" id="comments">
+        <h2>Bình luận</h2>
+
         <?php if ($post): ?>
-            <?php if ($logged_in_user_id): // Nếu đã đăng nhập ?>
+            <?php if ($logged_in_user_id): ?>
                 <form action="index.php?action=comment&post_id=<?php echo safe_html($post['id']); ?>" method="POST" class="comment-form">
                     <textarea name="comment" placeholder="Viết bình luận của bạn..." required></textarea>
                     <button type="submit">Gửi bình luận</button>
                 </form>
-            <?php else: // Nếu chưa đăng nhập ?>
+            <?php else: ?>
                 <p style="text-align: center; color: #888;">Bạn cần <a href="<?php echo $base_url; ?>/Frontend/auth/user_login.php">đăng nhập</a> hoặc <a href="<?php echo $base_url; ?>/Frontend/auth/register_user.php">đăng ký</a> để bình luận.</p>
             <?php endif; ?>
         <?php else: ?>
@@ -89,74 +95,84 @@ include __DIR__ . '/../../layouts/header.php';
         <?php endif; ?>
 
         <div class="comments-list">
-    <?php if (!empty($comments)): ?>
-        <?php foreach ($comments as $comment): ?>
-            <div class="comment-block" id="comment-<?php echo $comment['id']; ?>">
-                <div class="comment-header">
-                    <span class="comment-author">
-                        <?php echo safe_html($comment['ten_nguoi_binh_luan'] ?? ''); ?>
-                        <?php if (isset($comment['is_admin']) && $comment['is_admin'] == 1): ?>
-                            <span class="badge bg-primary">Admin</span>
-                        <?php endif; ?>
-                    </span>
-                    <span class="comment-time"><?php echo date('H:i d/m/Y', strtotime($comment['created_at'])); ?></span>
-                </div>
-                <div class="comment-content" id="comment-content-<?php echo $comment['id']; ?>">
-                    <?php echo nl2br(safe_html($comment['comment'] ?? '')); ?>
-                </div>
-                <div class="comment-actions">
-                    <button class="reply-btn">Phản hồi</button>
-                    <?php if ($logged_in_user_id && $comment['user_id'] == $logged_in_user_id): // Nếu là bình luận của người dùng hiện tại ?>
-                        <div class="edit-delete-buttons">
-                            <button class="edit-btn" data-comment-id="<?php echo $comment['id']; ?>">Sửa</button>
-                            <button class="delete-btn" data-comment-id="<?php echo $comment['id']; ?>">Xóa</button>
-                        </div>
-                    <?php endif; ?>
-                </div>
-                
-                <form action="index.php?action=comment&post_id=<?php echo safe_html($post['id']); ?>" method="POST" class="reply-form">
-                    <input type="hidden" name="parent_id" value="<?php echo safe_html($comment['id']); ?>">
-                    <textarea name="comment" placeholder="Viết phản hồi của bạn..." required></textarea>
-                    <button type="submit">Gửi phản hồi</button>
-                </form>
-
-                <?php if (isset($replies[$comment['id']])): ?>
-                    <?php foreach ($replies[$comment['id']] as $rep): ?>
-                        <div class="reply-block" id="comment-<?php echo $rep['id']; ?>">
-                            <div class="reply-author">
-                                <?php echo safe_html($rep['ten_nguoi_binh_luan'] ?? ''); ?> 
-                                <?php if (isset($rep['is_admin']) && $rep['is_admin'] == 1): ?>
-                                    <span class="badge bg-secondary">Admin</span>
+            <?php if (!empty($comments)): ?>
+                <?php foreach ($comments as $comment): ?>
+                    <!-- Hiển thị comment -->
+                    <div class="comment-block" id="comment-<?php echo $comment['id']; ?>">
+                        <div class="comment-header">
+                            <span class="comment-author">
+                                <?php echo safe_html($comment['ten_nguoi_binh_luan'] ?? ''); ?>
+                                <?php if (isset($comment['is_admin']) && $comment['is_admin'] == 1): ?>
+                                    <span class="badge bg-primary">Admin</span>
                                 <?php endif; ?>
-                                <span class="reply-time"><?php echo date('H:i d/m/Y', strtotime($rep['created_at'])); ?></span>
-                            </div>
-                            <div class="reply-content" id="comment-content-<?php echo $rep['id']; ?>" style="margin-top: 5px;">
-                                <?php echo nl2br(safe_html($rep['comment'] ?? '')); ?>
-                            </div>
-                            <div class="comment-actions">
-                                <?php if ($logged_in_user_id && $rep['user_id'] == $logged_in_user_id): ?>
-                                    <div class="edit-delete-buttons">
-                                        <button class="edit-btn" data-comment-id="<?php echo $rep['id']; ?>">Sửa</button>
-                                        <button class="delete-btn" data-comment-id="<?php echo $rep['id']; ?>">Xóa</button>
+                            </span>
+                            <span class="comment-time"><?php echo date('H:i d/m/Y', strtotime($comment['created_at'])); ?></span>
+                        </div>
+                        <div class="comment-content" id="comment-content-<?php echo $comment['id']; ?>">
+                            <?php echo nl2br(safe_html($comment['comment'] ?? '')); ?>
+                        </div>
+                        <div class="comment-actions">
+                            <button class="reply-btn">Phản hồi</button>
+                            <?php if ($logged_in_user_id && $comment['user_id'] == $logged_in_user_id): ?>
+                                <div class="edit-delete-buttons">
+                                    <button class="edit-btn" data-comment-id="<?php echo $comment['id']; ?>">Sửa</button>
+                                    <button class="delete-btn" data-comment-id="<?php echo $comment['id']; ?>">Xóa</button>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+
+                        <!-- Form reply -->
+                        <form action="index.php?action=comment&post_id=<?php echo safe_html($post['id']); ?>" method="POST" class="reply-form">
+                            <input type="hidden" name="parent_id" value="<?php echo safe_html($comment['id']); ?>">
+                            <textarea name="comment" placeholder="Viết phản hồi của bạn..." required></textarea>
+                            <button type="submit">Gửi phản hồi</button>
+                        </form>
+
+                        <!-- Replies -->
+                        <?php if (isset($replies[$comment['id']])): ?>
+                            <?php foreach ($replies[$comment['id']] as $rep): ?>
+                                <div class="reply-block" id="comment-<?php echo $rep['id']; ?>">
+                                    <div class="reply-author">
+                                        <?php echo safe_html($rep['ten_nguoi_binh_luan'] ?? ''); ?> 
+                                        <?php if (isset($rep['is_admin']) && $rep['is_admin'] == 1): ?>
+                                            <span class="badge bg-secondary">Admin</span>
+                                        <?php endif; ?>
+                                        <span class="reply-time"><?php echo date('H:i d/m/Y', strtotime($rep['created_at'])); ?></span>
                                     </div>
-                                <?php endif; ?>
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
-                <?php endif; ?>
-            </div>
-        <?php endforeach; ?>
-    <?php endif; ?>
+                                    <div class="reply-content" id="comment-content-<?php echo $rep['id']; ?>" style="margin-top: 5px;">
+                                        <?php echo nl2br(safe_html($rep['comment'] ?? '')); ?>
+                                    </div>
+                                    <div class="comment-actions">
+                                        <?php if ($logged_in_user_id && $rep['user_id'] == $logged_in_user_id): ?>
+                                            <div class="edit-delete-buttons">
+                                                <button class="edit-btn" data-comment-id="<?php echo $rep['id']; ?>">Sửa</button>
+                                                <button class="delete-btn" data-comment-id="<?php echo $rep['id']; ?>">Xóa</button>
+                                            </div>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
 
-    <?php if (empty($comments) && $post): ?>
-        <p style="text-align: left; color: #888;">Chưa có bình luận nào được hiển thị cho bài viết này.</p>
-    <?php elseif (empty($comments) && !$post): ?>
-        <p style="text-align: left; color: #888;">Bài viết không tồn tại. Không thể hiển thị bình luận.</p>
-    <?php endif; ?>
-</div>
+            <?php if (empty($comments) && $post): ?>
+                <p style="text-align: left; color: #888;">Chưa có bình luận nào được hiển thị cho bài viết này.</p>
+            <?php elseif (empty($comments) && !$post): ?>
+                <p style="text-align: left; color: #888;">Bài viết không tồn tại. Không thể hiển thị bình luận.</p>
+            <?php endif; ?>
+        </div>
+    </div>
 </div>
 
-    <script>
+<!-- Các script xử lý reply/edit/delete giữ nguyên -->
+<script>
+    // ... giữ nguyên code JS như bản gốc
+</script>
+</body>
+</html>
+<script>
         // Helper function for nl2br in JavaScript
         function nl2br(str) {
             if (typeof str !== 'string' || str === null) return '';
@@ -293,5 +309,5 @@ include __DIR__ . '/../../layouts/header.php';
             });
         });
    </script>
-</body>
+   </body>
 </html>
