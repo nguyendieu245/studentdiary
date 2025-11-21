@@ -15,7 +15,7 @@ ob_start(); // Thêm dòng này vào đầu file để giải quyết lỗi sess
   <div class="container">
     <div class="intro-box">
       <p class="intro-text">
-       Học tập là hành trình dài không chỉ cần kiến thức mà còn cần chiến lược và động lực. Trong danh mục này, mình sẽ chia sẻ những bài viết hữu ích về cách học hiệu quả, mẹo ghi nhớ, ôn luyện thi cử và kinh nghiệm học đại học để bạn luôn tự tin chinh phục mọi thử thách trên giảng đường.
+    
       </p>
     </div>
 
