@@ -84,7 +84,8 @@
                                 <?php endif; ?>
                             </td>
                             <td>
-                                <div class="post-title">
+                                <div class="post-title-cell">
+
                                     <?= htmlspecialchars($post['title']) ?>
                                 </div>
                             </td>
