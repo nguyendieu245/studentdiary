@@ -16,24 +16,22 @@ class PostController {
         $this->category = new Category($this->db);
     }
 
-    // ========== FRONTEND METHODS ==========
-
-    // Trang chủ hiển thị feed với nhiều danh mục
+    // ==============================
+    // FRONTEND METHODS
+    // ==============================
     public function showHomeFeed() {
-        $skillPosts = $this->post->getByCategory(1);   // Kỹ năng
-        $studyPosts = $this->post->getByCategory(2);   // Học tập
-        $lifePosts  = $this->post->getByCategory(3);   // Đời sống
+        $skillPosts = $this->post->getByCategory(1);
+        $studyPosts = $this->post->getByCategory(2);
+        $lifePosts  = $this->post->getByCategory(3);
         $categories = $this->category->getAllCategories();
         $currentPage = 'home';
         require __DIR__ . '/../views/frontend/home.php';
     }
 
-    // Lấy bài viết theo danh mục (frontend)
     public function getByCategory($categoryId) {
         return $this->post->getByCategory($categoryId);
     }
 
-    // Xem chi tiết bài viết frontend
     public function showCategoryPost($id, $commentCtrl) {
         $post = $this->post->find($id);
         if (!$post) {
@@ -41,12 +39,16 @@ class PostController {
             exit();
         }
 
-       
+        
 
         // Lấy bình luận
-        $comments = $commentCtrl->getCommentsByPost($id);
+        if (method_exists($commentCtrl, 'allByPost')) {
+            $comments = $commentCtrl->allByPost($id);
+        } else {
+            $comments = [];
+        }
 
-        // Thiết lập currentPage dựa trên category
+        // Xác định currentPage dựa trên category
         switch ($post['category_id']) {
             case 1: $currentPage = 'skill'; break;
             case 2: $currentPage = 'study'; break;
@@ -57,15 +59,25 @@ class PostController {
         require __DIR__ . '/../views/frontend/category_detail.php';
     }
 
-    // ========== ADMIN METHODS ==========
+    // ==============================
+    // ADMIN METHODS
+    // ==============================
+    // Lấy 3 danh mục chính để hiển thị trong form
+    private function getCategoriesForForm() {
+        $categories = $this->category->getAllCategories();
+        return array_filter($categories, function($c) {
+            return in_array($c['id'], [1,2,3]);
+        });
+    }
 
     public function index() {
         $posts = $this->post->all();
         $currentPage = 'baiviet';
-        require __DIR__ . '/../views/admin/posts/index.php';
+        require __DIR__ . '/../views/admin/posts/skill_posts_list.php';
     }
 
     public function create() {
+        $categories = $this->getCategoriesForForm();
         $currentPage = 'baiviet';
         require __DIR__ . '/../views/admin/posts/create.php';
     }
@@ -84,7 +96,7 @@ class PostController {
             $upload_dir = __DIR__ . '/../public/uploads/';
             if (!file_exists($upload_dir)) mkdir($upload_dir, 0777, true);
             $file_ext = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
-            $new_file = uniqid() . '.' . $file_ext;
+            $new_file = uniqid() . '_' . time() . '.' . $file_ext;
             if (move_uploaded_file($_FILES['image']['tmp_name'], $upload_dir . $new_file)) {
                 $this->post->image = $new_file;
             } else {
@@ -109,6 +121,7 @@ class PostController {
             header('Location: index.php?action=baiviet&error=notfound');
             exit();
         }
+        $categories = $this->getCategoriesForForm();
         $currentPage = 'baiviet';
         require __DIR__ . '/../views/admin/posts/edit.php';
     }
@@ -124,12 +137,10 @@ class PostController {
 
         $upload_dir = __DIR__ . '/../public/uploads/';
 
-        // Upload ảnh mới nếu có
         if (isset($_FILES['image']) && $_FILES['image']['error'] === 0) {
             $file_ext = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
-            $new_file = uniqid() . '.' . $file_ext;
+            $new_file = uniqid() . '_' . time() . '.' . $file_ext;
             if (move_uploaded_file($_FILES['image']['tmp_name'], $upload_dir . $new_file)) {
-                // Xóa ảnh cũ
                 $old_post = $this->post->find($id);
                 if ($old_post['image'] && file_exists($upload_dir . $old_post['image'])) {
                     unlink($upload_dir . $old_post['image']);
@@ -163,7 +174,6 @@ class PostController {
         exit();
     }
 
-    // Xem chi tiết bài viết admin
     public function show($id) {
         $post = $this->post->find($id);
         if (!$post) {

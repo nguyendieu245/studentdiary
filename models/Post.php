@@ -85,8 +85,8 @@ class Post
     public function create()
     {
         $stmt = $this->conn->prepare("
-            INSERT INTO {$this->table} (title, content, author, image, status, category_id, views, created_at)
-            VALUES (?, ?, ?, ?, ?, ?, 0, NOW())
+            INSERT INTO {$this->table} (title, content, author, image, status, category_id,  created_at)
+            VALUES (?, ?, ?, ?, ?, ?, NOW())
         ");
         return $stmt->execute([$this->title, $this->content, $this->author, $this->image, $this->status, $this->category_id]);
     }
@@ -96,10 +96,10 @@ class Post
     {
         $stmt = $this->conn->prepare("
             UPDATE {$this->table}
-            SET title = ?, content = ?, image = ?, status = ?, category_id = ?, views = ?
+            SET title = ?, content = ?, image = ?, status = ?, category_id = ?, 
             WHERE id = ?
         ");
-        return $stmt->execute([$this->title, $this->content, $this->image, $this->status, $this->category_id, $this->views, $this->id]);
+        return $stmt->execute([$this->title, $this->content, $this->image, $this->status, $this->category_id, $this->id]);
     }
 
     // Xóa bài viết theo id
