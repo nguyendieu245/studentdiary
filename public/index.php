@@ -1,3 +1,4 @@
+
 <?php
 
 require_once __DIR__ . '/../config/db.php';
@@ -133,9 +134,6 @@ switch ($action) {
         break;
     case 'user_list':
         $userCtrl->listUsers();
-        break;
-    case 'home':
-        $userCtrl->home();
         break;
     
 
