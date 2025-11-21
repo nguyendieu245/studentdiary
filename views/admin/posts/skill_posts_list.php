@@ -1,38 +1,55 @@
-<?php
-
-
-if (empty($_SESSION['admin'])) {
-    header("Location: /studentdiary/public/index.php?action=admin_login");
-    exit;
-}
-
-$admin = $_SESSION['admin'];
-?>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sửa bài viết</title>
+    <title></title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="/studentdiary/public/css/styleadmin.css">  
+    <link rel="stylesheet" href="/studentdiary/public/css/styleadmin.css">
+    
+    
 </head>
 <body>
     <?php include __DIR__ . '/../../layouts/sidebar.php'; ?>
-        <div class="main-content">
-    <div><a href="/studentdiary/public/index.php?action=baiviet" class="back-btn">
-        <i class="fas fa-arrow-left"></i> Quay lại 
-    
-    </div>
-    <div class="main-content">
-        <h1>Danh sách bài viết</h1>
-        <a href="index.php?action=create_post" class="btn btn-primary"><i class="fas fa-plus"></i> Thêm bài viết</a>
 
-        <table class="table">
+    
+        <div class="main-content">
+    <div> <a href="/studentdiary/public/index.php?action=dashboard" class="back-btn">
+        <i class="fas fa-arrow-left"></i> Quay lại trang chính
+    </a>
+    
+</div>
+        <?php if(isset($_GET['success'])): ?>
+            <div class="alert alert-success">
+                <i class="fas fa-check-circle"></i>
+                <?php 
+                    if($_GET['success'] == 'deleted') echo 'Xóa bài viết thành công!';
+                    elseif($_GET['success'] == 'updated') echo 'Cập nhật bài viết thành công!';
+                    else echo 'Thêm bài viết thành công!';
+                ?>
+            </div>
+        <?php endif; ?>
+
+        <?php if(isset($_GET['error'])): ?>
+            <div class="alert alert-error">
+                <i class="fas fa-exclamation-circle"></i>
+                Có lỗi xảy ra. Vui lòng thử lại!
+            </div>
+        <?php endif; ?>
+
+       
+            <a href="index.php?action=create_post" class="add-btn">
+                <i class="fas fa-plus"></i> Thêm bài viết
+            </a>
+        </div>
+
+        <div class="table-container">
+        <table >
             <thead>
                 <tr>
                     <th>ID</th>
+                    <th>Ảnh</th>
                     <th>Tiêu đề</th>
                     <th>Danh mục</th>
                     <th>Tác giả</th>
@@ -47,6 +64,17 @@ $admin = $_SESSION['admin'];
                         <tr>
                             <td><?= $post['id'] ?></td>
                             <td><?= htmlspecialchars($post['title']) ?></td>
+                            <td>
+                                <?php if($post['image']): ?>
+                                    <img src="/studentdiary/public/uploads/<?= htmlspecialchars($post['image']) ?>" 
+                                         alt="<?= htmlspecialchars($post['title']) ?>" 
+                                         class="post-image">
+                                <?php else: ?>
+                                    <img src="https://via.placeholder.com/80x60?text=No+Image" 
+                                         alt="No image" 
+                                         class="post-image">
+                                <?php endif; ?>
+                            </td>
                             <td>
                                 <?php
                                     switch ($post['category_id']) {
@@ -75,6 +103,6 @@ $admin = $_SESSION['admin'];
     </div>
 
                 </div>
-                
+
 </body>
 </html>
