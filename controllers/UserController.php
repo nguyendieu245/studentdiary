@@ -85,11 +85,7 @@ class UserController {
 
     // ======== LIST USERS (ADMIN) ============
     public function listUsers() {
-        if (empty($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
-            header("Location: /studentdiary/public/index.php?action=user_login");
-            exit;
-        }
-
+        
         // Xử lý thay đổi trạng thái
         if (isset($_GET['action'], $_GET['id'])) {
             $id = intval($_GET['id']);

@@ -1,4 +1,3 @@
-
 <?php
 
 require_once __DIR__ . '/../config/db.php';
@@ -135,6 +134,9 @@ switch ($action) {
     case 'user_list':
         $userCtrl->listUsers();
         break;
+    case 'home':
+        $userCtrl->home();
+        break;
     
 
     case 'admin_login':
@@ -154,5 +156,3 @@ switch ($action) {
         $postCtrl->index();
         break;
 }
-
-
