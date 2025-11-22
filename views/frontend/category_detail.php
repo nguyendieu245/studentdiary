@@ -3,7 +3,7 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-
+ echo '<link rel="stylesheet" href="/studentdiary/public/css/style.css">';
 include __DIR__ . '/../layouts/header.php';
 
 // Lấy username của người dùng, mặc định 'Người dùng'
@@ -12,8 +12,7 @@ $username = $_SESSION['user']['username'] ?? 'Người dùng';
 // Lấy danh sách comment theo post (cấu trúc cây)
 $comments = $commentCtrl->getCommentsByPost($post['id']);
 ?>
-
-<div class="container mt-4">
+<div class="post-detail-container">
 
     <!-- Tiêu đề bài viết -->
     <h1><?= htmlspecialchars($post['title']) ?></h1>
@@ -38,19 +37,17 @@ $comments = $commentCtrl->getCommentsByPost($post['id']);
 
     <hr>
 
-    <!-- ================== DANH SÁCH BÌNH LUẬN ================== -->
+    <!-- Bình luận -->
     <h3 class="mt-4">Bình luận</h3>
 
     <div class="comments-box">
         <?php if (!empty($comments)): ?>
             <?php foreach ($comments as $c): ?>
                 <div class="comment-item mb-3 p-2 border rounded">
-
                     <b><?= htmlspecialchars($c['name']) ?></b>
                     <p><?= nl2br(htmlspecialchars($c['comment'])) ?></p>
                     <small class="text-muted"><?= $c['created_at'] ?></small>
 
-                    <!-- Hiển thị reply admin nếu có và status = 1 -->
                     <?php if (!empty($c['replies'])): ?>
                         <div class="comment-replies mt-2">
                             <?php foreach ($c['replies'] as $r): ?>
@@ -77,10 +74,10 @@ $comments = $commentCtrl->getCommentsByPost($post['id']);
 
     <hr>
 
-    <!-- ================== FORM GỬI BÌNH LUẬN ================== -->
+    <!-- Form bình luận -->
     <h4 class="mt-4">Gửi bình luận của bạn</h4>
 
-    <form action="index.php?action=add_comment" method="POST">
+    <form action="index.php?action=add_comment" method="POST" class="comment-form">
         <input type="hidden" name="post_id" value="<?= $post['id'] ?>">
 
         <div class="mb-2">

@@ -239,3 +239,146 @@ footer {
         height: 140px;
     }
 }
+
+/*CSS bài viết chi tiết*/
+/* ================== CHUNG ================== */
+.post-detail-container {
+    max-width: 1250px; /* bài viết chi tiết + form */
+    margin: 40px auto;
+    padding: 0 15px;
+}
+
+/* ================== DANH SÁCH BÀI VIẾT ================== */
+.card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #e0dcd5;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.card .post-image {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.card-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.card-text {
+    margin-bottom: 15px;
+    color: #6c5b4e;
+}
+
+.card .btn {
+    background-color: #d2b48c;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.2s ease;
+}
+
+.card .btn:hover {
+    background-color: #c19f7a;
+}
+
+/* ================== BÀI VIẾT CHI TIẾT ================== */
+/* Bài viết chi tiết */
+.post-detail-container {
+    max-width: 1250px;
+    margin: 40px auto;
+    padding: 0 15px;
+}
+
+/* Tiêu đề, thông tin bài viết vẫn giữ nguyên */
+.post-detail-container h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.post-detail-container .text-muted {
+    font-size: 0.9rem;
+    color: #6c5b4e;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Ảnh bài viết chi tiết */
+.post-detail-container .post-image {
+    width: 100%;        /* chiếm toàn bộ chiều ngang container */
+    height: 500px;      /* tăng chiều cao, ảnh dài ra */
+    object-fit: cover;  /* ảnh lấp đầy khung, có thể crop */
+    border-radius: 10px;
+    display: block;
+    margin: 0 auto 20px auto;
+}
+
+/* Nội dung bài viết */
+.post-detail-container .content {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: #333;
+    padding: 20px;
+    border: 1px solid #e0dcd5;
+    border-radius: 10px;
+    background-color: #fff8f0;
+    margin-bottom: 30px;
+}
+
+/* Bình luận */
+.post-detail-container .comments-box {
+    border: 1px solid #e0dcd5;
+    border-radius: 10px;
+    padding: 15px;
+    background-color: #fdf6f0;
+}
+
+/* Form bình luận */
+.post-detail-container form.comment-form {
+    border: 1px solid #e0dcd5;
+    border-radius: 10px;
+    padding: 20px;
+    background-color: #fff8f0;
+    margin-bottom: 50px;
+}
+
+.post-detail-container form.comment-form .btn {
+    background-color: #d2b48c; /* nâu nhạt */
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.2s ease;
+}
+
+.post-detail-container form.comment-form .btn:hover {
+    background-color: #c19f7a;
+}
+
+/* Responsive: giảm chiều cao ảnh khi màn hình nhỏ */
+@media (max-width: 576px) {
+    .post-detail-container .post-image {
+        height: 400px; /* giảm chiều cao trên mobile */
+    }
+}
