@@ -27,7 +27,7 @@ $admin = $_SESSION['admin'];
         </a>
 
         <div class="user-table-container">
-            <h2>Danh sách người dùng</h2>
+            
 
             <?php if (!empty($users)): ?>
                 <table>
@@ -74,6 +74,6 @@ $admin = $_SESSION['admin'];
 
         </div>
     </div>
-
+<script src="/studentdiary/public/js/admin.js"></script>
 </body>
 </html>

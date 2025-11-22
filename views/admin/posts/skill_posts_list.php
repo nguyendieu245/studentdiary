@@ -16,7 +16,8 @@ $admin = $_SESSION['admin'];
     <title>Danh mục bài viết</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="/studentdiary/public/css/styleadmin.css">
+    
+    <link rel="stylesheet" href="/studentdiary/public/css/stylepost.css">
     
     
 </head>
@@ -49,7 +50,7 @@ $admin = $_SESSION['admin'];
         <?php endif; ?>
 
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
-            <h1 class="page-title">Quản lý bài viết</h1>
+            
             <a href="index.php?action=create_post" class="add-btn">
                 <i class="fas fa-plus"></i> Thêm bài viết
             </a>
@@ -144,6 +145,6 @@ $admin = $_SESSION['admin'];
             }
         }
     </script>
-    
+    <script src="/studentdiary/public/js/post.js"></script>
 </body>
 </html>
