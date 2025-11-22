@@ -106,8 +106,12 @@ class Comment
     // ===============================
     public function delete($id)
     {
-        $sql = "DELETE FROM {$this->table} WHERE id = ?";
-        $stmt = $this->conn->prepare($sql);
+        // Xóa tất cả reply (comment con)
+        $stmt = $this->conn->prepare("DELETE FROM {$this->table} WHERE parent_id = ?");
+        $stmt->execute([$id]);
+
+        // Xóa comment cha
+        $stmt = $this->conn->prepare("DELETE FROM {$this->table} WHERE id = ?");
         return $stmt->execute([$id]);
     }
 
