@@ -92,7 +92,7 @@ $comments = $commentCtrl->getCommentsByPost($post['id']);
             <button type="submit" class="btn btn-primary mt-2">Gửi bình luận</button>
         </form>
     <?php else: ?>
-        <p class="text-danger">Bạn phải <a href="index.php?action=login">đăng nhập</a> mới có thể bình luận.</p>
+        <p class="text-danger">Bạn phải <a href="/studentdiary/public/index.php?action=user_login">đăng nhập</a> mới có thể bình luận.</p>
     <?php endif; ?>
 
 </div>
