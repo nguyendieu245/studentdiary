@@ -13,6 +13,9 @@ class CommentController
         $this->comment = new Comment($db);
     }
 
+    // ==========================
+    // ADMIN: Danh sách comment
+    // ==========================
     public function index()
     {
         $comments = $this->comment->all();
@@ -20,6 +23,9 @@ class CommentController
         require_once __DIR__ . '/../views/admin/comments/list.php';
     }
 
+    // ==========================
+    // ADMIN: Chi tiết và reply
+    // ==========================
     public function show($id)
     {
         $comment = $this->comment->getById($id);
@@ -32,6 +38,9 @@ class CommentController
         }
     }
 
+    // ==========================
+    // ADMIN: bật/tắt trạng thái hiển thị
+    // ==========================
     public function toggleStatus($id)
     {
         $comment = $this->comment->getById($id);
@@ -46,6 +55,9 @@ class CommentController
         exit();
     }
 
+    // ==========================
+    // ADMIN: xóa comment
+    // ==========================
     public function delete($id)
     {
         if ($this->comment->delete($id)) {
@@ -56,6 +68,9 @@ class CommentController
         exit();
     }
 
+    // ==========================
+    // ADMIN: Reply comment
+    // ==========================
     public function reply($id)
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -63,12 +78,13 @@ class CommentController
             if ($parent_comment) {
                 $reply_content = htmlspecialchars($_POST['reply_content']);
                 $post_id = $parent_comment['post_id'];
-                
+
+                // Reply admin mặc định status = 1 => hiển thị ngay
                 $stmt = $this->db->prepare("
                     INSERT INTO comments (post_id, parent_id, name, comment, is_admin, created_at, status)
-                    VALUES (?, ?, 'Student Diary', ?, 1, NOW(), 1)
+                    VALUES (?, ?, 'Admin', ?, 1, NOW(), 1)
                 ");
-                
+
                 if ($stmt->execute([$post_id, $id, $reply_content])) {
                     header('Location: index.php?action=show_comment&id=' . $id . '&success=replied');
                     exit();
@@ -79,10 +95,61 @@ class CommentController
         exit();
     }
 
-    // Wrapper để PostController gọi lấy comment cho bài viết
+    // ==========================
+    // Lấy comment cho bài viết frontend
+    // ==========================
     public function getCommentsByPost($post_id)
     {
-        return $this->comment->allByPost($post_id);
+        $comments = $this->comment->allByPost($post_id); // Chỉ lấy status = 1
+
+        // Tạo cấu trúc cây cho reply
+        $tree = [];
+        foreach ($comments as $c) {
+            if ($c['parent_id'] == 0) {
+                $tree[$c['id']] = $c;
+                $tree[$c['id']]['replies'] = [];
+            }
+        }
+
+        foreach ($comments as $c) {
+            if ($c['parent_id'] != 0 && isset($tree[$c['parent_id']])) {
+                $tree[$c['parent_id']]['replies'][] = $c;
+            }
+        }
+
+        return $tree;
+    }
+
+    // ==========================
+    // Người dùng thêm comment
+    // ==========================
+    public function store()
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') return;
+
+        $post_id   = $_POST['post_id'] ?? null;
+        $name      = $_POST['name'] ?? 'Người dùng';
+        $comment   = $_POST['comment'] ?? '';
+        $parent_id = $_POST['parent_id'] ?? 0;
+
+        if (!$post_id || $comment == '') {
+            header("Location: index.php?action=post_detail&id=$post_id&error=missing_data");
+            exit();
+        }
+
+        // Thêm bình luận: status = 1 => hiển thị ngay
+        $stmt = $this->db->prepare("
+            INSERT INTO comments (post_id, parent_id, name, comment, is_admin, status, created_at)
+            VALUES (?, ?, ?, ?, 0, 1, NOW())
+        ");
+
+        if ($stmt->execute([$post_id, $parent_id, $name, $comment])) {
+            header("Location: index.php?action=post_detail&id=$post_id&success=comment_added");
+            exit();
+        }
+
+        header("Location: index.php?action=post_detail&id=$post_id&error=insert_failed");
+        exit();
     }
 }
 ?>

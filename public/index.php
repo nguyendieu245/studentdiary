@@ -143,6 +143,18 @@ switch ($action) {
         if ($id) $commentCtrl->reply($id);
         else header('Location: index.php?action=comments');
         break;
+    case 'add_comment':
+    $commentCtrl->store();
+    break;
+
+    case 'post_detail':
+    if ($id) {
+        $postCtrl->showCategoryPost($id, $commentCtrl);
+    } else {
+        header('Location: index.php');
+        exit();
+    }
+    break;
 
     // ========== USER ==========
     case 'users':

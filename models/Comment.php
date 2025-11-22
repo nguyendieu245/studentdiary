@@ -1,5 +1,4 @@
 <?php
-// models/Comment.php
 class Comment
 {
     private $conn;
@@ -34,9 +33,9 @@ class Comment
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // ======================================
-    // Lấy comment theo post (chỉ comment duyệt)
-    // ======================================
+    // ===============================
+    // Lấy comment theo post (chỉ comment duyệt status = 1)
+    // ===============================
     public function allByPost($post_id)
     {
         $sql = "
@@ -56,14 +55,14 @@ class Comment
     // ===============================
     // Tạo bình luận mới
     // ===============================
-    public function create($post_id, $user_id, $name, $email, $comment, $parent_id = 0, $is_admin = 0)
+    public function create($post_id, $user_id, $name, $email, $comment, $parent_id = 0, $is_admin = 0, $status = 1)
     {
         $ip = $_SERVER['REMOTE_ADDR'] ?? null;
 
         $sql = "
             INSERT INTO {$this->table} 
             (post_id, user_id, parent_id, name, email, ip_address, comment, is_admin, status, created_at, updated_at)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, 0, NOW(), NOW())
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())
         ";
 
         $stmt = $this->conn->prepare($sql);
@@ -75,12 +74,13 @@ class Comment
             $email,
             $ip,
             $comment,
-            $is_admin
+            $is_admin,
+            $status
         ]);
     }
 
     // ===============================
-    // Cập nhật trạng thái duyệt
+    // Cập nhật trạng thái
     // ===============================
     public function updateStatus($id, $status)
     {
@@ -98,7 +98,6 @@ class Comment
         $stmt = $this->conn->prepare($sql);
         return $stmt->execute([$id]);
     }
-
     // ===============================
     // Lấy chi tiết comment
     // ===============================

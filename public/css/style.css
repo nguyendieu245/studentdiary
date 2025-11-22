@@ -28,6 +28,16 @@ body {
     background-repeat: no-repeat;
     background-position: center center;
 }
+/* Đường dẫn bắt đầu từ thư mục gốc '/studentdiary/' của dự án web */
+.header-banner {
+    width: 100vw;
+    height: 450px;
+    background-image: url('/studentdiary/public/images/Study Diary.jpg');
+    /* Đảm bảo tên file là 'Study Diary.jpg' (có dấu cách) */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
 /* ===============================
    NAVBAR (NEW)
    =============================== */
