@@ -16,7 +16,15 @@ class Comment
     {
         $sql = "
             SELECT 
-                c.*,
+                c.id,
+                c.post_id,
+                c.user_id,
+                c.parent_id,
+                c.name,
+                c.comment,
+                c.is_admin,
+                c.status,
+                c.created_at,
                 p.title AS post_title,
                 u.fullname AS user_name,
                 CASE 
@@ -34,13 +42,21 @@ class Comment
     }
 
     // ===============================
-    // Lấy comment theo post (chỉ comment duyệt status = 1)
+    // Lấy comment theo post (status = 1)
     // ===============================
     public function allByPost($post_id)
     {
         $sql = "
             SELECT 
-                c.*, 
+                c.id,
+                c.post_id,
+                c.user_id,
+                c.parent_id,
+                c.name,
+                c.comment,
+                c.is_admin,
+                c.status,
+                c.created_at,
                 u.fullname AS user_name
             FROM {$this->table} c
             LEFT JOIN users u ON c.user_id = u.id
@@ -53,16 +69,14 @@ class Comment
     }
 
     // ===============================
-    // Tạo bình luận mới
+    // Tạo bình luận mới (KHÔNG email, updated_id, ip_address)
     // ===============================
-    public function create($post_id, $user_id, $name, $email, $comment, $parent_id = 0, $is_admin = 0, $status = 1)
+    public function create($post_id, $user_id, $name, $comment, $parent_id = 0, $is_admin = 0, $status = 1)
     {
-        $ip = $_SERVER['REMOTE_ADDR'] ?? null;
-
         $sql = "
             INSERT INTO {$this->table} 
-            (post_id, user_id, parent_id, name, email, ip_address, comment, is_admin, status, created_at, updated_at)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())
+            (post_id, user_id, parent_id, name, comment, is_admin, status, created_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, NOW())
         ";
 
         $stmt = $this->conn->prepare($sql);
@@ -71,8 +85,6 @@ class Comment
             $user_id,
             $parent_id,
             $name,
-            $email,
-            $ip,
             $comment,
             $is_admin,
             $status
@@ -80,11 +92,11 @@ class Comment
     }
 
     // ===============================
-    // Cập nhật trạng thái
+    // Cập nhật trạng thái comment
     // ===============================
     public function updateStatus($id, $status)
     {
-        $sql = "UPDATE {$this->table} SET status = ?, updated_at = NOW() WHERE id = ?";
+        $sql = "UPDATE {$this->table} SET status = ? WHERE id = ?";
         $stmt = $this->conn->prepare($sql);
         return $stmt->execute([$status, $id]);
     }
@@ -98,6 +110,7 @@ class Comment
         $stmt = $this->conn->prepare($sql);
         return $stmt->execute([$id]);
     }
+
     // ===============================
     // Lấy chi tiết comment
     // ===============================
@@ -105,7 +118,15 @@ class Comment
     {
         $sql = "
             SELECT 
-                c.*,
+                c.id,
+                c.post_id,
+                c.user_id,
+                c.parent_id,
+                c.name,
+                c.comment,
+                c.is_admin,
+                c.status,
+                c.created_at,
                 p.title AS post_title,
                 u.fullname AS user_name
             FROM {$this->table} c

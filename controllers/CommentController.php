@@ -24,7 +24,7 @@ class CommentController
     }
 
     // ==========================
-    // ADMIN: Chi tiết và reply
+    // ADMIN: Chi tiết + Reply
     // ==========================
     public function show($id)
     {
@@ -39,7 +39,7 @@ class CommentController
     }
 
     // ==========================
-    // ADMIN: bật/tắt trạng thái hiển thị
+    // ADMIN: bật/tắt trạng thái
     // ==========================
     public function toggleStatus($id)
     {
@@ -76,14 +76,16 @@ class CommentController
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $parent_comment = $this->comment->getById($id);
             if ($parent_comment) {
-                $reply_content = htmlspecialchars($_POST['reply_content']);
+
+                $reply_content = $_POST['reply_content'];
                 $post_id = $parent_comment['post_id'];
 
-                // Reply admin mặc định status = 1 => hiển thị ngay
-                $stmt = $this->db->prepare("
-                    INSERT INTO comments (post_id, parent_id, name, comment, is_admin, created_at, status)
-                    VALUES (?, ?, 'Admin', ?, 1, NOW(), 1)
-                ");
+                // Admin reply, status = 1 tự duyệt
+                $sql = "
+                    INSERT INTO comments (post_id, parent_id, name, comment, is_admin, status, created_at)
+                    VALUES (?, ?, 'Admin', ?, 1, 1, NOW())
+                ";
+                $stmt = $this->db->prepare($sql);
 
                 if ($stmt->execute([$post_id, $id, $reply_content])) {
                     header('Location: index.php?action=show_comment&id=' . $id . '&success=replied');
@@ -96,13 +98,12 @@ class CommentController
     }
 
     // ==========================
-    // Lấy comment cho bài viết frontend
+    // Lấy comment frontend
     // ==========================
     public function getCommentsByPost($post_id)
     {
-        $comments = $this->comment->allByPost($post_id); // Chỉ lấy status = 1
+        $comments = $this->comment->allByPost($post_id); // chỉ lấy status = 1
 
-        // Tạo cấu trúc cây cho reply
         $tree = [];
         foreach ($comments as $c) {
             if ($c['parent_id'] == 0) {
@@ -121,29 +122,38 @@ class CommentController
     }
 
     // ==========================
-    // Người dùng thêm comment
+    // USER: Gửi bình luận
     // ==========================
     public function store()
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') return;
 
-        $post_id   = $_POST['post_id'] ?? null;
-        $name      = $_POST['name'] ?? 'Người dùng';
+        // YÊU CẦU ĐĂNG NHẬP
+        if (!isset($_SESSION['user'])) {
+            header("Location: index.php?action=post_detail&id={$_POST['post_id']}&error=login_required");
+            exit();
+        }
+
+        $user_id = $_SESSION['user']['id'];
+        $name = $_SESSION['user']['fullname'];
+
+        $post_id   = $_POST['post_id'];
         $comment   = $_POST['comment'] ?? '';
         $parent_id = $_POST['parent_id'] ?? 0;
 
-        if (!$post_id || $comment == '') {
+        if (!$post_id || trim($comment) === '') {
             header("Location: index.php?action=post_detail&id=$post_id&error=missing_data");
             exit();
         }
 
-        // Thêm bình luận: status = 1 => hiển thị ngay
-        $stmt = $this->db->prepare("
-            INSERT INTO comments (post_id, parent_id, name, comment, is_admin, status, created_at)
-            VALUES (?, ?, ?, ?, 0, 1, NOW())
-        ");
+        // Status = 1 → bình luận hiển thị ngay
+        $sql = "
+            INSERT INTO comments (post_id, user_id, parent_id, name, comment, is_admin, status, created_at)
+            VALUES (?, ?, ?, ?, ?, 0, 1, NOW())
+        ";
 
-        if ($stmt->execute([$post_id, $parent_id, $name, $comment])) {
+        $stmt = $this->db->prepare($sql);
+        if ($stmt->execute([$post_id, $user_id, $parent_id, $name, $comment])) {
             header("Location: index.php?action=post_detail&id=$post_id&success=comment_added");
             exit();
         }

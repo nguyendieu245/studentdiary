@@ -251,9 +251,6 @@ $admin = $_SESSION['admin'];
                     <div class="info-label">Người bình luận:</div>
                     <div class="info-value">
                         <?= htmlspecialchars($comment['user_name'] ?? $comment['name']) ?>
-                        <?php if($comment['email']): ?>
-                            (<?= htmlspecialchars($comment['email']) ?>)
-                        <?php endif; ?>
                     </div>
                 </div>
                 <div class="info-row">
