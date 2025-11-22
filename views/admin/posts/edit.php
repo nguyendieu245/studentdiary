@@ -1,5 +1,4 @@
 <?php
-
 if (empty($_SESSION['admin'])) {
     header("Location: /studentdiary/public/index.php?action=admin_login");
     exit;
@@ -9,7 +8,6 @@ $admin = $_SESSION['admin'];
 ?>
 
 <!DOCTYPE html>
-
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
@@ -22,7 +20,6 @@ $admin = $_SESSION['admin'];
 <body>
     <?php include __DIR__ . '/../../layouts/sidebar.php'; ?>
 
-```
 <div class="main-content">
     <div>
         <a href="/studentdiary/public/index.php?action=baiviet" class="back-btn">
@@ -43,7 +40,7 @@ $admin = $_SESSION['admin'];
 
             <div class="form-group">
                 <label for="content">Nội dung <span style="color: red;">*</span></label>
-                <textarea id="content" name="content" required><?= $post['content'] ?></textarea>
+                <textarea id="content" name="content" required><?= htmlspecialchars($post['content']) ?></textarea>
             </div>
 
             <div class="form-group">
@@ -61,13 +58,13 @@ $admin = $_SESSION['admin'];
             <div class="form-group">
                 <label for="image">Ảnh đại diện</label>
                 
-                <?php if($post['image']): ?>
-                <div class="current-image">
-                    <p><strong>Ảnh hiện tại:</strong></p>
-                    <img src="../public/uploads/<?= htmlspecialchars($post['image']) ?>" 
-                         alt="Current image" 
-                         style="max-width: 200px; border-radius: 8px;">
-                </div>
+                <?php if(!empty($post['image'])): ?>
+                    <div class="current-image">
+                        <p><strong>Ảnh hiện tại:</strong></p>
+                        <img src="/studentdiary/public/uploads/<?= htmlspecialchars($post['image']) ?>" 
+                             alt="Current image" 
+                             style="max-width: 200px; border-radius: 8px;">
+                    </div>
                 <?php endif; ?>
                 
                 <input type="file" id="image" name="image" accept="image/*">
@@ -84,12 +81,8 @@ $admin = $_SESSION['admin'];
             <div class="form-group">
                 <label for="status">Trạng thái</label>
                 <select id="status" name="status">
-                    <option value="published" <?= $post['status'] == 'published' ? 'selected' : '' ?>>
-                        Đã đăng
-                    </option>
-                    <option value="draft" <?= $post['status'] == 'draft' ? 'selected' : '' ?>>
-                        Nháp
-                    </option>
+                    <option value="published" <?= $post['status'] == 'published' ? 'selected' : '' ?>>Đã đăng</option>
+                    <option value="draft" <?= $post['status'] == 'draft' ? 'selected' : '' ?>>Nháp</option>
                 </select>
             </div>
 
@@ -105,9 +98,6 @@ $admin = $_SESSION['admin'];
     </div>
 </div>
 
-<!-- Chỉ include JS riêng -->
 <script src="/studentdiary/public/js/post.js"></script>
-```
-
 </body>
 </html>
