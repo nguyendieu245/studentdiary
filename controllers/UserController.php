@@ -2,7 +2,6 @@
 // controllers/UserController.php
 require_once __DIR__ . '/../models/User.php';
 
-// Đây là class UserController mà index.php đang tìm kiếm
 class UserController {
     private $db;
     private $user;
@@ -11,23 +10,21 @@ class UserController {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
+        $this->db = $db;
         $this->user = new User($db);
     }
 
     // ======== LOGIN ============ 
-    // Phương thức này không nhận tham số, nó lấy dữ liệu từ $_POST
     public function login() {
         $error = '';
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $username = trim($_POST['username'] ?? '');
             $password = trim($_POST['password'] ?? '');
 
-            // Gọi Model User để xử lý logic đăng nhập, truyền 2 tham số vào đây
             $user = $this->user->login($username, $password);
 
             if ($user) {
                 $_SESSION['user'] = $user;
-                // Chuyển sang trang home
                 header("Location: /studentdiary/public/index.php?action=home");
                 exit;
             } else {
@@ -39,33 +36,31 @@ class UserController {
     }
 
     // ======== REGISTER ============
-   public function register() {
-    $message = '';
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $username = $_POST['username'] ?? '';
-        $email = $_POST['email'] ?? '';
-        $password = $_POST['password'] ?? '';
-        $fullname = $_POST['fullname'] ?? '';
+    public function register() {
+        $message = '';
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $username = $_POST['username'] ?? '';
+            $email = $_POST['email'] ?? '';
+            $password = $_POST['password'] ?? '';
+            $fullname = $_POST['fullname'] ?? '';
 
-        if ($this->user->existsUsername($username)) {
-            $message = 'Tên đăng nhập đã tồn tại!';
-        } elseif ($this->user->existsEmail($email)) {
-            $message = 'Email đã được sử dụng!';
-        } else {
-            $success = $this->user->register($username, $password, $fullname, $email);
-            if ($success) {
-                header("Location: /studentdiary/public/index.php?action=user_login");
-                exit(); 
+            if ($this->user->existsUsername($username)) {
+                $message = 'Tên đăng nhập đã tồn tại!';
+            } elseif ($this->user->existsEmail($email)) {
+                $message = 'Email đã được sử dụng!';
             } else {
-                $message = 'Đăng ký thất bại!';
+                $success = $this->user->register($username, $password, $fullname, $email);
+                if ($success) {
+                    header("Location: /studentdiary/public/index.php?action=user_login");
+                    exit(); 
+                } else {
+                    $message = 'Đăng ký thất bại!';
+                }
             }
         }
+
+        include __DIR__ . '/../views/frontend/register.php';
     }
-
-    // Luôn include form 
-    include __DIR__ . '/../views/frontend/register.php';
-}
-
 
     // ======== LOGOUT ============
     public function logout() {
@@ -85,15 +80,30 @@ class UserController {
 
     // ======== LIST USERS (ADMIN) ============
     public function listUsers() {
-        
-        // Xử lý thay đổi trạng thái
-        if (isset($_GET['action'], $_GET['id'])) {
-            $id = intval($_GET['id']);
-            $status = $_GET['action'] === 'deactivate' ? 0 : 1;
-            $this->user->changeStatus($id, $status);
+        // Xử lý toggle status
+        if (isset($_GET['toggle_id'])) {
+            $id = intval($_GET['toggle_id']);
+            $currentUser = $this->user->getById($id);
+            
+            if ($currentUser) {
+                // Đảo ngược status: 1 -> 0, 0 -> 1
+                $newStatus = ($currentUser['status'] ?? 0) == 1 ? 0 : 1;
+                $this->user->changeStatus($id, $newStatus);
+                
+                // Redirect để tránh submit lại form
+                header('Location: index.php?action=user_list&success=status_updated');
+                exit();
+            }
         }
 
         $users = $this->user->getAll();
+        $currentPage = 'users';
         include __DIR__ . '/../views/admin/manage_user/user_list.php';
     }
-}
+
+    // ======== INDEX (ADMIN) ============
+    public function index() {
+        $this->listUsers();
+    }
+} 
+?>
