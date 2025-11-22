@@ -90,7 +90,7 @@ $admin = $_SESSION['admin'];
                     <button type="submit" class="btn btn-primary">
                         <i class="fas fa-save"></i> Cập nhật bài viết
                     </button>
-                    <a href="index.php?action=hoctap" class="btn btn-secondary">
+                    <a href="index.php?action=baiviet" class="btn btn-secondary">
                         <i class="fas fa-times"></i> Hủy
                     </a>
                 </div>
