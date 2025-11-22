@@ -1,4 +1,3 @@
-
 <?php
 
 
@@ -94,13 +93,8 @@ $admin = $_SESSION['admin'];
         </div>
     </div>
 </div>
-    <script>
-        function confirmDelete(id) {
-            if(confirm('Bạn có chắc chắn muốn xóa bài viết này?')) {
-                window.location.href = 'index.php?action=delete_post&id=' + id;
-            }
-        }
-    </script>
+    
+    <!-- Đã chuyển tất cả JavaScript sang file post.js -->
     <script src="/studentdiary/public/js/post.js"></script>
 </body>
 </html>

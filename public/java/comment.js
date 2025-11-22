@@ -1,42 +1,36 @@
-// public/js/comment.js - JavaScript cho quản lý bình luận
+// ==========================================
+// FILE: comment.js - Quản lý bình luận
+// ==========================================
 
-/**
- * Xác nhận xóa bình luận
- */
+// Hàm xác nhận xóa bình luận
 function confirmDelete(id) {
-    if (confirm('Bạn có chắc chắn muốn xóa bình luận này?\n\nLưu ý: Nếu đây là bình luận gốc, tất cả phản hồi cũng sẽ bị xóa.')) {
+    if(confirm('Bạn có chắc chắn muốn xóa bình luận này?')) {
         window.location.href = 'index.php?action=delete_comment&id=' + id;
     }
 }
 
-/**
- * Toggle trạng thái hiển thị/ẩn bình luận
- */
+// Hàm chuyển đổi trạng thái hiển thị/ẩn
 function toggleStatus(id) {
     window.location.href = 'index.php?action=toggle_comment&id=' + id;
 }
 
-/**
- * Auto-hide alerts sau 5 giây
- */
+// Tự động ẩn thông báo sau 3 giây
 document.addEventListener('DOMContentLoaded', function() {
     const alerts = document.querySelectorAll('.alert');
-    
-    alerts.forEach(alert => {
-        setTimeout(() => {
-            alert.style.transition = 'opacity 0.5s ease';
-            alert.style.opacity = '0';
-            
-            setTimeout(() => {
-                alert.remove();
-            }, 500);
-        }, 5000);
-    });
+    if(alerts.length > 0) {
+        setTimeout(function() {
+            alerts.forEach(function(alert) {
+                alert.style.transition = 'opacity 0.3s ease';
+                alert.style.opacity = '0';
+                setTimeout(function() {
+                    alert.remove();
+                }, 300);
+            });
+        }, 3000);
+    }
 });
 
-/**
- * Đếm số ký tự trong textarea phản hồi
- */
+// Đếm số ký tự trong textarea phản hồi
 function initCharacterCount() {
     const replyTextarea = document.querySelector('textarea[name="reply_content"]');
     
@@ -66,14 +60,7 @@ function initCharacterCount() {
     }
 }
 
-// Khởi chạy khi DOM load xong
-document.addEventListener('DOMContentLoaded', function() {
-    initCharacterCount();
-});
-
-/**
- * Xác thực form phản hồi trước khi submit
- */
+// Xác thực form phản hồi trước khi submit
 function validateReplyForm() {
     const forms = document.querySelectorAll('form');
     
@@ -84,15 +71,12 @@ function validateReplyForm() {
             if (replyContent) {
                 const content = replyContent.value.trim();
                 
-                // Kiểm tra nội dung không được để trống
                 if (content.length === 0) {
                     e.preventDefault();
                     alert('Vui lòng nhập nội dung phản hồi!');
                     replyContent.focus();
                     return false;
                 }
-                
-                
             }
             
             return true;
@@ -100,20 +84,12 @@ function validateReplyForm() {
     });
 }
 
-// Khởi chạy form validation
-document.addEventListener('DOMContentLoaded', function() {
-    validateReplyForm();
-});
-
-/**
- * Highlight bình luận khi hover vào phản hồi tương ứng
- */
+// Highlight bình luận khi hover vào phản hồi
 function initCommentHighlight() {
     const replyRows = document.querySelectorAll('.reply-row');
     
     replyRows.forEach(replyRow => {
         replyRow.addEventListener('mouseenter', function() {
-            // Tìm bình luận gốc phía trên
             let prevRow = this.previousElementSibling;
             while (prevRow && prevRow.classList.contains('reply-row')) {
                 prevRow = prevRow.previousElementSibling;
@@ -137,61 +113,7 @@ function initCommentHighlight() {
     });
 }
 
-// Khởi chạy comment highlight
-document.addEventListener('DOMContentLoaded', function() {
-    initCommentHighlight();
-});
-
-/**
- * Thêm tooltip cho các nút action
- */
-function initTooltips() {
-    const buttons = document.querySelectorAll('.btn-icon[title]');
-    
-    buttons.forEach(button => {
-        button.addEventListener('mouseenter', function(e) {
-            const tooltip = document.createElement('div');
-            tooltip.className = 'custom-tooltip';
-            tooltip.textContent = this.getAttribute('title');
-            tooltip.style.cssText = `
-                position: absolute;
-                background: #1e3a5f;
-                color: white;
-                padding: 6px 12px;
-                border-radius: 6px;
-                font-size: 12px;
-                white-space: nowrap;
-                z-index: 1000;
-                pointer-events: none;
-                box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-            `;
-            
-            document.body.appendChild(tooltip);
-            
-            const rect = this.getBoundingClientRect();
-            tooltip.style.top = (rect.top - tooltip.offsetHeight - 8) + 'px';
-            tooltip.style.left = (rect.left + rect.width / 2 - tooltip.offsetWidth / 2) + 'px';
-            
-            this._tooltip = tooltip;
-        });
-        
-        button.addEventListener('mouseleave', function() {
-            if (this._tooltip) {
-                this._tooltip.remove();
-                delete this._tooltip;
-            }
-        });
-    });
-}
-
-// Khởi chạy tooltips
-document.addEventListener('DOMContentLoaded', function() {
-    initTooltips();
-});
-
-/**
- * Thêm animation khi load trang
- */
+// Thêm animation khi load trang
 function initTableAnimation() {
     const rows = document.querySelectorAll('tbody tr');
     
@@ -207,14 +129,7 @@ function initTableAnimation() {
     });
 }
 
-// Khởi chạy table animation
-document.addEventListener('DOMContentLoaded', function() {
-    initTableAnimation();
-});
-
-/**
- * Xác nhận trước khi rời trang nếu đang soạn phản hồi
- */
+// Xác nhận trước khi rời trang nếu đang soạn phản hồi
 function initFormChangeDetection() {
     const replyTextarea = document.querySelector('textarea[name="reply_content"]');
     
@@ -242,85 +157,11 @@ function initFormChangeDetection() {
     }
 }
 
-// Khởi chạy form change detection
+// Khởi chạy tất cả các tính năng khi DOM load xong
 document.addEventListener('DOMContentLoaded', function() {
+    initCharacterCount();
+    validateReplyForm();
+    initCommentHighlight();
+    initTableAnimation();
     initFormChangeDetection();
-});
-
-/**
- * Filter bình luận theo trạng thái
- */
-function initStatusFilter() {
-    // Tạo filter buttons nếu chưa có
-    const tableContainer = document.querySelector('.table-container');
-    if (tableContainer && !document.querySelector('.filter-buttons')) {
-        const filterDiv = document.createElement('div');
-        filterDiv.className = 'filter-buttons';
-        filterDiv.style.cssText = 'margin-bottom: 16px; display: flex; gap: 8px;';
-        
-        const filters = [
-            { label: 'Tất cả', value: 'all' },
-            { label: 'Hiển thị', value: 'active' },
-            { label: 'Ẩn', value: 'hidden' }
-        ];
-        
-        filters.forEach(filter => {
-            const btn = document.createElement('button');
-            btn.textContent = filter.label;
-            btn.className = 'filter-btn';
-            btn.dataset.filter = filter.value;
-            btn.style.cssText = `
-                padding: 8px 16px;
-                border: 2px solid #d0e1f0;
-                background: white;
-                border-radius: 6px;
-                cursor: pointer;
-                font-weight: 500;
-                transition: 0.3s;
-            `;
-            
-            if (filter.value === 'all') {
-                btn.style.background = '#2c5f8d';
-                btn.style.color = 'white';
-                btn.style.borderColor = '#2c5f8d';
-            }
-            
-            btn.addEventListener('click', function() {
-                // Update active button
-                document.querySelectorAll('.filter-btn').forEach(b => {
-                    b.style.background = 'white';
-                    b.style.color = '#1e3a5f';
-                    b.style.borderColor = '#d0e1f0';
-                });
-                
-                this.style.background = '#2c5f8d';
-                this.style.color = 'white';
-                this.style.borderColor = '#2c5f8d';
-                
-                // Filter rows
-                const rows = document.querySelectorAll('tbody tr');
-                rows.forEach(row => {
-                    const statusBadge = row.querySelector('.status-badge');
-                    if (statusBadge) {
-                        if (filter.value === 'all') {
-                            row.style.display = '';
-                        } else if (filter.value === 'active') {
-                            row.style.display = statusBadge.classList.contains('status-active') ? '' : 'none';
-                        } else if (filter.value === 'hidden') {
-                            row.style.display = statusBadge.classList.contains('status-hidden') ? '' : 'none';
-                        }
-                    }
-                });
-            });
-            
-            filterDiv.appendChild(btn);
-        });
-        
-        tableContainer.parentNode.insertBefore(filterDiv, tableContainer);
-    }
-}
-
-// Khởi chạy status filter
-document.addEventListener('DOMContentLoaded', function() {
-    initStatusFilter();
 });
