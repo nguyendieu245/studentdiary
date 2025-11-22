@@ -23,13 +23,13 @@ session_start(); // Nếu chưa start session ở nơi khác
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 
                 <li class="nav-item">
-                    <a class="nav-link <?= ($action=='posts_skill')?'active':'' ?>" href="index.php?action=posts_skill">Kỹ năng</a>
+                    <a class="nav-link <?= ($action=='posts_skill')?'active':'' ?>" href="/studentdiary/public/index.php?action=posts_skill">Kỹ năng</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <?= ($action=='posts_life')?'active':'' ?>" href="index.php?action=posts_life">Đời sống</a>
+                    <a class="nav-link <?= ($action=='posts_life')?'active':'' ?>" href="/studentdiary/public/index.php?action=posts_life">Đời sống</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <?= ($action=='posts_study')?'active':'' ?>" href="index.php?action=posts_study">Học tập</a>
+                    <a class="nav-link <?= ($action=='posts_study')?'active':'' ?>" href="/studentdiary/public/index.php?action=posts_study">Học tập</a>
             </ul>
 
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
