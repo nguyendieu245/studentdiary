@@ -1,5 +1,4 @@
 <?php
-// controllers/CommentController.php
 require_once __DIR__ . '/../config/db.php';
 require_once __DIR__ . '/../models/Comment.php';
 
@@ -14,7 +13,6 @@ class CommentController
         $this->comment = new Comment($db);
     }
 
-    // Hiển thị danh sách bình luận
     public function index()
     {
         $comments = $this->comment->all();
@@ -22,7 +20,6 @@ class CommentController
         require_once __DIR__ . '/../views/admin/comments/list.php';
     }
 
-    // Xem chi tiết và phản hồi bình luận
     public function show($id)
     {
         $comment = $this->comment->getById($id);
@@ -35,7 +32,6 @@ class CommentController
         }
     }
 
-    // Ẩn/Hiện bình luận
     public function toggleStatus($id)
     {
         $comment = $this->comment->getById($id);
@@ -50,7 +46,6 @@ class CommentController
         exit();
     }
 
-    // Xóa bình luận
     public function delete($id)
     {
         if ($this->comment->delete($id)) {
@@ -61,7 +56,6 @@ class CommentController
         exit();
     }
 
-    // Phản hồi bình luận (Admin)
     public function reply($id)
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -70,7 +64,6 @@ class CommentController
                 $reply_content = htmlspecialchars($_POST['reply_content']);
                 $post_id = $parent_comment['post_id'];
                 
-                // Tạo reply với is_admin = 1
                 $stmt = $this->db->prepare("
                     INSERT INTO comments (post_id, parent_id, name, comment, is_admin, created_at, status)
                     VALUES (?, ?, 'Student Diary', ?, 1, NOW(), 1)
@@ -84,6 +77,12 @@ class CommentController
         }
         header('Location: index.php?action=comments&error=reply_failed');
         exit();
+    }
+
+    // Wrapper để PostController gọi lấy comment cho bài viết
+    public function getCommentsByPost($post_id)
+    {
+        return $this->comment->allByPost($post_id);
     }
 }
 ?>

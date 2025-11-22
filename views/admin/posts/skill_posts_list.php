@@ -1,36 +1,24 @@
-<?php
-
-
-if (empty($_SESSION['admin'])) {
-    header("Location: /studentdiary/public/index.php?action=admin_login");
-    exit;
-}
-
-$admin = $_SESSION['admin'];
-?>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Danh mục bài viết</title>
+    <title>Quản lý bài viết</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <link rel="stylesheet" href="/studentdiary/public/css/stylepost.css">
-    
-    
 </head>
 <body>
     <?php include __DIR__ . '/../../layouts/sidebar.php'; ?>
 
-    
-        <div class="main-content">
-    <div> <a href="/studentdiary/public/index.php?action=dashboard" class="back-btn">
-        <i class="fas fa-arrow-left"></i> Quay lại trang chính
-    </a>
-    
-</div>
+    <div class="main-content">
+        <div>
+            <a href="/studentdiary/public/index.php?action=dashboard" class="back-btn">
+                <i class="fas fa-arrow-left"></i> Quay lại trang chính
+            </a>
+        </div>
+
+        <!-- Thông báo -->
         <?php if(isset($_GET['success'])): ?>
             <div class="alert alert-success">
                 <i class="fas fa-check-circle"></i>
@@ -43,108 +31,76 @@ $admin = $_SESSION['admin'];
         <?php endif; ?>
 
         <?php if(isset($_GET['error'])): ?>
-            <div class="alert alert-error">
+            <div class="alert alert-danger">
                 <i class="fas fa-exclamation-circle"></i>
                 Có lỗi xảy ra. Vui lòng thử lại!
             </div>
         <?php endif; ?>
 
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
-            
-            <a href="index.php?action=create_post" class="add-btn">
-                <i class="fas fa-plus"></i> Thêm bài viết
-            </a>
-        </div>
+        <a href="index.php?action=create_post" class="add-btn">
+            <i class="fas fa-plus"></i> Thêm bài viết
+        </a>
 
         <div class="table-container">
-            <table>
-                <thead>
+            <table class="table table-bordered table-hover">
+                <thead class="table-light">
                     <tr>
-                        <th>Ảnh</th>
+                        <th>ID</th>
                         <th>Tiêu đề</th>
+                        <th>Ảnh</th>
                         <th>Danh mục</th>
-                        <th>Ngày đăng</th>
+                        <th>Tác giả</th>
                         <th>Trạng thái</th>
+                        <th>Ngày tạo</th>
                         <th>Hành động</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php if(empty($posts_data)): ?>
-                        <tr>
-                            <td colspan="6">
-                                <div class="empty-state">
-                                    <i class="fas fa-folder-open"></i>
-                                    <p>Chưa có bài viết nào</p>
-                                </div>
-                            </td>
-                        </tr>
-                    <?php else: ?>
-                        <?php foreach($posts_data as $post): ?>
-                        <tr>
-                            <td>
-                                <?php if($post['image']): ?>
-                                    <img src="/studentdiary/public/uploads/<?= htmlspecialchars($post['image']) ?>" 
-                                         alt="<?= htmlspecialchars($post['title']) ?>" 
-                                         class="post-image">
-                                <?php else: ?>
-                                    <img src="https://via.placeholder.com/80x60?text=No+Image" 
-                                         alt="No image" 
-                                         class="post-image">
-                                <?php endif; ?>
-                            </td>
-                            <td>
-                                <div class="post-title-cell">
-
-                                    <?= htmlspecialchars($post['title']) ?>
-                                </div>
-                            </td>
-                            <td>
-                                <span style="color: #8B7355; font-weight: 500;">
-                                    <?= htmlspecialchars($post['category_name'] ?? 'Chưa phân loại') ?>
-                                </span>
-                            </td>
-                            <td>
-                                <?= date('d/m/Y H:i:s', strtotime($post['created_at'])) ?>
-                            </td>
-                            <td>
-                                <span class="status-badge status-<?= $post['status'] ?>">
-                                    <?= $post['status'] == 'published' ? 'Đã đăng' : 'Nháp' ?>
-                                </span>
-                            </td>
-                            <td>
-                                <div class="action-btns">
-                                    <a href="index.php?action=show_post&id=<?= $post['id'] ?>">
-                                        <button class="btn-icon btn-view" title="Xem">
-                                            <i class="fas fa-eye"></i>
-                                        </button>
-                                    </a>
-                                    <a href="index.php?action=edit_post&id=<?= $post['id'] ?>">
-                                        <button class="btn-icon btn-edit" title="Sửa">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                    </a>
-                                    <button class="btn-icon btn-delete" 
-                                            onclick="confirmDelete(<?= $post['id'] ?>)" 
-                                            title="Xóa">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
+                    <?php if (!empty($posts)): ?>
+                        <?php foreach ($posts as $post): ?>
+                            <tr>
+                                <td><?= $post['id'] ?></td>
+                                <td><?= htmlspecialchars($post['title']) ?></td>
+                                <td>
+                                    <?php if($post['image']): ?>
+                                        <img src="/studentdiary/public/uploads/<?= htmlspecialchars($post['image']) ?>" 
+                                             alt="<?= htmlspecialchars($post['title']) ?>" 
+                                             class="post-image">
+                                    <?php else: ?>
+                                        <img src="https://via.placeholder.com/80x60?text=No+Image" 
+                                             alt="No image" 
+                                             class="post-image">
+                                    <?php endif; ?>
+                                </td>
+                                <td>
+                                    <?php
+                                        switch ($post['category_id']) {
+                                            case 1: echo "Kỹ năng"; break;
+                                            case 2: echo "Học tập"; break;
+                                            case 3: echo "Đời sống"; break;
+                                            default: echo "Khác";
+                                        }
+                                    ?>
+                                </td>
+                                <td><?= htmlspecialchars($post['author']) ?></td>
+                                <td><?= htmlspecialchars($post['status']) ?></td>
+                                <td><?= htmlspecialchars($post['created_at']) ?></td>
+                                <td>
+                                    <a href="index.php?action=edit_post&id=<?= $post['id'] ?>" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></a>
+                                    <a href="index.php?action=delete_post&id=<?= $post['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Bạn có chắc muốn xoá bài viết này?')"><i class="fas fa-trash"></i></a>
+                                    <a href="index.php?action=show_post&id=<?= $post['id'] ?>" class="btn btn-sm btn-info"><i class="fas fa-eye"></i></a>
+                                </td>
+                            </tr>
                         <?php endforeach; ?>
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="8" class="text-center">Chưa có bài viết nào</td>
+                        </tr>
                     <?php endif; ?>
                 </tbody>
             </table>
         </div>
     </div>
-</div>
-    <script>
-        function confirmDelete(id) {
-            if(confirm('Bạn có chắc chắn muốn xóa bài viết này?')) {
-                window.location.href = 'index.php?action=delete_post&id=' + id;
-            }
-        }
-    </script>
-    <script src="/studentdiary/public/js/post.js"></script>
+
 </body>
 </html>
