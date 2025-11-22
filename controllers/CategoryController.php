@@ -33,20 +33,14 @@ class CategoryController
     public function store()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $this->category->name = htmlspecialchars($_POST['name']);
-            
-            // Tạo slug tự động hoặc dùng slug custom
-            if (!empty($_POST['slug'])) {
-                $this->category->slug = $this->category->createSlug($_POST['slug']);
-            } else {
-                $this->category->slug = $this->category->createSlug($this->category->name);
-            }
+            $name = htmlspecialchars($_POST['name']);
+            $slug = !empty($_POST['slug']) ? $this->category->createSlug($_POST['slug']) : $this->category->createSlug($name);
 
-            if ($this->category->create()) {
-                header('Location: index.php?action=doisong&success=created');
+            if ($this->category->create($name, $slug)) {
+                header('Location: index.php?action=danhmuc&success=created');
                 exit();
             } else {
-                header('Location: index.php?action=doisong&error=create_failed');
+                header('Location: index.php?action=danhmuc&error=create_failed');
                 exit();
             }
         }
@@ -60,7 +54,7 @@ class CategoryController
             $currentPage = 'doisong';
             require_once __DIR__ . '/../views/admin/categories/edicategory.php';
         } else {
-            header('Location: index.php?action=doisong&error=notfound');
+            header('Location: index.php?action=danhmuc&error=notfound');
             exit();
         }
     }
@@ -69,20 +63,15 @@ class CategoryController
     public function update($id)
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $this->category->id = $id;
-            $this->category->name = htmlspecialchars($_POST['name']);
-            
-            if (!empty($_POST['slug'])) {
-                $this->category->slug = $this->category->createSlug($_POST['slug']);
-            } else {
-                $this->category->slug = $this->category->createSlug($this->category->name);
-            }
+            $name = htmlspecialchars($_POST['name']);
+            $slug = !empty($_POST['slug']) ? $this->category->createSlug($_POST['slug']) : $this->category->createSlug($name);
 
-            if ($this->category->update()) {
-                header('Location: index.php?action=doisong&success=updated');
+            // Truyền đủ tham số cho model
+            if ($this->category->update($id, $name, $slug)) {
+                header('Location: index.php?action=danhmuc&success=updated');
                 exit();
             } else {
-                header('Location: index.php?action=doisong&error=update_failed');
+                header('Location: index.php?action=danhmuc&error=update_failed');
                 exit();
             }
         }
@@ -91,14 +80,11 @@ class CategoryController
     // Xóa danh mục
     public function delete($id)
     {
-        $this->category->id = $id;
-        $result = $this->category->delete();
-        
-        if ($result) {
-            header('Location: index.php?action=doisong&success=deleted');
+        if ($this->category->delete($id)) {
+            header('Location: index.php?action=danhmuc&success=deleted');
             exit();
         } else {
-            header('Location: index.php?action=doisong&error=has_posts');
+            header('Location: index.php?action=danhmuc&error=has_posts');
             exit();
         }
     }

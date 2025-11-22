@@ -96,7 +96,7 @@ class Post
     {
         $stmt = $this->conn->prepare("
             UPDATE {$this->table}
-            SET title = ?, content = ?, image = ?, status = ?, category_id = ?, 
+            SET title = ?, content = ?, image = ?, status = ?, category_id = ?
             WHERE id = ?
         ");
         return $stmt->execute([$this->title, $this->content, $this->image, $this->status, $this->category_id, $this->id]);
