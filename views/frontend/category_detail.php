@@ -60,8 +60,8 @@ $comments = $commentCtrl->getCommentsByPost($post_id);
                             <?php foreach ($c['replies'] as $r): ?>
                                 <?php if ($r['status'] == 1): ?>
                                     <div class="reply-item mb-2 p-2" 
-                                         style="margin-left: 25px; border-left: 2px solid #0d6efd;">
-                                        <b style="color:#0d6efd;">
+                                         style="margin-left: 25px; border-left: 2px solid #9d7863ff;">
+                                        <b style="color: #9d7863ff;">
                                             <?= $r['is_admin'] ? 'Admin' : htmlspecialchars($r['name']) ?>
                                         </b>
                                         <p><?= nl2br(htmlspecialchars($r['comment'])) ?></p>

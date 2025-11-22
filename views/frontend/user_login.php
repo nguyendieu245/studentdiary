@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Đăng nhập User</title>
-    <link rel="stylesheet" href="/studentdiary/public/css/user_login.css">
+    <link rel="stylesheet" href="/studentdiary/public/css/user_login.css?v=3">
 </head>
 
 <div class="login-container">

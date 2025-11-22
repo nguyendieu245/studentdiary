@@ -1,68 +1,119 @@
 /* public/css/register.css */
 
+/* Tổng thể */
 body {
-    font-family: Arial, sans-serif;
+    font-family: "Segoe UI", sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: #f8f8f8;
+    background-color: #f5eee8; /* Nâu nhạt pastel */
     margin: 0;
     padding: 20px;
     box-sizing: border-box;
 }
+
+/* Hộp đăng ký */
 .register-container {
-    background-color: #fff;
+    background-color: #ffffff;
     padding: 30px 40px;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(120, 90, 60, 0.15);
     width: 100%;
     max-width: 400px;
+    border: 1px solid #e3d6c8;
 }
+
+/* Tiêu đề */
 h2 {
     text-align: center;
-    color: #333;
+    color: #6a4f3b; /* Nâu đậm */
     margin-bottom: 25px;
 }
-.form-group { margin-bottom: 18px; }
-label { display: block; margin-bottom: 8px; color: #555; font-weight: bold; }
-input[type="text"], input[type="email"], input[type="password"] {
+
+/* Form */
+.form-group {
+    margin-bottom: 18px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: #5c4534;
+    font-weight: 600;
+}
+
+/* Input */
+input[type="text"],
+input[type="email"],
+input[type="password"] {
     width: 100%;
     padding: 12px 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+    border: 1px solid #c8b7a6;
+    border-radius: 6px;
     font-size: 16px;
+    background: #faf6f3;
     box-sizing: border-box;
+    transition: 0.2s ease-in-out;
 }
+
 input:focus {
-    border-color: rgb(117, 92, 55);
+    border-color: #a9825a;
     outline: none;
-    box-shadow: 0 0 0 3px rgba(117, 92, 55, 0.25);
+    box-shadow: 0 0 5px rgba(170, 130, 90, 0.4);
 }
+
+/* Nút đăng ký */
 button {
     width: 100%;
     padding: 12px;
-    background-color:#a65a2e;
+    background-color: #a9825a; /* Caramel */
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 6px;
     font-size: 18px;
     cursor: pointer;
     margin-top: 20px;
-    transition: background-color 0.3s;
+    transition: background-color 0.25s;
 }
-button:hover { background-color: rgb(124, 103, 63); }
-.message { padding: 10px 15px; border-radius: 5px; margin-bottom: 15px; font-size: 14px; }
-.error { 
-    background-color: #f8d7da; 
-    color: #721c24; 
-    border: 1px solid #f5c6cb;
+
+button:hover {
+    background-color: #8a6a4a; /* Nâu đậm hơn */
 }
-.success { 
-    background-color: #d4edda; 
-    color: #155724; 
-    border: 1px solid #c3e6cb;
+
+/* Thông báo */
+.message {
+    padding: 10px 15px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    font-size: 14px;
 }
-.login-link { margin-top: 15px; font-size: 14px; text-align: center; }
-.login-link a { color: #8B4513; text-decoration: none; font-weight: bold;}
-.login-link a:hover { text-decoration: underline; }
+
+.error {
+    background-color: #f7dcd6;
+    color: #a33a2c;
+    border: 1px solid #d46a5a;
+}
+
+.success {
+    background-color: #d9f0e3;
+    color: #1f6b3a;
+    border: 1px solid #9ddbb8;
+}
+
+/* Link đăng nhập */
+.login-link {
+    margin-top: 15px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.login-link a {
+    color: #a9825a;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.login-link a:hover {
+    text-decoration: underline;
+}
