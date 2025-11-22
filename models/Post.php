@@ -93,14 +93,26 @@ class Post
 
     // Cập nhật bài viết
     public function update()
-    {
+{
+    if ($this->image) {
+        // Update tất cả
         $stmt = $this->conn->prepare("
             UPDATE {$this->table}
-            SET title = ?, content = ?, image = ?, status = ?, category_id = ?, 
+            SET title = ?, content = ?, image = ?, status = ?, category_id = ?
             WHERE id = ?
         ");
         return $stmt->execute([$this->title, $this->content, $this->image, $this->status, $this->category_id, $this->id]);
+    } else {
+        // Không update image
+        $stmt = $this->conn->prepare("
+            UPDATE {$this->table}
+            SET title = ?, content = ?, status = ?, category_id = ?, image = ?
+            WHERE id = ?
+        ");
+        return $stmt->execute([$this->title, $this->content, $this->status, $this->category_id, $this->image, $this->id]);
     }
+}
+
 
     // Xóa bài viết theo id
     public function deleteById($id)

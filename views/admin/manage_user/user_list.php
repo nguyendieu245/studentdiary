@@ -60,10 +60,11 @@ $admin = $_SESSION['admin'];
                                 </td>
                                 <td>
                                     <a class="btn btn-toggle"
-                                       href="index.php?action=user_list&toggle_id=<?= $u['id'] ?>"
-                                       onclick="return confirm('Bạn có chắc chắn muốn thay đổi trạng thái user này?');">
-                                        <?= $status == 1 ? 'Vô hiệu hóa' : 'Kích hoạt' ?>
-                                    </a>
+   href="index.php?action=user_list&toggle_id=<?= $u['id'] ?>"
+   onclick="return confirmToggle(<?= $u['id'] ?>);">
+    <?= $status == 1 ? 'Vô hiệu hóa' : 'Kích hoạt' ?>
+</a>
+
                                 </td>
                             </tr>
                         <?php endforeach; ?>
