@@ -41,5 +41,9 @@ $username = $_SESSION['user']['username'] ?? 'Người dùng';
         <p>Chưa có bình luận nào.</p>
     <?php endif; ?>
 </div>
+<?php 
+// Include footer chung
+include __DIR__ . '/../layouts/footer.php'; 
+?>
 
 

@@ -4,7 +4,8 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
  include __DIR__ . '/../layouts/header.php'; 
- 
+ echo '<link rel="stylesheet" href="/studentdiary/public/css/style.css">';
+
 // Lấy tên người dùng
 $username = $_SESSION['user']['username'] ?? 'Người dùng';
 ?>
