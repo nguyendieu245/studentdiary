@@ -18,7 +18,7 @@ class CategoryController
     public function index()
     {
         $categories = $this->category->all();
-        $currentPage = 'doisong';
+        $currentPage = 'danhmuc';
         require_once __DIR__ . '/../views/admin/categories/categorylist.php';
     }
 

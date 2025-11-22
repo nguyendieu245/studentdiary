@@ -76,8 +76,8 @@
                                     <?php
                                         switch ($post['category_id']) {
                                             case 1: echo "Kỹ năng"; break;
-                                            case 2: echo "Học tập"; break;
-                                            case 3: echo "Đời sống"; break;
+                                            case 2: echo "Đời sống"; break;
+                                            case 3: echo "Học tập"; break;
                                             default: echo "Khác";
                                         }
                                     ?>

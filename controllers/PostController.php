@@ -20,10 +20,11 @@ class PostController {
     // FRONTEND METHODS
     // ==============================
     public function showHomeFeed() {
-        $skillPosts = $this->post->getByCategory(1);
-        $studyPosts = $this->post->getByCategory(2);
-        $lifePosts  = $this->post->getByCategory(3);
-        $categories = $this->category->getAllCategories();
+        // Lấy 3 danh mục chính để hiển thị riêng
+        $skillPosts = $this->post->getByCategory(1);  // Kỹ năng
+        $studyPosts = $this->post->getByCategory(2);  // Học tập
+        $lifePosts  = $this->post->getByCategory(3);  // Đời sống
+        $categories = $this->category->getAllCategories(); // tất cả category nếu cần hiển thị dropdown
         $currentPage = 'home';
         require __DIR__ . '/../views/frontend/home.php';
     }
@@ -39,16 +40,13 @@ class PostController {
             exit();
         }
 
-        
-
-        // Lấy bình luận
         if (method_exists($commentCtrl, 'allByPost')) {
             $comments = $commentCtrl->allByPost($id);
         } else {
             $comments = [];
         }
 
-        // Xác định currentPage dựa trên category
+        // Xác định currentPage dựa trên category chính
         switch ($post['category_id']) {
             case 1: $currentPage = 'skill'; break;
             case 2: $currentPage = 'study'; break;
@@ -62,12 +60,9 @@ class PostController {
     // ==============================
     // ADMIN METHODS
     // ==============================
-    // Lấy 3 danh mục chính để hiển thị trong form
+    // Lấy tất cả danh mục để hiển thị trong form admin
     private function getCategoriesForForm() {
-        $categories = $this->category->getAllCategories();
-        return array_filter($categories, function($c) {
-            return in_array($c['id'], [1,2,3]);
-        });
+        return $this->category->getAllCategories();
     }
 
     public function index() {
@@ -85,16 +80,22 @@ class PostController {
     public function store() {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') return;
 
-        $this->post->title       = htmlspecialchars($_POST['title']);
-        $this->post->content     = $_POST['content'];
-        $this->post->author      = 'Admin';
-        $this->post->status      = $_POST['status'] ?? 'published';
-        $this->post->category_id = $_POST['category_id'] ?? 1;
+        $this->post->title   = htmlspecialchars($_POST['title']);
+        $this->post->content = $_POST['content'];
+        $this->post->author  = 'Admin';
+        $this->post->status  = $_POST['status'] ?? 'published';
+
+        if (empty($_POST['category_id'])) {
+            header('Location: index.php?action=create&error=category_required');
+            exit();
+        }
+        $this->post->category_id = $_POST['category_id'];
 
         // Upload ảnh nếu có
+        $upload_dir = __DIR__ . '/../public/uploads/';
+        if (!file_exists($upload_dir)) mkdir($upload_dir, 0777, true);
+
         if (isset($_FILES['image']) && $_FILES['image']['error'] === 0) {
-            $upload_dir = __DIR__ . '/../public/uploads/';
-            if (!file_exists($upload_dir)) mkdir($upload_dir, 0777, true);
             $file_ext = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
             $new_file = uniqid() . '_' . time() . '.' . $file_ext;
             if (move_uploaded_file($_FILES['image']['tmp_name'], $upload_dir . $new_file)) {
@@ -129,13 +130,19 @@ class PostController {
     public function update($id) {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') return;
 
-        $this->post->id          = $id;
-        $this->post->title       = htmlspecialchars($_POST['title']);
-        $this->post->content     = $_POST['content'];
-        $this->post->status      = $_POST['status'] ?? 'published';
-        $this->post->category_id = $_POST['category_id'] ?? 1;
+        $this->post->id      = $id;
+        $this->post->title   = htmlspecialchars($_POST['title']);
+        $this->post->content = $_POST['content'];
+        $this->post->status  = $_POST['status'] ?? 'published';
+
+        if (empty($_POST['category_id'])) {
+            header('Location: index.php?action=edit&id=' . $id . '&error=category_required');
+            exit();
+        }
+        $this->post->category_id = $_POST['category_id'];
 
         $upload_dir = __DIR__ . '/../public/uploads/';
+        if (!file_exists($upload_dir)) mkdir($upload_dir, 0777, true);
 
         if (isset($_FILES['image']) && $_FILES['image']['error'] === 0) {
             $file_ext = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
