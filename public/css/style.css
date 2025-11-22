@@ -1,174 +1,80 @@
+/* ===============================
+   STUDENT DIARY – THEME NÂU NHẠT
+   =============================== */
 
-/* Reset và Box Sizing */
-* {
+:root {
+    --brown-light: #e8d7c7;
+    --brown: #c9a78f;
+    --brown-dark: #8b6a52;
+    --text-dark: #3d2f2f;
+    --bg-light: #faf7f3;
+}
+
+/* Background tổng thể */
+body {
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+    font-family: "Segoe UI", sans-serif;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
 }
-
-body {
-    font-family: 'Arial', sans-serif; /* Đổi sang Arial, hoặc Segoe UI nếu có */
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    background-color: #f8f8f8; /* Màu nền nhẹ cho toàn trang */
-    color: #333; /* Màu chữ mặc định */
-}
-
-/* Header Banner */
+/* Đường dẫn bắt đầu từ thư mục gốc '/studentdiary/' của dự án web */
 .header-banner {
     width: 100vw;
     height: 450px;
-    background-image: url('../images/Study Diary.jpg'); /* Đảm bảo đường dẫn này đúng */
+    background-image: url('/studentdiary/public/images/Study Diary.jpg');
+    /* Đảm bảo tên file là 'Study Diary.jpg' (có dấu cách) */
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
 }
+/* ===============================
+   NAVBAR (NEW)
+   =============================== */
 
-/* Header Menu Bar */
-.header-menu-bar {
-    background-color: #5b463e; /* Màu nâu rất đậm */
-    color: rgb(255, 255, 255);
-    display: flex;
-    justify-content: space-between; /* Đẩy các nhóm menu ra hai đầu */
-    align-items: center;
-    padding: 16px 40px;
-    flex-wrap: wrap; /* Cho phép các mục xuống dòng nếu không đủ chỗ */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+.navbar {
+    background-color: var(--brown-light) !important;
+    border-bottom: 2px solid var(--brown);
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
-/* Header Menu Links (Trang chủ, Kỹ năng, ...) */
-.header-menu-links {
-    display: flex;
-    gap: 24px;
-    align-items: center;
-    flex-shrink: 0; /* Ngăn khối này bị co lại quá mức */
-    flex-grow: 0; /* Ngăn khối này bị kéo dãn ra */
+.navbar-brand {
+    color: var(--brown-dark) !important;
+    font-weight: 700;
+    font-size: 1.3rem;
+      font-size: 20px;
 }
 
-.header-menu-links a {
-    color: white;
-    text-decoration: none;
-    font-size: 16px;
-    position: relative;
-    transition: color 0.3s ease;
+.navbar-nav .nav-item {
+    margin-right: 12px;
 }
 
-.header-menu-links a:hover {
-    color: #f0a500; /* Màu vàng cam khi hover */
-    text-decoration: none; /* Bỏ gạch chân khi hover nếu không muốn */
+.nav-link {
+    color: var(--brown-dark) !important;
+    font-weight: 700;
+    transition: all 0.25s ease-in-out;
+    font-size: 20px;
 }
 
-/* Dropdown Menu (Nếu có, cho các mục như "Chuyên mục") */
-.dropdown-container {
-    position: relative;
+.nav-link:hover {
+    color: var(--brown) !important;
 }
 
-.dropdown-menu {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background-color: white;
-    min-width: 150px;
-    border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    z-index: 999;
+.nav-link.active {
+    color: var(--brown-dark) !important;
+    border-bottom: 2px solid var(--brown-dark);
+    font-weight: 700;
 }
 
-.dropdown-menu a {
-    display: block;
-    padding: 10px 15px;
-    color: #333;
-    text-decoration: none;
-    font-size: 14px;
-    white-space: nowrap; /* Ngăn chữ bị ngắt dòng trong menu */
-}
-
-.dropdown-menu a:hover {
-    background-color: #f0f0f0;
-}
-
-.dropdown-container:hover .dropdown-menu {
-    display: block;
-}
-
-/* Header Right Section (bao gồm Search Form và Auth Links) */
-.header-right-section {
-    display: flex;
-    align-items: center;
-    gap: 20px; /* Khoảng cách giữa search form và auth links */
-    flex-shrink: 0; /* Ngăn khối này bị co lại quá mức */
-    flex-grow: 0; /* Ngăn khối này bị kéo dãn ra */
-}
-
-
-/* Header Auth Links (Đăng nhập, Đăng ký, Xin chào...) */
-.header-auth-links {
-    display: flex;
-    align-items: center;
-    gap: 10px; /* Khoảng cách giữa tin nhắn chào mừng và các nút */
-    flex-shrink: 0; /* Ngăn khối này bị co lại quá mức */
-    flex-grow: 0; /* Ngăn khối này bị kéo dãn ra */
-}
-
-.header-auth-links .welcome-message {
-    color: #f8f1e6; /* Màu kem nhạt cho tin nhắn chào mừng */
-    font-size: 15px;
-    white-space: nowrap; /* Giữ tin nhắn trên một dòng */
-}
-
-.header-auth-links .auth-link {
-    background-color: transparent;
-    color: white;
-    padding: 8px 15px;
-    border: 1px solid white;
-    border-radius: 5px;
-    text-decoration: none;
-    font-size: 14px;
-    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-    white-space: nowrap; /* Ngăn các nút bị ngắt dòng */
-}
-
-.header-auth-links .auth-link:hover {
-    background-color: white; /* Nền trắng khi hover */
-    color: #2c1d17; /* Chữ màu nâu đậm khi hover */
-    border-color: white;
-}
-
-/* Breadcrumb */
-.breadcrumb {
-    margin: 0 0 18px 40px;
-    font-size: 15px;
-    color: #a05a1c;
-    font-family: 'Segoe UI', Arial, sans-serif;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding-top: 20px; /* Thêm padding trên để tách khỏi header */
-}
-
-.breadcrumb a {
-    color: #a05a1c;
-    text-decoration: none;
+.navbar-nav.ms-auto .nav-link {
     font-weight: 600;
-    transition: color 0.2s;
 }
 
-.breadcrumb a:hover {
-    color: #7b4f24;
-    text-decoration: underline;
-}
+/* ===============================
+   INTRODUCE (KEEP)
+   =============================== */
 
-.breadcrumb span {
-    color: #a05a1c;
-    font-weight: bold;
-    margin: 0 2px;
-}
-
-/* Introduce Wrapper (Nội dung chính) */
 .introduce-wrapper {
     max-width: 960px;
     margin: 60px auto;
@@ -176,42 +82,43 @@ body {
     background-color: #ffffff;
     border-radius: 16px;
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-    font-family: "Segoe UI", sans-serif;
     animation: fadeIn 0.6s ease;
     line-height: 1.8;
     color: #333;
 }
 
-/* Tiêu đề chính */
 .introduce-wrapper h1 {
     font-size: 43px;
     color: #3d3715;
     margin-bottom: 24px;
-    line-height: 1.4;
     text-align: center;
 }
 
-/* Tiêu đề phụ */
 .introduce-wrapper h2 {
     font-size: 25px;
     color: #393d23;
     margin-top: 32px;
     margin-bottom: 12px;
-    border-left: 5px solid #8d7a5c;
+    border-left: 5px solid #8d8d45;
     padding-left: 12px;
 }
-
-/* Đoạn văn */
-.introduce-wrapper p {
-    font-size: 16px;
-    margin-bottom: 16px;
-    text-align: justify;
+.introduce-wrapper h3 {
+    font-size: 20px;       /* chỉnh kích thước */
+    color: #4a3b24;        /* màu nâu đậm nhẹ */
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-weight: 600;
+    font-family: "Segoe UI", sans-serif;
 }
 
-/* Danh sách */
+.introduce-wrapper p {
+    font-size: 16px;
+    text-align: justify;
+    margin-bottom: 16px;
+}
+
 .introduce-wrapper ul {
     padding-left: 20px;
-    margin-bottom: 24px;
 }
 
 .introduce-wrapper li {
@@ -219,136 +126,34 @@ body {
     list-style-type: circle;
 }
 
-/* In đậm */
-.introduce-wrapper strong {
-    color: #312815;
-}
-
-/* Animation */
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(16px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-/* Footer */
+/* ===============================
+   FOOTER (KEEP)
+   =============================== */
+
 footer {
-    background: #5b463e ; /* Màu nâu đậm, nhất quán với header */
-    color: white; /* Màu chữ trắng để tương phản */
+    background: #c9a78f;
+    color: white;
     text-align: center;
     font-size: 15px;
-    padding: 18px 0 12px 0;
-    border-top: 1px solid rgba(255, 255, 255, 0.1); /* Đường viền nhẹ nhàng trên nền tối */
-    font-family: 'Segoe UI', Arial, sans-serif;
-    letter-spacing: 0.1px;
-    margin-top: auto; /* Đẩy footer xuống cuối trang */
+    padding: 18px 0;
+    margin-top: auto;
 }
 
-/* Responsive */
-@media (max-width: 992px) {
-    .header-menu-bar {
-        padding: 16px 25px; /* Giảm padding trên màn hình tablet */
-    }
-    .header-menu-links {
-        gap: 18px; /* Giảm khoảng cách menu */
-    }
-    .header-right-section {
-        gap: 15px; /* Giảm khoảng cách phần phải */
-    }
-    .introduce-wrapper, .share-box {
-        margin-left: 20px;
-        margin-right: 20px;
-        padding: 30px 25px;
-    }
-    .breadcrumb {
-        margin-left: 25px;
-    }
-}
+/* ===============================
+   RESPONSIVE
+   =============================== */
 
 @media (max-width: 768px) {
-    .header-menu-bar {
-        flex-direction: column; /* Đảm bảo header xuống dòng trên màn hình nhỏ */
-        align-items: flex-start;
-        padding: 15px 20px;
-    }
-
-    .header-menu-links {
-        flex-direction: column; /* Menu links xếp dọc */
-        gap: 10px;
-        width: 100%;
-        margin-bottom: 15px; /* Khoảng cách với phần dưới */
-        align-items: flex-start; /* Căn trái các mục menu */
-    }
-
-    .header-right-section {
-        flex-direction: column; /* Phần tìm kiếm và auth links xếp dọc */
-        width: 100%;
-        gap: 15px;
-        align-items: center; /* Căn giữa các mục trong phần phải */
-    }
-
-    .header-auth-links {
-        width: 100%; /* Auth links chiếm toàn bộ chiều rộng */
-        justify-content: center;
-        margin-top: 0px; /* Bỏ margin top nếu có */
-    }
-
-    .introduce-wrapper, .share-box {
+    .introduce-wrapper {
         padding: 24px 20px;
-        margin: 40px auto;
     }
 
     .introduce-wrapper h1 {
         font-size: 32px;
     }
-
-    .introduce-wrapper h2 {
-        font-size: 22px;
-    }
-    .breadcrumb {
-        margin: 0 0 15px 20px;
-    }
 }
-
-/* Responsive cho màn hình nhỏ hơn (ví dụ: điện thoại) */
-@media (max-width: 480px) {
-    .header-menu-bar {
-        padding: 10px;
-    }
-
-    .header-menu-links a {
-        font-size: 14px;
-    }
-
-    .header-auth-links .auth-link {
-        padding: 6px 12px;
-        font-size: 12px;
-    }
-
-    .introduce-wrapper {
-        padding: 20px 15px;
-        margin: 30px auto;
-    }
-    .introduce-wrapper h1 {
-        font-size: 28px;
-    }
-    .introduce-wrapper h2 {
-        font-size: 20px;
-    }
-    .introduce-wrapper p,
-    .introduce-wrapper li {
-        font-size: 15px;
-    }
-    .share-box {
-        padding-left: 15px;
-    }
-    .breadcrumb {
-        margin: 0 0 10px 15px;
-    }
-}
-      
