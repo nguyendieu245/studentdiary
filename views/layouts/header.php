@@ -35,11 +35,29 @@ $display_name = $user['fullname'] ?? $user['username'] ?? 'Bạn';
 <head>
     <meta charset="UTF-8">
     <title>Student Diary</title>
-    <link rel="stylesheet" href="/studentdiary/public/css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="public/css/style.css"> <!-- file CSS tùy chỉnh -->
 </head>
 <body>
-    <div class="header-banner"></div>
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+    <div class="container">
+        <a class="navbar-brand" href="index.php?action=index">Student Diary</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                <li class="nav-item">
+                    <a class="nav-link <?= ($action=='posts_skill')?'active':'' ?>" href="index.php?action=posts_skill">Kỹ năng</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <?= ($action=='posts_life')?'active':'' ?>" href="index.php?action=posts_life">Đời sống</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <?= ($action=='posts_study')?'active':'' ?>" href="index.php?action=posts_study">Học tập</a>
+            </ul>
 
     <div class="header-menu-bar">
         <div class="header-menu-links">
@@ -68,5 +86,4 @@ $display_name = $user['fullname'] ?? $user['username'] ?? 'Bạn';
             <?php endif; ?>
         </div>
     </div>
-</body>
-</html>
+</nav>

@@ -236,3 +236,4 @@ class Post
         return $this->deleteById($this->id);
     }
 }
+?>

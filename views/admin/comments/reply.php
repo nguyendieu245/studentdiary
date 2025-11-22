@@ -1,4 +1,13 @@
-<!DOCTYPE html>
+<?php
+
+
+if (empty($_SESSION['admin'])) {
+    header("Location: /studentdiary/public/index.php?action=admin_login");
+    exit;
+}
+
+$admin = $_SESSION['admin'];
+?><!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">

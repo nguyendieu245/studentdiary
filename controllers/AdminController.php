@@ -43,28 +43,7 @@ class AdminController {
         include __DIR__ . '/../views/admin/dashboard.php';
     }
 
-    // ======== HOCTAP ============
-    public function hoctap() {
-        if (empty($_SESSION['admin'])) {
-            header("Location: /studentdiary/public/index.php?action=login");
-            exit;
-        }
-
-        $currentPage = 'hoctap';
-        include __DIR__ . '/../views/admin/hoctap.php';
-    }
-
-    // ======== DOISONG ============
-    public function doisong() {
-        if (empty($_SESSION['admin'])) {
-            header("Location: /studentdiary/public/index.php?action=login");
-            exit;
-        }
-
-        $currentPage = 'doisong';
-        include __DIR__ . '/../views/admin/doisong.php';
-    }
-
+    
     // ======== LOGOUT ============
     public function logout() {
         $_SESSION = [];

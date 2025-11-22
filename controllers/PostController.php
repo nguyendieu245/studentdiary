@@ -159,7 +159,7 @@ class PostController {
                 }
                 $this->post->image = $new_filename;
             } else {
-                $old_post = $this->post->getById($id);
+                $old_post = $this->post->find($id);
                 $this->post->image = $old_post['image'];
             }
         } else {
@@ -185,7 +185,7 @@ class PostController {
             header('Location: index.php?action=hoctap&success=deleted');
             exit();
         }
-        header('Location: index.php?action=hoctap&error=delete_failed');
+        header('Location: index.php?action=baiviet&error=delete_failed');
         exit();
     }
 }

@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -40,38 +38,32 @@
             </div>
         <?php endif; ?>
 
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
-            <h1 class="page-title">Quản lý bài viết</h1>
+       
             <a href="index.php?action=create_post" class="add-btn">
                 <i class="fas fa-plus"></i> Thêm bài viết
             </a>
         </div>
 
         <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Ảnh</th>
-                        <th>Tiêu đề</th>
-                        <th>Danh mục</th>
-                        <th>Ngày đăng</th>
-                        <th>Trạng thái</th>
-                        <th>Hành động</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if(empty($posts_data)): ?>
+        <table >
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Ảnh</th>
+                    <th>Tiêu đề</th>
+                    <th>Danh mục</th>
+                    <th>Tác giả</th>
+                    <th>Trạng thái</th>
+                    <th>Ngày tạo</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if (!empty($posts)): ?>
+                    <?php foreach ($posts as $post): ?>
                         <tr>
-                            <td colspan="6">
-                                <div class="empty-state">
-                                    <i class="fas fa-folder-open"></i>
-                                    <p>Chưa có bài viết nào</p>
-                                </div>
-                            </td>
-                        </tr>
-                    <?php else: ?>
-                        <?php foreach($posts_data as $post): ?>
-                        <tr>
+                            <td><?= $post['id'] ?></td>
+                            <td><?= htmlspecialchars($post['title']) ?></td>
                             <td>
                                 <?php if($post['image']): ?>
                                     <img src="/studentdiary/public/uploads/<?= htmlspecialchars($post['image']) ?>" 
@@ -84,58 +76,33 @@
                                 <?php endif; ?>
                             </td>
                             <td>
-                                <div class="post-title-cell">
-
-                                    <?= htmlspecialchars($post['title']) ?>
-                                </div>
+                                <?php
+                                    switch ($post['category_id']) {
+                                        case 1: echo "Kỹ năng"; break;
+                                        case 2: echo "Học tập"; break;
+                                        case 3: echo "Đời sống"; break;
+                                        default: echo "Khác";
+                                    }
+                                ?>
                             </td>
+                            <td><?= htmlspecialchars($post['author']) ?></td>
+                            <td><?= $post['status'] ?></td>
+                            <td><?= $post['created_at'] ?></td>
                             <td>
-                                <span style="color: #8B7355; font-weight: 500;">
-                                    <?= htmlspecialchars($post['category_name'] ?? 'Chưa phân loại') ?>
-                                </span>
-                            </td>
-                            <td>
-                                <?= date('d/m/Y H:i:s', strtotime($post['created_at'])) ?>
-                            </td>
-                            <td>
-                                <span class="status-badge status-<?= $post['status'] ?>">
-                                    <?= $post['status'] == 'published' ? 'Đã đăng' : 'Nháp' ?>
-                                </span>
-                            </td>
-                            <td>
-                                <div class="action-btns">
-                                    <a href="index.php?action=show_post&id=<?= $post['id'] ?>">
-                                        <button class="btn-icon btn-view" title="Xem">
-                                            <i class="fas fa-eye"></i>
-                                        </button>
-                                    </a>
-                                    <a href="index.php?action=edit_post&id=<?= $post['id'] ?>">
-                                        <button class="btn-icon btn-edit" title="Sửa">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                    </a>
-                                    <button class="btn-icon btn-delete" 
-                                            onclick="confirmDelete(<?= $post['id'] ?>)" 
-                                            title="Xóa">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </div>
+                                <a href="index.php?action=edit_post&id=<?= $post['id'] ?>" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></a>
+                                <a href="index.php?action=delete_post&id=<?= $post['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Bạn có chắc muốn xoá bài viết này?')"><i class="fas fa-trash"></i></a>
+                                <a href="index.php?action=show_post&id=<?= $post['id'] ?>" class="btn btn-sm btn-info"><i class="fas fa-eye"></i></a>
                             </td>
                         </tr>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </tbody>
-            </table>
-        </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <tr><td colspan="7" style="text-align:center;">Chưa có bài viết nào</td></tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
     </div>
-</div>
-    <script>
-        function confirmDelete(id) {
-            if(confirm('Bạn có chắc chắn muốn xóa bài viết này?')) {
-                window.location.href = 'index.php?action=delete_post&id=' + id;
-            }
-        }
-    </script>
-    
+
+                </div>
+
 </body>
 </html>

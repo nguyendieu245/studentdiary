@@ -1,20 +1,27 @@
+<?php
 
+
+if (empty($_SESSION['admin'])) {
+    header("Location: /studentdiary/public/index.php?action=admin_login");
+    exit;
+}
+
+$admin = $_SESSION['admin'];
+?>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
+    <title>Sửa bài viết</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="/studentdiary/public/css/styleadmin.css">  
 </head>
 <body>
     <?php include __DIR__ . '/../../layouts/sidebar.php'; ?>
-
-    
         <div class="main-content">
-    <div><a href="/studentdiary/public/index.php?action=hoctap" class="back-btn">
+    <div><a href="/studentdiary/public/index.php?action=baiviet" class="back-btn">
         <i class="fas fa-arrow-left"></i> Quay lại 
     </a>
     </div>
