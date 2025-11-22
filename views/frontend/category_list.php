@@ -22,7 +22,15 @@ $username = $_SESSION['user']['username'] ?? 'Người dùng';
             <?php foreach($posts as $post): ?>
                 <div class="col-md-4 mb-3">
                     <div class="card h-100">
-                        <img src="public/uploads/<?= htmlspecialchars($post['image']) ?>" class="card-img-top" alt="<?= htmlspecialchars($post['title']) ?>">
+                         <?php if($post['image']): ?>
+                                    <img src="/studentdiary/public/uploads/<?= htmlspecialchars($post['image']) ?>" 
+                                         alt="<?= htmlspecialchars($post['title']) ?>" 
+                                         class="post-image">
+                                <?php else: ?>
+                                    <img src="https://via.placeholder.com/80x60?text=No+Image" 
+                                         alt="No image" 
+                                         class="post-image">
+                                <?php endif; ?>
                         <div class="card-body">
                             <h5 class="card-title"><?= htmlspecialchars($post['title']) ?></h5>
                             <p class="card-text"><small class="text-muted"><?= date('d/m/Y', strtotime($post['created_at'])) ?></small></p>
@@ -36,5 +44,3 @@ $username = $_SESSION['user']['username'] ?? 'Người dùng';
         <?php endif; ?>
     </div>
 </div>
-
-

@@ -9,6 +9,10 @@ class HomeController
 
     public function __construct($db)
     {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
         $this->postModel = new Post($db);
         $this->categoryModel = new Category($db);
     }
@@ -18,6 +22,10 @@ class HomeController
     {
         $latestPosts = $this->postModel->getLatest(6); 
         $categories  = $this->categoryModel->all();
+
+        // Biến cho header
+        $action = 'index';
+        $username = $_SESSION['username'] ?? '';
 
         include __DIR__ . '/../views/frontend/home.php';
     }
