@@ -1,8 +1,6 @@
 <?php
 // public/index.php
 
-session_start();
-
 require_once __DIR__ . '/../config/db.php';
 require_once __DIR__ . '/../controllers/UserController.php';
 require_once __DIR__ . '/../controllers/PostController.php';
@@ -10,120 +8,95 @@ require_once __DIR__ . '/../controllers/CategoryController.php';
 require_once __DIR__ . '/../controllers/CommentController.php';
 require_once __DIR__ . '/../controllers/AdminController.php';
 
+// Kết nối DB
 $db = (new Database())->getConnection();
 
+// Khởi tạo controller
 $userCtrl     = new UserController($db);
 $postCtrl     = new PostController($db);
 $categoryCtrl = new CategoryController($db);
 $commentCtrl  = new CommentController($db);
 $adminCtrl    = new AdminController($db);
 
+// Lấy action/id từ URL
 $action = $_GET['action'] ?? 'home';
 $id     = $_GET['id'] ?? null;
 
+// Xử lý routing
 switch ($action) {
 
-    // ========== FRONTEND ==========
-    case 'home':
+    // ================== FRONTEND POSTS ==================
+    case 'home_front':
         $postCtrl->showHomeFeed();
         break;
-
-    // === Danh mục Kỹ năng ===
-    case 'posts_skill':
-        $posts = $postCtrl->getByCategory(1);
-        $currentPage = 'skill';
-        include __DIR__ . '/../views/frontend/category_list.php';
+    case 'skill':
+        $postCtrl->showSkillFeed();
         break;
-    case 'skill_detail':
+    case 'study':
+        $postCtrl->showStudyFeed();
+        break;
+    case 'social':
+        $postCtrl->showSocialFeed();
+        break;
+    case 'show_post':
         if ($id) {
-            $postCtrl->showCategoryPost($id, $commentCtrl);
+            $postCtrl->show($id);
         } else {
-            header('Location: index.php?action=posts_skill');
+            header('Location: index.php?action=home');
             exit();
         }
         break;
 
-    // === Danh mục Học tập ===
-    case 'posts_study':
-        $posts = $postCtrl->getByCategory(2);
-        $currentPage = 'study';
-        include __DIR__ . '/../views/frontend/category_list.php';
-        break;
-    case 'study_detail':
-        if ($id) {
-            $postCtrl->showCategoryPost($id, $commentCtrl);
-        } else {
-            header('Location: index.php?action=posts_study');
-            exit();
-        }
-        break;
-
-    // === Danh mục Đời sống ===
-    case 'posts_life':
-        $posts = $postCtrl->getByCategory(3);
-        $currentPage = 'social';
-        include __DIR__ . '/../views/frontend/category_list.php';
-        break;
-    case 'social_detail':
-        if ($id) {
-            $postCtrl->showCategoryPost($id, $commentCtrl);
-        } else {
-            header('Location: index.php?action=posts_life');
-            exit();
-        }
-        break;
-
-    // ========== ADMIN POSTS ==========
-    case 'baiviet':
-        $postCtrl->index();
+    // ================== ADMIN POSTS ==================
+    case 'hoctap':
+        $postCtrl->adminIndex();  // admin danh sách bài viết
         break;
     case 'create_post':
         $postCtrl->create();
         break;
-    case 'store':
+    case 'store_post':
         $postCtrl->store();
         break;
     case 'edit_post':
-        if ($id) $postCtrl->edit($id);
-        else header('Location: index.php?action=baiviet&error=no_id');
+        if ($id) {
+            $postCtrl->edit($id);
+        } else {
+            header('Location: index.php?action=hoctap&error=no_id');
+            exit();
+        }
         break;
-    case 'update':
-        if ($id) $postCtrl->update($id);
-        else header('Location: index.php?action=baiviet&error=no_id');
+    case 'update_post':
+        if ($id) {
+            $postCtrl->update($id);
+        } else {
+            header('Location: index.php?action=hoctap&error=no_id');
+            exit();
+        }
         break;
     case 'delete_post':
-        if ($id) $postCtrl->delete($id);
-        else header('Location: index.php?action=baiviet&error=no_id');
-        break;
-    case 'show_post':
-        if ($id) $postCtrl->show($id);
-        else header('Location: index.php?action=baiviet&error=no_id');
+        if ($id) {
+            $postCtrl->delete($id);
+        } else {
+            header('Location: index.php?action=hoctap&error=no_id');
+            exit();
+        }
         break;
 
-    // ========== CATEGORY ==========
-    case 'danhmuc':
+    // ================== CATEGORIES ==================
+    case 'categories':
         $categoryCtrl->index();
         break;
     case 'create_category':
         $categoryCtrl->create();
         break;
-    case 'store_category':
-        $categoryCtrl->store();
-        break;
     case 'edit_category':
         if ($id) $categoryCtrl->edit($id);
-        else header('Location: index.php?action=categories&error=no_id');
-        break;
-    case 'update_category':
-        if ($id) $categoryCtrl->update($id);
-        else header('Location: index.php?action=categories&error=no_id');
         break;
     case 'delete_category':
         if ($id) $categoryCtrl->delete($id);
-        else header('Location: index.php?action=categories&error=no_id');
         break;
 
-    // ========== COMMENT ==========
+    // ================== COMMENTS (ADMIN) ==================
     case 'comments':
         $commentCtrl->index();
         break;
@@ -144,10 +117,7 @@ switch ($action) {
         else header('Location: index.php?action=comments');
         break;
 
-    // ========== USER ==========
-    case 'users':
-        $userCtrl->index();
-        break;
+    // ================== USER ==================
     case 'register':
         $userCtrl->register();
         break;
@@ -161,7 +131,7 @@ switch ($action) {
         $userCtrl->listUsers();
         break;
 
-    // ========== ADMIN ==========
+    // ================== ADMIN ==================
     case 'admin_login':
         $adminCtrl->login();
         break;
@@ -173,8 +143,8 @@ switch ($action) {
         $adminCtrl->logout();
         break;
 
+    // ================== DEFAULT ==================
     default:
         $postCtrl->showHomeFeed();
         break;
 }
-?>
