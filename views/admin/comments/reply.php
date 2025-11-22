@@ -15,6 +15,7 @@ $admin = $_SESSION['admin'];
     <title>Chi tiết bình luận - Student Diary Admin</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/studentdiary/public/css/stylecomment.css">
     <link rel="stylesheet" href="/studentdiary/public/css/sidebar.css">
     <?php include __DIR__ . '/../../layouts/sidebar.php'; ?>
     <style>
@@ -298,5 +299,6 @@ $admin = $_SESSION['admin'];
             </div>
         </div>
     </div>
+    <script src="/studentdiary/public/java/comment.js"></script>
 </body>
 </html>

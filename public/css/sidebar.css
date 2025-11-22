@@ -1,90 +1,90 @@
- * {
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 :root {
-    --primary-color: #5f4a41;
-    --secondary-color: #b88769;
-    --accent-color: #ceb6ad;
-    --light-color: #fbe9e7;
-    --text-color: #4e342e;
-    --border-color: #a1887f;
-    --success-color: #388e3c;
-    --warning-color: #ffa726;
-    --danger-color: #d84315;
-    --info-color: #8d6e63;
+    --primary-color: #1e3a5f !important;      /* Xanh than đậm */
+    --secondary-color: #2c5f8d !important;    /* Xanh than vừa */
+    --accent-color: #3a7ca5 !important;       /* Xanh than nhạt */
+    --light-color: #f4f8fb !important;        /* Nền xám xanh nhạt */
+    --text-color: #1a1a1a !important;
+    --border-color: #d0e1f0 !important;       /* Border xanh nhạt */
+    --success-color: #3a7ca5 !important;      /* Xanh */
+    --warning-color: #3a7ca5 !important;      /* Xanh */
+    --danger-color: #d84315 !important;
+    --info-color: #2c5f8d !important;         /* Xanh than */
 }
 
 body {
-    background-color: var(--light-color);
-    color: var(--text-color);
+    background-color: var(--light-color) !important;
+    color: var(--text-color) !important;
     font-weight: 500;
 }
 
 /* ===================== SIDEBAR ===================== */
 .sidebar {
-    width: 260px;
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    left: 0;
-    background-color: var(--secondary-color);
-    color: #fff;
-    box-shadow: 2px 0 6px rgba(0,0,0,0.15);
-    display: flex;
-    flex-direction: column;
-    z-index: 1000;
+    width: 260px !important;
+    height: 100vh !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    background: linear-gradient(180deg, var(--primary-color), var(--secondary-color)) !important;
+    color: #fff !important;
+    box-shadow: 2px 0 8px rgba(30, 58, 95, 0.15) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    z-index: 1000 !important;
 }
 
 .logo-text {
-    font-size: 18px;
-    font-weight: bold;
-    padding: 24px 20px;
-    background: var(--primary-color);
-    color: #fff;
-    letter-spacing: 1px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    font-size: 18px !important;
+    font-weight: bold !important;
+    padding: 24px 20px !important;
+    background: var(--primary-color) !important;
+    color: #fff !important;
+    letter-spacing: 1px !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
 }
 
 .menu-item {
-    display: flex;
-    align-items: center;
-    padding: 15px 22px;
-    cursor: pointer;
-    transition: all 0.25s ease;
-    border-left: 3px solid transparent;
-    color: #fff;
-    font-size: 15px;
+    display: flex !important;
+    align-items: center !important;
+    padding: 15px 22px !important;
+    cursor: pointer !important;
+    transition: all 0.25s ease !important;
+    border-left: 3px solid transparent !important;
+    color: #fff !important;
+    font-size: 15px !important;
+    text-decoration: none !important;
 }
 
 .menu-item:hover {
-    background-color: rgba(255,255,255,0.25);
-    border-left: 3px solid var(--accent-color);
+    background-color: rgba(255,255,255,0.15) !important;
+    border-left: 3px solid var(--accent-color) !important;
 }
 
 .menu-item.active {
-    background-color: #fff3e0;
-    color: var(--primary-color);
-    border-left: 3px solid var(--accent-color);
-    font-weight: bold;
+    background-color: rgba(255,255,255,0.25) !important;
+    color: #ffffff !important;
+    border-left: 3px solid #ffffff !important;
+    font-weight: bold !important;
 }
 
 .menu-icon {
-    margin-right: 12px;
-    width: 22px;
-    text-align: center;
-    font-size: 18px;
+    margin-right: 12px !important;
+    width: 22px !important;
+    text-align: center !important;
+    font-size: 18px !important;
 }
 
 /* ===================== MAIN CONTENT ===================== */
 .main-content-wrapper {
-    margin-left: 260px;
-    padding: 30px;
-    min-height: 100vh;
-    background-color: #fff;
-    box-shadow: -2px 0 5px rgba(0,0,0,0.05);
+    margin-left: 260px !important;
+    padding: 30px !important;
+    min-height: 100vh !important;
+    background-color: var(--light-color) !important;
+    box-shadow: -2px 0 5px rgba(30, 58, 95, 0.05) !important;
 }
-

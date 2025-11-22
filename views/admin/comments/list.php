@@ -61,7 +61,7 @@ foreach ($comments as $c) {
             </div>
         <?php endif; ?>
 
-        <h1 class="page-title">Quản lý bình luận</h1>
+        
 
         <div class="table-container">
             <table>
@@ -214,6 +214,7 @@ foreach ($comments as $c) {
             window.location.href = 'index.php?action=toggle_comment&id=' + id;
         }
     </script>
+    <script src="/studentdiary/public/java/comment.js"></script>
 </body>
 </html>
         

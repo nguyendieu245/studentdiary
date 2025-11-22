@@ -16,7 +16,7 @@ $admin = $_SESSION['admin'];
     <title>Sửa bài viết</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="/studentdiary/public/css/styleadmin.css">  
+    <link rel="stylesheet" href="/studentdiary/public/css/stylepost.css">  
 </head>
 <body>
     <?php include __DIR__ . '/../../layouts/sidebar.php'; ?>
@@ -113,7 +113,7 @@ $admin = $_SESSION['admin'];
             }
         }
     </script>
-   
+   <script src="/studentdiary/public/js/post.js"></script>
 </body>
 </html>
       

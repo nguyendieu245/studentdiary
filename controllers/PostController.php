@@ -2,7 +2,7 @@
 // controllers/PostController.php
 require_once __DIR__ . '/../config/db.php';
 require_once __DIR__ . '/../models/Post.php';
-require_once __DIR__ . '/../models/Category.php';
+require_once __DIR__ . '/../models/Category.php'; 
 
 class PostController {
     private $db;
@@ -16,176 +16,172 @@ class PostController {
         $this->category = new Category($this->db);
     }
 
-    /* ===== FRONTEND ===== */
-
+    // ==============================
+    // FRONTEND METHODS
+    // ==============================
     public function showHomeFeed() {
-        $posts = $this->post->getAllPublishedPosts();
+        $skillPosts = $this->post->getByCategory(1);
+        $studyPosts = $this->post->getByCategory(2);
+        $lifePosts  = $this->post->getByCategory(3);
         $categories = $this->category->getAllCategories();
-        
-        $currentPage = 'home_front';
-        $isAdminPage = false;
-        require_once __DIR__ . '/../views/frontend/home.php';
+        $currentPage = 'home';
+        require __DIR__ . '/../views/frontend/home.php';
     }
 
-    public function showSkillFeed() {
-        $posts = $this->post->getAllSkillPosts();
-        $categories = $this->category->getAllCategories();
-        
-        $currentPage = 'skill';
-        $isAdminPage = false;
-        require_once __DIR__ . '/../views/frontend/post_frontend/skill.php';
+    public function getByCategory($categoryId) {
+        return $this->post->getByCategory($categoryId);
     }
 
-    public function showStudyFeed() {
-        $posts = $this->post->getAllStudyPosts();
-        $categories = $this->category->getAllCategories();
-        
-        $currentPage = 'study';
-        $isAdminPage = false;
-        require_once __DIR__ . '/../views/frontend/post_frontend/study.php';
-    }
-
-    public function showSocialFeed() {
-        $posts = $this->post->getAllSocialPosts();
-        $categories = $this->category->getAllCategories();
-        
-        $currentPage = 'social';
-        $isAdminPage = false;
-        require_once __DIR__ . '/../views/frontend/post_frontend/social.php';
-    }
-
-    public function showPostDetail($id) {
-    $post = $this->post->find($id); // <-- Sửa từ getById => find
-
-    if (!$post) {
-        header('Location: index.php?action=home&error=notfound');
-        exit();
-    }
-
-    // Tăng lượt xem mỗi khi xem bài viết
-    $this->post->incrementViews($id);
-
-    $currentPage = 'post_detail';
-    $isAdminPage = false;
-
-    // Biến phụ cần cho view
-    $comments = []; // nếu chưa có hệ thống bình luận, set mảng rỗng
-    $replies = [];
-    $logged_in_user_id = $_SESSION['user_id'] ?? null;
-    $fullDisplayImageUrl = !empty($post['image']) ? '/studentdiary/public/uploads/' . $post['image'] : '';
-    $current_url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-
-    require_once __DIR__ . '/../views/frontend/post_frontend/detail.php';
-}
-
-
-    /* ===== ADMIN ===== */
-
-    public function adminIndex() {
-        $posts = $this->post->getAllSkillPosts();
-        $currentPage = 'hoctap';
-        $isAdminPage = true;
-        require_once __DIR__ . '/../views/admin/posts/skill_posts_list.php';
-    }
-
-    public function adminCreate() {
-        $currentPage = 'hoctap';
-        $isAdminPage = true;
-        require_once __DIR__ . '/../views/admin/posts/create.php';
-    }
-
-    public function adminStore() {
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST') return;
-
-        $this->post->title = htmlspecialchars($_POST['title']);
-        $this->post->content = $_POST['content'];
-        $this->post->author = 'Admin';
-        $this->post->status = $_POST['status'] ?? 'published';
-        $this->post->category_id = 1;
-        $this->post->category = 'Kỹ năng';
-
-        // Upload ảnh
-        $upload_dir = __DIR__ . '/../public/uploads/';
-        if (!file_exists($upload_dir)) mkdir($upload_dir, 0777, true);
-
-        if (isset($_FILES['image']) && $_FILES['image']['error'] === 0) {
-            $file_extension = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
-            $new_filename = uniqid() . '.' . $file_extension;
-            if (move_uploaded_file($_FILES['image']['tmp_name'], $upload_dir . $new_filename)) {
-                $this->post->image = $new_filename;
-            }
+    public function showCategoryPost($id, $commentCtrl) {
+        $post = $this->post->find($id);
+        if (!$post) {
+            header('Location: index.php?action=home');
+            exit();
         }
 
-        $this->post->image = $this->post->image ?? '';
+        
+
+        // Lấy bình luận
+        if (method_exists($commentCtrl, 'allByPost')) {
+            $comments = $commentCtrl->allByPost($id);
+        } else {
+            $comments = [];
+        }
+
+        // Xác định currentPage dựa trên category
+        switch ($post['category_id']) {
+            case 1: $currentPage = 'skill'; break;
+            case 2: $currentPage = 'study'; break;
+            case 3: $currentPage = 'social'; break;
+            default: $currentPage = 'home';
+        }
+
+        require __DIR__ . '/../views/frontend/category_detail.php';
+    }
+
+    // ==============================
+    // ADMIN METHODS
+    // ==============================
+    // Lấy 3 danh mục chính để hiển thị trong form
+    private function getCategoriesForForm() {
+        $categories = $this->category->getAllCategories();
+        return array_filter($categories, function($c) {
+            return in_array($c['id'], [1,2,3]);
+        });
+    }
+
+    public function index() {
+        $posts = $this->post->all();
+        $currentPage = 'baiviet';
+        require __DIR__ . '/../views/admin/posts/skill_posts_list.php';
+    }
+
+    public function create() {
+        $categories = $this->getCategoriesForForm();
+        $currentPage = 'baiviet';
+        require __DIR__ . '/../views/admin/posts/create.php';
+    }
+
+    public function store() {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') return;
+
+        $this->post->title       = htmlspecialchars($_POST['title']);
+        $this->post->content     = $_POST['content'];
+        $this->post->author      = 'Admin';
+        $this->post->status      = $_POST['status'] ?? 'published';
+        $this->post->category_id = $_POST['category_id'] ?? 1;
+
+        // Upload ảnh nếu có
+        if (isset($_FILES['image']) && $_FILES['image']['error'] === 0) {
+            $upload_dir = __DIR__ . '/../public/uploads/';
+            if (!file_exists($upload_dir)) mkdir($upload_dir, 0777, true);
+            $file_ext = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
+            $new_file = uniqid() . '_' . time() . '.' . $file_ext;
+            if (move_uploaded_file($_FILES['image']['tmp_name'], $upload_dir . $new_file)) {
+                $this->post->image = $new_file;
+            } else {
+                $this->post->image = '';
+            }
+        } else {
+            $this->post->image = '';
+        }
 
         if ($this->post->create()) {
-            header('Location: index.php?action=hoctap&success=1');
+            header('Location: index.php?action=baiviet&success=1');
+            exit();
+        } else {
+            header('Location: index.php?action=baiviet&error=1');
             exit();
         }
-        header('Location: index.php?action=hoctap&error=1');
-        exit();
     }
 
-    public function adminEdit($id) {
-        $post = $this->post->getById($id);
+    public function edit($id) {
+        $post = $this->post->find($id);
         if (!$post) {
-            header('Location: index.php?action=hoctap&error=notfound');
+            header('Location: index.php?action=baiviet&error=notfound');
             exit();
         }
-        $currentPage = 'hoctap';
-        $isAdminPage = true;
-        require_once __DIR__ . '/../views/admin/posts/edit.php';
+        $categories = $this->getCategoriesForForm();
+        $currentPage = 'baiviet';
+        require __DIR__ . '/../views/admin/posts/edit.php';
     }
 
-    public function adminUpdate($id) {
+    public function update($id) {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') return;
 
-        $this->post->id = $id;
-        $this->post->title = htmlspecialchars($_POST['title']);
-        $this->post->content = $_POST['content'];
-        $this->post->status = $_POST['status'] ?? 'published';
-        $this->post->category_id = 1;
+        $this->post->id          = $id;
+        $this->post->title       = htmlspecialchars($_POST['title']);
+        $this->post->content     = $_POST['content'];
+        $this->post->status      = $_POST['status'] ?? 'published';
+        $this->post->category_id = $_POST['category_id'] ?? 1;
 
         $upload_dir = __DIR__ . '/../public/uploads/';
 
         if (isset($_FILES['image']) && $_FILES['image']['error'] === 0) {
-            $file_extension = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
-            $new_filename = uniqid() . '.' . $file_extension;
-
-            if (move_uploaded_file($_FILES['image']['tmp_name'], $upload_dir . $new_filename)) {
-                $old_post = $this->post->getById($id);
+            $file_ext = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
+            $new_file = uniqid() . '_' . time() . '.' . $file_ext;
+            if (move_uploaded_file($_FILES['image']['tmp_name'], $upload_dir . $new_file)) {
+                $old_post = $this->post->find($id);
                 if ($old_post['image'] && file_exists($upload_dir . $old_post['image'])) {
                     unlink($upload_dir . $old_post['image']);
                 }
-                $this->post->image = $new_filename;
+                $this->post->image = $new_file;
             } else {
                 $old_post = $this->post->find($id);
                 $this->post->image = $old_post['image'];
             }
         } else {
-            $old_post = $this->post->getById($id);
+            $old_post = $this->post->find($id);
             $this->post->image = $old_post['image'];
         }
 
         if ($this->post->update()) {
-            header('Location: index.php?action=hoctap&success=updated');
+            header('Location: index.php?action=baiviet&success=updated');
+            exit();
+        } else {
+            header('Location: index.php?action=baiviet&error=update_failed');
             exit();
         }
-        header('Location: index.php?action=hoctap&error=update_failed');
-        exit();
     }
 
-    public function adminDelete($id) {
-        $post_data = $this->post->getById($id);
-        if ($post_data && $this->post->delete()) {
-            $upload_dir = __DIR__ . '/../public/uploads/';
-            if ($post_data['image'] && file_exists($upload_dir . $post_data['image'])) {
-                unlink($upload_dir . $post_data['image']);
-            }
-            header('Location: index.php?action=hoctap&success=deleted');
+    public function delete($id) {
+        $post_data = $this->post->find($id);
+        if ($post_data && $this->post->deleteById($id)) {
+            header('Location: index.php?action=baiviet&success=deleted');
             exit();
         }
         header('Location: index.php?action=baiviet&error=delete_failed');
         exit();
     }
+
+    public function show($id) {
+        $post = $this->post->find($id);
+        if (!$post) {
+            header('Location: index.php?action=baiviet&error=notfound');
+            exit();
+        }
+        $currentPage = 'baiviet';
+        require __DIR__ . '/../views/admin/posts/detail_posts.php';
+    }
 }
+?>
