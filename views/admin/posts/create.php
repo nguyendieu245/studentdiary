@@ -89,7 +89,7 @@ $admin = $_SESSION['admin'];
     </div>
 </div>
 
-<!-- JS chung cho post: preview, validation, slug, auto-hide alert -->
+<!-- Đã chuyển tất cả JavaScript sang file post.js -->
 <script src="/studentdiary/public/js/post.js"></script>
 
 </body>
