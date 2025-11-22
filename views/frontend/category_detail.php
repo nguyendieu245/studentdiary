@@ -1,49 +1,100 @@
-<?php 
-// Bắt đầu session
+<?php
+// Bắt đầu session nếu chưa có
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
- include __DIR__ . '/../layouts/header.php'; 
- 
-// Lấy tên người dùng
+
+include __DIR__ . '/../layouts/header.php';
+
+// Lấy username của người dùng, mặc định 'Người dùng'
 $username = $_SESSION['user']['username'] ?? 'Người dùng';
+
+// Lấy danh sách comment theo post (cấu trúc cây)
+$comments = $commentCtrl->getCommentsByPost($post['id']);
 ?>
 
 <div class="container mt-4">
+
+    <!-- Tiêu đề bài viết -->
     <h1><?= htmlspecialchars($post['title']) ?></h1>
-    <p class="text-muted">Tác giả: <?= htmlspecialchars($post['author_name']) ?> | Ngày: <?= date('d/m/Y', strtotime($post['created_at'])) ?> 
-    
-    <?php if($post['image']): ?>
-        <img src="public/uploads/<?= htmlspecialchars($post['image']) ?>" class="img-fluid mb-3" alt="<?= htmlspecialchars($post['title']) ?>">
+    <p class="text-muted">
+        Tác giả: <?= htmlspecialchars($post['author_name']) ?> |
+        Ngày: <?= date('d/m/Y', strtotime($post['created_at'])) ?>
+    </p>
+
+    <!-- Ảnh bài viết -->
+    <?php if ($post['image']): ?>
+        <img src="/studentdiary/public/uploads/<?= htmlspecialchars($post['image']) ?>" 
+             alt="<?= htmlspecialchars($post['title']) ?>" class="post-image mb-3">
+    <?php else: ?>
+        <img src="https://via.placeholder.com/800x400?text=No+Image" 
+             alt="No image" class="post-image mb-3">
     <?php endif; ?>
 
-    <div class="content mb-4"><?= nl2br(htmlspecialchars($post['content'])) ?></div>
+    <!-- Nội dung bài viết -->
+    <div class="content mb-4">
+        <?= nl2br(htmlspecialchars($post['content'])) ?>
+    </div>
 
     <hr>
-    <h3>Bình luận</h3>
 
-    <form action="index.php?action=store_comment&post_id=<?= $post['id'] ?>" method="POST" class="mb-4">
-        <div class="mb-3">
-            <label for="comment_content" class="form-label">Viết bình luận:</label>
-            <textarea name="content" id="comment_content" rows="3" class="form-control" required></textarea>
+    <!-- ================== DANH SÁCH BÌNH LUẬN ================== -->
+    <h3 class="mt-4">Bình luận</h3>
+
+    <div class="comments-box">
+        <?php if (!empty($comments)): ?>
+            <?php foreach ($comments as $c): ?>
+                <div class="comment-item mb-3 p-2 border rounded">
+
+                    <b><?= htmlspecialchars($c['name']) ?></b>
+                    <p><?= nl2br(htmlspecialchars($c['comment'])) ?></p>
+                    <small class="text-muted"><?= $c['created_at'] ?></small>
+
+                    <!-- Hiển thị reply admin nếu có và status = 1 -->
+                    <?php if (!empty($c['replies'])): ?>
+                        <div class="comment-replies mt-2">
+                            <?php foreach ($c['replies'] as $r): ?>
+                                <?php if ($r['status'] == 1): ?>
+                                    <div class="reply-item mb-2 p-2" 
+                                         style="margin-left: 25px; border-left: 2px solid #0d6efd;">
+                                        <b style="color:#0d6efd;">
+                                            <?= $r['is_admin'] ? 'Admin' : htmlspecialchars($r['name']) ?>
+                                        </b>
+                                        <p><?= nl2br(htmlspecialchars($r['comment'])) ?></p>
+                                        <small class="text-muted"><?= $r['created_at'] ?></small>
+                                    </div>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                        </div>
+                    <?php endif; ?>
+
+                </div>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <p>Chưa có bình luận nào.</p>
+        <?php endif; ?>
+    </div>
+
+    <hr>
+
+    <!-- ================== FORM GỬI BÌNH LUẬN ================== -->
+    <h4 class="mt-4">Gửi bình luận của bạn</h4>
+
+    <form action="index.php?action=add_comment" method="POST">
+        <input type="hidden" name="post_id" value="<?= $post['id'] ?>">
+
+        <div class="mb-2">
+            <label>Tên của bạn:</label>
+            <input type="text" name="name" class="form-control" required 
+                   value="<?= htmlspecialchars($username) ?>">
         </div>
-        <button type="submit" class="btn btn-primary btn-sm">Gửi</button>
+
+        <div class="mb-2">
+            <label>Bình luận:</label>
+            <textarea name="comment" class="form-control" rows="4" required></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-2">Gửi bình luận</button>
     </form>
 
-    <?php if($comments): ?>
-        <?php foreach($comments as $cmt): ?>
-            <div class="mb-3 border p-2 rounded">
-                <p><strong><?= htmlspecialchars($cmt['user_name']) ?></strong> <small class="text-muted"><?= date('d/m/Y H:i', strtotime($cmt['created_at'])) ?></small></p>
-                <p><?= nl2br(htmlspecialchars($cmt['content'])) ?></p>
-            </div>
-        <?php endforeach; ?>
-    <?php else: ?>
-        <p>Chưa có bình luận nào.</p>
-    <?php endif; ?>
 </div>
-<?php 
-// Include footer chung
-include __DIR__ . '/../layouts/footer.php'; 
-?>
-
-

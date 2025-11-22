@@ -17,228 +17,10 @@ $admin = $_SESSION['admin'];
     <title>Quản lý danh mục - Student Diary Admin</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/studentdiary/public/css/category.css">
+    <link rel="stylesheet" href="/studentdiary/public/css/category.css">
     <?php include __DIR__ . '/../../layouts/sidebar.php'; ?>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f5f5f0;
-            margin: 0;
-            padding: 0;
-        }
-
-        .main-content {
-            margin-left: 260px;
-            padding: 20px 30px;
-            min-height: 100vh;
-        }
-
-        .header-section {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-
-        .back-btn {
-            display: inline-flex;
-            align-items: center;
-            padding: 10px 20px;
-            background: #8B7355;
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: 500;
-            transition: all 0.3s;
-        }
-
-        .back-btn:hover {
-            background: #6B5442;
-            transform: translateX(-4px);
-        }
-
-        .back-btn i {
-            margin-right: 8px;
-        }
-
-        .page-title {
-            font-size: 28px;
-            color: #2c2c2c;
-            font-weight: 600;
-        }
-
-        .add-btn {
-            padding: 12px 24px;
-            background: #8B7355;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            transition: all 0.3s;
-        }
-
-        .add-btn:hover {
-            background: #6B5442;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(139,115,85,0.3);
-        }
-
-        .add-btn i {
-            margin-right: 8px;
-        }
-
-        .table-container {
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        thead {
-            background: #D4A574;
-            color: white;
-        }
-
-        th {
-            padding: 18px 20px;
-            text-align: left;
-            font-weight: 600;
-            font-size: 14px;
-            text-transform: uppercase;
-        }
-
-        td {
-            padding: 16px 20px;
-            border-bottom: 1px solid #f0f0f0;
-            color: #444;
-            font-size: 14px;
-        }
-
-        tbody tr {
-            transition: all 0.2s;
-        }
-
-        tbody tr:hover {
-            background: #fffbf0;
-        }
-
-        .stt-col {
-            width: 80px;
-            text-align: center;
-            font-weight: 600;
-        }
-
-        .category-name {
-            font-weight: 500;
-            color: #2c2c2c;
-            font-size: 15px;
-        }
-
-        .slug-text {
-            color: #666;
-            font-family: 'Courier New', monospace;
-            background: #f8f9fa;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 13px;
-        }
-
-        .post-count-badge {
-            background: #E3F2FD;
-            color: #1976D2;
-            padding: 6px 12px;
-            border-radius: 16px;
-            font-size: 13px;
-            font-weight: 600;
-        }
-
-        .action-btns {
-            display: flex;
-            gap: 8px;
-        }
-
-        .btn-icon {
-            width: 36px;
-            height: 36px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-        }
-
-        .btn-edit {
-            background: #FFF3E0;
-            color: #F57C00;
-        }
-
-        .btn-edit:hover {
-            background: #F57C00;
-            color: white;
-        }
-
-        .btn-delete {
-            background: #FFEBEE;
-            color: #C62828;
-        }
-
-        .btn-delete:hover {
-            background: #C62828;
-            color: white;
-        }
-
-        .alert {
-            padding: 14px 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-        }
-
-        .alert-success {
-            background: #D4EDDA;
-            color: #155724;
-            border-left: 4px solid #28A745;
-        }
-
-        .alert-error {
-            background: #F8D7DA;
-            color: #721C24;
-            border-left: 4px solid #DC3545;
-        }
-
-        .alert i {
-            margin-right: 10px;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: #999;
-        }
-
-        .empty-state i {
-            font-size: 64px;
-            margin-bottom: 20px;
-            opacity: 0.3;
-        }
-    </style>
 </head>
 <body>
     <?php include __DIR__ . '/../../layouts/sidebar.php'; ?>
@@ -272,7 +54,7 @@ $admin = $_SESSION['admin'];
         <?php endif; ?>
 
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
-            <h1 class="page-title">Quản lý danh mục</h1>
+           
             <a href="index.php?action=create_category" class="add-btn">
                 <i class="fas fa-plus"></i> Thêm danh mục
             </a>
@@ -359,5 +141,6 @@ $admin = $_SESSION['admin'];
             }
         }
     </script>
+    <script src="/studentdiary/public/js/category.js"></script>
 </body>
 </html>
