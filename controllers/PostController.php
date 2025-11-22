@@ -22,8 +22,8 @@ class PostController {
     public function showHomeFeed() {
         // Lấy 3 danh mục chính để hiển thị riêng
         $skillPosts = $this->post->getByCategory(1);  // Kỹ năng
-        $studyPosts = $this->post->getByCategory(2);  // Học tập
-        $lifePosts  = $this->post->getByCategory(3);  // Đời sống
+        $studyPosts = $this->post->getByCategory(3);  // Học tập
+        $lifePosts  = $this->post->getByCategory(2);  // Đời sống
         $categories = $this->category->getAllCategories(); // tất cả category nếu cần hiển thị dropdown
         $currentPage = 'home';
         require __DIR__ . '/../views/frontend/home.php';
@@ -49,8 +49,8 @@ class PostController {
         // Xác định currentPage dựa trên category chính
         switch ($post['category_id']) {
             case 1: $currentPage = 'skill'; break;
-            case 2: $currentPage = 'study'; break;
-            case 3: $currentPage = 'social'; break;
+            case 3: $currentPage = 'study'; break;
+            case 2: $currentPage = 'social'; break;
             default: $currentPage = 'home';
         }
 
