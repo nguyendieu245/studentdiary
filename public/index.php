@@ -45,7 +45,7 @@ switch ($action) {
 
     // === Danh mục Học tập ===
     case 'posts_study':
-        $posts = $postCtrl->getByCategory(2);
+        $posts = $postCtrl->getByCategory(3);
         $currentPage = 'study';
         include __DIR__ . '/../views/frontend/category_list.php';
         break;
@@ -60,7 +60,7 @@ switch ($action) {
 
     // === Danh mục Đời sống ===
     case 'posts_life':
-        $posts = $postCtrl->getByCategory(3);
+        $posts = $postCtrl->getByCategory(2);
         $currentPage = 'social';
         include __DIR__ . '/../views/frontend/category_list.php';
         break;
