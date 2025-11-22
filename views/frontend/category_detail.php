@@ -95,3 +95,7 @@ $comments = $commentCtrl->getCommentsByPost($post['id']);
     </form>
 
 </div>
+<?php 
+// Include footer chung
+include __DIR__ . '/../layouts/footer.php'; 
+?>

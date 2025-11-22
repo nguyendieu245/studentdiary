@@ -47,6 +47,8 @@ body {
     border: 2px solid var(--primary-color) !important;
     transition: 0.3s !important;
     text-decoration: none !important;
+    margin-bottom: 30px !important; /* tạo khoảng cách với bảng */
+
 }
 
 .back-btn:hover {
@@ -97,6 +99,7 @@ h1 {
     box-shadow: 0 2px 8px rgba(30, 58, 95, 0.08) !important;
     border: 1px solid var(--border-color) !important;
 }
+
 
 table {
     width: 100% !important;
