@@ -62,10 +62,10 @@ $username = $_SESSION['user']['username'] ?? '';
                     </li>
                 <?php else: ?>
                     <li class="nav-item">
-                        <a class="nav-link <?= ($action=='user_login') ? 'active' : '' ?>" href="index.php?action=user_login">Đăng nhập</a>
+                        <a class="nav-link <?= ($action=='user_login') ? 'active' : '' ?>" href="/studentdiary/public/index.php?action=user_login">Đăng nhập</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <?= ($action=='register') ? 'active' : '' ?>" href="index.php?action=register">Đăng ký</a>
+                        <a class="nav-link <?= ($action=='register') ? 'active' : '' ?>" href="/studentdiary/public/index.php?action=register">Đăng ký</a>
                     </li>
                 <?php endif; ?>
             </ul>
