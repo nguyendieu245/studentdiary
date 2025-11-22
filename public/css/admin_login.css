@@ -1,59 +1,73 @@
-/* Tệp này nên được đặt trong thư mục public/css/ */
 
+/* Thư mục: public/css/admin_login.css */
+
+/* Body căn giữa toàn trang */
 body {
     font-family: 'Segoe UI', sans-serif;
-    background: #fbe9e7;
+    background: #d5e2ee; /* màu xanh pastel nhạt */
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     margin: 0;
 }
+
+/* Container login */
 .login-container {
-    background: #fff;
+    background: #ffffff;
     padding: 35px 40px;
     border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(141, 110, 99, 0.15);
+    box-shadow: 0 10px 30px rgba(0, 100, 200, 0.15);
     width: 100%;
     max-width: 400px;
     box-sizing: border-box;
-    border: 1px solid #a1887f;
+    border: 1px solid #b7cced;
 }
+
+/* Tiêu đề form */
 .login-container h2 {
     margin-bottom: 25px;
-    color: #6d4c41;
+    color: #19375f; /* xanh dương pastel */
     text-align: center;
 }
+
+/* Nhóm input */
 .form-group {
     margin-bottom: 18px;
 }
+
 label {
     display: block;
     font-size: 14px;
     margin-bottom: 6px;
-    color: #6d4c41;
+    color: #19273a; /* xanh dương pastel */
 }
+
+/* Input */
 input[type="text"],
 input[type="password"] {
     width: 100%;
     padding: 10px 12px;
     font-size: 15px;
-    border: 1px solid #a1887f;
+    border: 1px solid #223b63;
     border-radius: 6px;
     box-sizing: border-box;
-    background: #fbe9e7;
-    color: #6d4c41;
+    background: #e3f2fd; /* xanh pastel nhạt */
+    color: #1a73e8;
 }
+
 input[type="text"]:focus,
 input[type="password"]:focus {
-    border-color: #8d6e63;
+    border-color: #1a73e8;
     outline: none;
-    background: #fff3e0;
+    background: #bbdefb;
 }
-button {
+
+/* Nút submit */
+.btn-submit {
     width: 100%;
     padding: 12px;
-    background-color: #8d6e63;
+    background-color: #294573; /* xanh pastel */
     border: none;
     border-radius: 6px;
     color: white;
@@ -62,21 +76,27 @@ button {
     cursor: pointer;
     transition: background 0.2s;
 }
-button:hover {
-    background-color: #6d4c41;
+
+.btn-submit:hover {
+    background-color: #293b51; /* xanh đậm hơn khi hover */
 }
-.error {
-    background-color: #ffebee;
-    color: #b71c1c;
+
+/* Thông báo lỗi */
+.error-message {
+    background-color: #dcedff;
+    color: #0d47a1;
     padding: 10px 12px;
     border-radius: 6px;
     margin-bottom: 20px;
-    border-left: 5px solid #b71c1c;
+    border-left: 5px solid #0d47a1;
     font-size: 14px;
+    text-align: center;
 }
+
+/* Footer */
 .footer {
     text-align: center;
     font-size: 12px;
-    color: #a1887f;
+    color: #1a73e8;
     margin-top: 20px;
 }
