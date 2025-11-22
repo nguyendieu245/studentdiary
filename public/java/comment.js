@@ -92,21 +92,7 @@ function validateReplyForm() {
                     return false;
                 }
                 
-                // Kiểm tra độ dài tối thiểu
-                if (content.length < 10) {
-                    e.preventDefault();
-                    alert('Phản hồi phải có ít nhất 10 ký tự!');
-                    replyContent.focus();
-                    return false;
-                }
                 
-                // Kiểm tra độ dài tối đa
-                if (content.length > 1000) {
-                    e.preventDefault();
-                    alert('Phản hồi không được vượt quá 1000 ký tự!');
-                    replyContent.focus();
-                    return false;
-                }
             }
             
             return true;
