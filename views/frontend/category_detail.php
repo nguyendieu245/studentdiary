@@ -3,11 +3,13 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
- echo '<link rel="stylesheet" href="/studentdiary/public/css/style.css">';
+
+echo '<link rel="stylesheet" href="/studentdiary/public/css/style.css">';
 include __DIR__ . '/../layouts/header.php';
 
-// Lấy username của người dùng, mặc định 'Người dùng'
-$username = $_SESSION['user']['username'] ?? 'Người dùng';
+// Kiểm tra đăng nhập
+$user_logged_in = isset($_SESSION['user']);
+$username = $user_logged_in ? $_SESSION['user']['username'] : '';
 
 // Lấy danh sách comment theo post (cấu trúc cây)
 $comments = $commentCtrl->getCommentsByPost($post['id']);
@@ -69,7 +71,7 @@ $comments = $commentCtrl->getCommentsByPost($post['id']);
             <?php endforeach; ?>
         <?php else: ?>
             <p>Chưa có bình luận nào.</p>
-        <?php endif; ?>
+            <?php endif; ?>
     </div>
 
     <hr>
@@ -77,22 +79,21 @@ $comments = $commentCtrl->getCommentsByPost($post['id']);
     <!-- Form bình luận -->
     <h4 class="mt-4">Gửi bình luận của bạn</h4>
 
-    <form action="index.php?action=add_comment" method="POST" class="comment-form">
-        <input type="hidden" name="post_id" value="<?= $post['id'] ?>">
+    <?php if ($user_logged_in): ?>
+        <form action="index.php?action=add_comment" method="POST" class="comment-form">
+            <input type="hidden" name="post_id" value="<?= $post['id'] ?>">
+            <input type="hidden" name="name" value="<?= htmlspecialchars($username) ?>">
 
-        <div class="mb-2">
-            <label>Tên của bạn:</label>
-            <input type="text" name="name" class="form-control" required 
-                   value="<?= htmlspecialchars($username) ?>">
-        </div>
+            <div class="mb-2">
+                <label>Bình luận:</label>
+                <textarea name="comment" class="form-control" rows="4" required></textarea>
+            </div>
 
-        <div class="mb-2">
-            <label>Bình luận:</label>
-            <textarea name="comment" class="form-control" rows="4" required></textarea>
-        </div>
-
-        <button type="submit" class="btn btn-primary mt-2">Gửi bình luận</button>
-    </form>
+            <button type="submit" class="btn btn-primary mt-2">Gửi bình luận</button>
+        </form>
+    <?php else: ?>
+        <p class="text-danger">Bạn phải <a href="index.php?action=login">đăng nhập</a> mới có thể bình luận.</p>
+    <?php endif; ?>
 
 </div>
 <?php 
