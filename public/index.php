@@ -131,16 +131,16 @@ switch ($action) {
         if ($id) $commentCtrl->show($id);
         else header('Location: index.php?action=comments');
         break;
+    case 'reply_comment':
+        if ($id) $commentCtrl->reply($id);
+        else header('Location: index.php?action=comments');
+        break;
     case 'toggle_comment':
         if ($id) $commentCtrl->toggleStatus($id);
         else header('Location: index.php?action=comments');
         break;
     case 'delete_comment':
         if ($id) $commentCtrl->delete($id);
-        else header('Location: index.php?action=comments');
-        break;
-    case 'reply_comment':
-        if ($id) $commentCtrl->reply($id);
         else header('Location: index.php?action=comments');
         break;
     case 'add_comment':

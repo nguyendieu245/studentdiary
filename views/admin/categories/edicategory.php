@@ -28,8 +28,6 @@ $admin = $_SESSION['admin'];
             <i class="fas fa-arrow-left"></i> Quay lại trang chính
         </a>
 
-        <div class="form-container">
-            <h1>Sửa danh mục</h1>
 
             <form action="index.php?action=update_category&id=<?= $category['id'] ?>" method="POST">
                 <div class="form-group">
