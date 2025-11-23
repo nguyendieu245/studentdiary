@@ -33,7 +33,6 @@ $admin = $_SESSION['admin'];
                         <th>Tên danh mục</th>
                         <th>Slug</th>
                         <th>Ngày tạo</th>
-                        <th>Ngày cập nhật</th>
                         <th>Số bài viết</th>
                     </tr>
                 </thead>
@@ -64,9 +63,7 @@ $admin = $_SESSION['admin'];
                             <td>
                                 <?= date('d/m/Y H:i', strtotime($category['created_at'])) ?>
                             </td>
-                            <td>
-                                <?= $category['updated_at'] ? date('d/m/Y H:i', strtotime($category['updated_at'])) : '-' ?>
-                            </td>
+                        
                             <td>
                                 <span class="post-count-badge">
                                     <?= $category['post_count'] ?> bài viết
