@@ -203,18 +203,8 @@ foreach ($comments as $c) {
         </div>
     </div>
 </div>
-    <script>
-        function confirmDelete(id) {
-            if(confirm('Bạn có chắc chắn muốn xóa bình luận này?')) {
-                window.location.href = 'index.php?action=delete_comment&id=' + id;
-            }
-        }
-
-        function toggleStatus(id) {
-            window.location.href = 'index.php?action=toggle_comment&id=' + id;
-        }
-    </script>
+    
+    <!-- Đã chuyển tất cả JavaScript sang file comment.js -->
     <script src="/studentdiary/public/java/comment.js"></script>
 </body>
 </html>
-        

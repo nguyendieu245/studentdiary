@@ -291,7 +291,7 @@ tbody tr:last-child td {
     max-width: 900px !important;
     box-shadow: 0 2px 8px rgba(30, 58, 95, 0.08) !important;
     border: 1px solid var(--border-color) !important;
-    margin-top: 20px !important;
+    margin: 20px auto !important;
 }
 
 .form-container h1 {

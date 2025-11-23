@@ -80,5 +80,7 @@ $admin = $_SESSION['admin'];
         </div>
     </div>
 
+    <!-- Đã chuyển tất cả JavaScript sang file category.js -->
+    <script src="/studentdiary/public/js/category.js"></script>
 </body>
 </html>
