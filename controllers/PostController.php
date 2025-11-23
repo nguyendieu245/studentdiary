@@ -62,7 +62,7 @@ class PostController {
     // ==============================
     // Lấy tất cả danh mục để hiển thị trong form admin
     private function getCategoriesForForm() {
-        return $this->category->getAllCategories();
+        return $this->category->all();
     }
 
     public function index() {
