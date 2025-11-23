@@ -1,7 +1,6 @@
 
 
-<?php
-?>
+
 <head>
     <meta charset="UTF-8">
     <title>Đăng nhập User</title>

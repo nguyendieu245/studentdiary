@@ -1,6 +1,5 @@
-// ==========================================
+
 // FILE: comment.js - Quản lý bình luận
-// ==========================================
 
 // Hàm xác nhận xóa bình luận
 function confirmDelete(id) {

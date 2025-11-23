@@ -1,6 +1,5 @@
-// ==========================================
+
 // FILE: post.js - Quản lý bài viết
-// ==========================================
 
 // Preview ảnh khi chọn file
 document.addEventListener('DOMContentLoaded', function() {

@@ -12,20 +12,14 @@ class CommentController
         $this->db = $db;
         $this->comment = new Comment($db);
     }
-
-    // ==========================
     // ADMIN: Danh sách comment
-    // ==========================
     public function index()
     {
         $comments = $this->comment->all();
         $currentPage = 'comments';
         require_once __DIR__ . '/../views/admin/comments/list.php';
     }
-
-    // ==========================
     // ADMIN: Chi tiết + Reply
-    // ==========================
     public function show($id)
     {
         $comment = $this->comment->getById($id);
@@ -37,10 +31,7 @@ class CommentController
             exit();
         }
     }
-
-    // ==========================
     // ADMIN: bật/tắt trạng thái
-    // ==========================
     public function toggleStatus($id)
     {
         $comment = $this->comment->getById($id);
@@ -54,10 +45,7 @@ class CommentController
         header('Location: index.php?action=comments&error=update_failed');
         exit();
     }
-
-    // ==========================
     // ADMIN: xóa comment
-    // ==========================
     public function delete($id)
     {
         if ($this->comment->delete($id)) {
@@ -67,10 +55,7 @@ class CommentController
         header('Location: index.php?action=comments&error=delete_failed');
         exit();
     }
-
-    // ==========================
     // ADMIN: Reply comment
-    // ==========================
     public function reply($id)
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -96,10 +81,7 @@ class CommentController
         header('Location: index.php?action=comments&error=reply_failed');
         exit();
     }
-
-    // ==========================
     // Lấy comment frontend
-    // ==========================
     public function getCommentsByPost($post_id)
     {
         $comments = $this->comment->allByPost($post_id); // chỉ lấy status = 1
@@ -120,10 +102,7 @@ class CommentController
 
         return $tree;
     }
-
-    // ==========================
     // USER: Gửi bình luận
-    // ==========================
     public function store()
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') return;

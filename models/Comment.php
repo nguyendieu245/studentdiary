@@ -8,10 +8,8 @@ class Comment
     {
         $this->conn = $db;
     }
-
-    // ===============================
     // Lấy tất cả bình luận cho admin
-    // ===============================
+
     public function all()
     {
         $sql = "
@@ -40,10 +38,7 @@ class Comment
         $stmt = $this->conn->query($sql);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-
-    // ===============================
     // Lấy comment theo post (status = 1)
-    // ===============================
     public function allByPost($post_id)
     {
         $sql = "
@@ -67,10 +62,7 @@ class Comment
         $stmt->execute([$post_id]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-
-    // ===============================
     // Tạo bình luận mới 
-    // ===============================
     public function create($post_id, $user_id, $name, $comment, $parent_id = 0, $is_admin = 0, $status = 1)
     {
         $sql = "
@@ -91,19 +83,14 @@ class Comment
         ]);
     }
 
-    // ===============================
     // Cập nhật trạng thái comment
-    // ===============================
     public function updateStatus($id, $status)
     {
         $sql = "UPDATE {$this->table} SET status = ? WHERE id = ?";
         $stmt = $this->conn->prepare($sql);
         return $stmt->execute([$status, $id]);
     }
-
-    // ===============================
     // Xóa comment
-    // ===============================
     public function delete($id)
     {
         // Xóa tất cả reply 
@@ -114,10 +101,7 @@ class Comment
         $stmt = $this->conn->prepare("DELETE FROM {$this->table} WHERE id = ?");
         return $stmt->execute([$id]);
     }
-
-    // ===============================
     // Lấy chi tiết comment
-    // ===============================
     public function getById($id)
     {
         $sql = "

@@ -14,10 +14,7 @@ class PostController {
         $this->post = new Post($this->db);
         $this->category = new Category($this->db);
     }
-
-    // ==============================
     // FRONTEND METHODS
-    // ==============================
 
     // Lấy bài viết theo category 
     public function getByCategory($categoryId) {
@@ -56,10 +53,7 @@ class PostController {
 
         require __DIR__ . '/../views/frontend/category_detail.php';
     }
-
-    // ==============================
     // ADMIN METHODS
-    // ==============================
     // Lấy tất cả danh mục để hiển thị trong form admin
     private function getCategoriesForForm() {
         return $this->category->all();
