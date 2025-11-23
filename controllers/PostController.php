@@ -1,8 +1,7 @@
 <?php
-// controllers/PostController.php
 require_once __DIR__ . '/../config/db.php';
 require_once __DIR__ . '/../models/Post.php';
-require_once __DIR__ . '/../models/Category.php'; 
+require_once __DIR__ . '/../models/Category.php';
 
 class PostController {
     private $db;
@@ -19,18 +18,19 @@ class PostController {
     // ==============================
     // FRONTEND METHODS
     // ==============================
-    public function showHomeFeed() {
-        // Lấy 3 danh mục chính để hiển thị riêng
-        $skillPosts = $this->post->getByCategory(1);  // Kỹ năng
-        $studyPosts = $this->post->getByCategory(3);  // Học tập
-        $lifePosts  = $this->post->getByCategory(2);  // Đời sống
-        $categories = $this->category->getAllCategories(); // tất cả category nếu cần hiển thị dropdown
-        $currentPage = 'home';
-        require __DIR__ . '/../views/frontend/home.php';
-    }
 
+    // Lấy bài viết theo category 
     public function getByCategory($categoryId) {
         return $this->post->getByCategory($categoryId);
+    }
+
+    public function showHomeFeed() {
+        $skillPosts = $this->post->getByCategory(1);  
+        $studyPosts = $this->post->getByCategory(3);  
+        $lifePosts  = $this->post->getByCategory(2);  
+        $categories = $this->category->all(); 
+        $currentPage = 'home';
+        require __DIR__ . '/../views/frontend/home.php';
     }
 
     public function showCategoryPost($id, $commentCtrl) {

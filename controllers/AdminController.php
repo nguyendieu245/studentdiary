@@ -28,7 +28,7 @@ class AdminController {
             }
         }
 
-        $currentPage = 'login'; // cho login page
+        $currentPage = 'login';
         include __DIR__ . '/../views/admin/login.php';
     }
 
@@ -44,7 +44,7 @@ class AdminController {
     }
 
     
-    // ======== LOGOUT ============
+    // ======== LOGOUT ===
     public function logout() {
         $_SESSION = [];
         session_destroy();

@@ -52,6 +52,7 @@
                         <th>Tác giả</th>
                         <th>Trạng thái</th>
                         <th>Ngày tạo</th>
+                        <th>Ngày cập nhật</th>
                         <th>Hành động</th>
                     </tr>
                 </thead>
@@ -85,6 +86,7 @@
                                 <td><?= htmlspecialchars($post['author']) ?></td>
                                 <td><?= htmlspecialchars($post['status']) ?></td>
                                 <td><?= htmlspecialchars($post['created_at']) ?></td>
+                                <td><?= htmlspecialchars($post['updated_at']) ?></td>
                                 <td>
                                     <a href="index.php?action=edit_post&id=<?= $post['id'] ?>" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></a>
                                     <a href="index.php?action=delete_post&id=<?= $post['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Bạn có chắc muốn xoá bài viết này?')"><i class="fas fa-trash"></i></a>

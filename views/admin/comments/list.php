@@ -204,7 +204,7 @@ foreach ($comments as $c) {
     </div>
 </div>
     
-    <!-- Đã chuyển tất cả JavaScript sang file comment.js -->
+   
     <script src="/studentdiary/public/java/comment.js"></script>
 </body>
 </html>
