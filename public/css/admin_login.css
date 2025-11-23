@@ -1,10 +1,8 @@
 
-/* Thư mục: public/css/admin_login.css */
-
 /* Body căn giữa toàn trang */
 body {
     font-family: 'Segoe UI', sans-serif;
-    background: #d5e2ee; /* màu xanh pastel nhạt */
+    background: #d5e2ee; 
     display: flex;
     justify-content: center;
     align-items: center;
@@ -27,7 +25,7 @@ body {
 /* Tiêu đề form */
 .login-container h2 {
     margin-bottom: 25px;
-    color: #19375f; /* xanh dương pastel */
+    color: #19375f; 
     text-align: center;
 }
 
@@ -40,7 +38,7 @@ label {
     display: block;
     font-size: 14px;
     margin-bottom: 6px;
-    color: #19273a; /* xanh dương pastel */
+    color: #19273a; 
 }
 
 /* Input */
@@ -52,7 +50,7 @@ input[type="password"] {
     border: 1px solid #223b63;
     border-radius: 6px;
     box-sizing: border-box;
-    background: #e3f2fd; /* xanh pastel nhạt */
+    background: #e3f2fd; 
     color: #1a73e8;
 }
 
@@ -67,7 +65,7 @@ input[type="password"]:focus {
 .btn-submit {
     width: 100%;
     padding: 12px;
-    background-color: #294573; /* xanh pastel */
+    background-color: #294573; 
     border: none;
     border-radius: 6px;
     color: white;
@@ -78,7 +76,7 @@ input[type="password"]:focus {
 }
 
 .btn-submit:hover {
-    background-color: #293b51; /* xanh đậm hơn khi hover */
+    background-color: #293b51;
 }
 
 /* Thông báo lỗi */

@@ -17,7 +17,6 @@ $username = $_SESSION['user']['username'] ?? '';
     <title>Student Diary</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/studentdiary/public/css/style.css">
-    <!-- Có thể thêm CSS riêng cho header nếu muốn -->
     <link rel="stylesheet" href="/studentdiary/public/css/header.css">
 </head>
 <body>
@@ -48,7 +47,7 @@ $username = $_SESSION['user']['username'] ?? '';
                     </li>
                 </ul>
 
-                <!-- Menu phải (user) -->
+                <!-- Menu-->
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <?php if(!empty($username)): ?>
                         <li class="nav-item">
@@ -72,6 +71,4 @@ $username = $_SESSION['user']['username'] ?? '';
             </div>
         </div>
     </nav>
-
-    <!-- Nếu muốn tách layout ra file riêng, wrapper content -->
     <div class="main-content-wrapper">

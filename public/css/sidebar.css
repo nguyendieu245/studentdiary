@@ -6,16 +6,16 @@
 }
 
 :root {
-    --primary-color: #1e3a5f !important;      /* Xanh than đậm */
-    --secondary-color: #2c5f8d !important;    /* Xanh than vừa */
-    --accent-color: #3a7ca5 !important;       /* Xanh than nhạt */
-    --light-color: #f4f8fb !important;        /* Nền xám xanh nhạt */
+    --primary-color: #1e3a5f !important;      
+    --secondary-color: #2c5f8d !important;    
+    --accent-color: #3a7ca5 !important;      
+    --light-color: #f4f8fb !important;        
     --text-color: #1a1a1a !important;
-    --border-color: #d0e1f0 !important;       /* Border xanh nhạt */
-    --success-color: #3a7ca5 !important;      /* Xanh */
-    --warning-color: #3a7ca5 !important;      /* Xanh */
+    --border-color: #d0e1f0 !important;      
+    --success-color: #3a7ca5 !important;      
+    --warning-color: #3a7ca5 !important;     
     --danger-color: #d84315 !important;
-    --info-color: #2c5f8d !important;         /* Xanh than */
+    --info-color: #2c5f8d !important;      
 }
 
 body {

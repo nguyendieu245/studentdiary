@@ -11,7 +11,7 @@ include __DIR__ . '/../layouts/header.php';
 $user_logged_in = isset($_SESSION['user']);
 $username = $user_logged_in ? $_SESSION['user']['username'] : '';
 
-// Lấy danh sách comment theo post (cấu trúc cây)
+// Lấy danh sách comment theo post 
 $post_id = $post['id'] ?? 0;
 $comments = $commentCtrl->getCommentsByPost($post_id);
 ?>

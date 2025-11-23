@@ -10,8 +10,7 @@ class Category
         $this->conn = $db;
     }
 
-    // ============================
-    // Lấy tất cả danh mục
+    /*Lấy tất cả danh mục*/
     public function all()
     {
         $sql = "

@@ -69,7 +69,7 @@ class Comment
     }
 
     // ===============================
-    // Tạo bình luận mới (KHÔNG email, updated_id, ip_address)
+    // Tạo bình luận mới 
     // ===============================
     public function create($post_id, $user_id, $name, $comment, $parent_id = 0, $is_admin = 0, $status = 1)
     {
@@ -106,7 +106,7 @@ class Comment
     // ===============================
     public function delete($id)
     {
-        // Xóa tất cả reply (comment con)
+        // Xóa tất cả reply 
         $stmt = $this->conn->prepare("DELETE FROM {$this->table} WHERE parent_id = ?");
         $stmt->execute([$id]);
 

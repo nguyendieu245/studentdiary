@@ -68,6 +68,5 @@ $username = $_SESSION['user']['username'] ?? 'Người dùng';
 </div>
 
 <?php 
-// Include footer chung
 include __DIR__ . '/../layouts/footer.php'; 
 ?>

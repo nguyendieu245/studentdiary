@@ -103,8 +103,6 @@
             </table>
         </div>
     </div>
-
-    <!-- Đã chuyển tất cả JavaScript sang file post.js -->
     <script src="/studentdiary/public/js/post.js"></script>
 </body>
 </html>

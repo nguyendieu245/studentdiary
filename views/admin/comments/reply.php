@@ -81,8 +81,6 @@ $admin = $_SESSION['admin'];
             </div>
         </div>
     </div>
-    
-    <!-- Đã chuyển tất cả JavaScript sang file comment.js -->
     <script src="/studentdiary/public/java/comment.js"></script>
 </body>
 </html>

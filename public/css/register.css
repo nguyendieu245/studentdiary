@@ -7,7 +7,7 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: #f5eee8; /* Nâu nhạt pastel */
+    background-color: #f5eee8; 
     margin: 0;
     padding: 20px;
     box-sizing: border-box;
@@ -27,7 +27,7 @@ body {
 /* Tiêu đề */
 h2 {
     text-align: center;
-    color: #6a4f3b; /* Nâu đậm */
+    color: #6a4f3b; 
     margin-bottom: 25px;
 }
 
@@ -67,7 +67,7 @@ input:focus {
 button {
     width: 100%;
     padding: 12px;
-    background-color: #a9825a; /* Caramel */
+    background-color: #a9825a; 
     color: white;
     border: none;
     border-radius: 6px;
@@ -78,7 +78,7 @@ button {
 }
 
 button:hover {
-    background-color: #8a6a4a; /* Nâu đậm hơn */
+    background-color: #8a6a4a; 
 }
 
 /* Thông báo */
