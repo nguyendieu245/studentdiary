@@ -291,7 +291,7 @@ tbody tr:last-child td {
     max-width: 900px !important;
     box-shadow: 0 2px 8px rgba(30, 58, 95, 0.08) !important;
     border: 1px solid var(--border-color) !important;
-    margin-top: 20px !important;
+    margin: 20px auto !important;
 }
 
 .form-container h1 {
@@ -355,7 +355,6 @@ textarea:focus {
     border: 2px solid var(--border-color) !important;
     margin-top: 8px !important;
 }
-
 .current-image {
     margin-bottom: 16px !important;
     padding: 16px !important;
@@ -483,7 +482,7 @@ textarea:focus {
 /* Post Content Section */
 .post-content-section {
     margin-bottom: 32px !important;
-}
+    }
 
 .section-title {
     font-size: 20px !important;
