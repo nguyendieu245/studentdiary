@@ -104,24 +104,7 @@ switch ($action) {
     case 'danhmuc':
         $categoryCtrl->index();
         break;
-    case 'create_category':
-        $categoryCtrl->create();
-        break;
-    case 'store_category':
-        $categoryCtrl->store();
-        break;
-    case 'edit_category':
-        if ($id) $categoryCtrl->edit($id);
-        else header('Location: index.php?action=categories&error=no_id');
-        break;
-    case 'update_category':
-        if ($id) $categoryCtrl->update($id);
-        else header('Location: index.php?action=categories&error=no_id');
-        break;
-    case 'delete_category':
-        if ($id) $categoryCtrl->delete($id);
-        else header('Location: index.php?action=categories&error=no_id');
-        break;
+    
 
     // ========== COMMENT ==========
     case 'comments':
@@ -157,9 +140,6 @@ switch ($action) {
     break;
 
     // ========== USER ==========
-    case 'users':
-        $userCtrl->index();
-        break;
     case 'register':
         $userCtrl->register();
         break;
@@ -177,16 +157,11 @@ switch ($action) {
     case 'admin_login':
         $adminCtrl->login();
         break;
-    case 'admin_dashboard':
     case 'dashboard':
         $adminCtrl->dashboard();
         break;
     case 'admin_logout':
         $adminCtrl->logout();
-        break;
-
-    default:
-        $postCtrl->showHomeFeed();
         break;
 }
 ?>

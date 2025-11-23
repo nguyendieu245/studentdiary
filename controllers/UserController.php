@@ -5,7 +5,6 @@ require_once __DIR__ . '/../models/User.php';
 class UserController {
     private $db;
     private $user;
-
     public function __construct($db) {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
@@ -13,8 +12,7 @@ class UserController {
         $this->db = $db;
         $this->user = new User($db);
     }
-
-    // ======== LOGIN ============ 
+    // LOGIN
     public function login() {
         $error = '';
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -35,7 +33,7 @@ class UserController {
         include __DIR__ . '/../views/frontend/user_login.php';
     }
 
-    // ======== REGISTER ============
+    // REGISTER 
     public function register() {
         $message = '';
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -62,23 +60,14 @@ class UserController {
         include __DIR__ . '/../views/frontend/register.php';
     }
 
-    // ======== LOGOUT ============
+    // LOGOUT 
     public function logout() {
         session_destroy();
         header("Location: /studentdiary/public/index.php?action=user_login");
         exit;
     }
 
-    // ======== HOME ============
-    public function home() {
-        if (empty($_SESSION['user'])) {
-            header("Location: /studentdiary/public/index.php?action=user_login");
-            exit;
-        }
-        include __DIR__ . '/../views/frontend/home.php';
-    }
-
-    // ======== LIST USERS (ADMIN) ============
+     // LIST USERS (ADMIN)
     public function listUsers() {
         // Xử lý toggle status
         if (isset($_GET['toggle_id'])) {
@@ -99,11 +88,6 @@ class UserController {
         $users = $this->user->getAll();
         $currentPage = 'users';
         include __DIR__ . '/../views/admin/manage_user/user_list.php';
-    }
-
-    // ======== INDEX (ADMIN) ============
-    public function index() {
-        $this->listUsers();
     }
 } 
 ?>

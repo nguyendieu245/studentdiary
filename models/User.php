@@ -8,10 +8,10 @@ class User {
 
     public $id;
     public $username;
-    public $password; // plaintext (không khuyến nghị)
+    public $password;
     public $full_name;
     public $email;
-    public $status; // 0 = inactive, 1 = active
+    public $status; 
     public $created_at;
 
     public function __construct($db) {
@@ -32,7 +32,7 @@ class User {
         return $stmt->fetchColumn() > 0;
     }
 
-    // Đăng ký user mới — có cột status (auto active = 1)
+    // Đăng ký user mới  (auto active = 1)
     public function register($username, $password, $fullname, $email) {
         $sql = "INSERT INTO $this->table (username, password, fullname, email, status, created_at)
                 VALUES (?, ?, ?, ?, 1, NOW())";
@@ -53,9 +53,9 @@ class User {
 
         if ($user && $password === $user['password']) {
             if ($user['status'] == 1) {
-                return $user; // active
+                return $user; 
             }
-            return false; // inactive
+            return false; 
         }
         return false;
     }

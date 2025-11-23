@@ -63,7 +63,6 @@ $admin = $_SESSION['admin'];
                             <td>
                                 <?= date('d/m/Y H:i', strtotime($category['created_at'])) ?>
                             </td>
-                        
                             <td>
                                 <span class="post-count-badge">
                                     <?= $category['post_count'] ?> bài viết

@@ -9,13 +9,12 @@ class Post
     public $id;
     public $title;
     public $content;
-    public $author;       // id người viết
-    public $author_name;  // tên người viết
+    public $author;       
     public $image;
     public $status;
     public $category_id;
-    public $views;        // lượt xem
     public $created_at;
+     public $updated_at;
 
     public function __construct($db)
     {
