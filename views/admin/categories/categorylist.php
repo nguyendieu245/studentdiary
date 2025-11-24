@@ -75,6 +75,10 @@ $admin = $_SESSION['admin'];
             </table>
         </div>
     </div>
+<<<<<<< HEAD
 
+=======
+    <script src="/studentdiary/public/java/category.js"></script>
+>>>>>>> haianh
 </body>
 </html>
