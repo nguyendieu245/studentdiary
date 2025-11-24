@@ -75,6 +75,6 @@ $admin = $_SESSION['admin'];
             </table>
         </div>
     </div>
-    <script src="/studentdiary/public/js/category.js"></script>
+    <script src="/studentdiary/public/java/category.js"></script>
 </body>
 </html>
